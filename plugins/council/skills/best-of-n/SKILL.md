@@ -10,7 +10,7 @@ Have one subagent find the best n distinct solutions to a problem, compare them,
 Neighbors:
 
 - `/council:decision-council` chooses between options for a consequential decision, with several independent specialists, and builds nothing.
-- `/review:fresh-eyes` reviews work that is already finished.
+- `/review:fresh-eyes` (when the `review` plugin is installed) reviews work that is already finished.
 - Best of n is for a problem where you want the solution built, after a first-principles comparison.
 
 ## 1. Check that a subagent is available

@@ -49,7 +49,7 @@ In fix mode, run any required validation that has not run yet, so the reviewer c
 Match the depth to the stakes:
 
 - **Standard:** one `fresh-reviewer`. Use it for most work.
-- **Deep:** two `fresh-reviewers`, started together in one message, so neither sees the other. Give each the same sources, and a different lens:
+- **Deep:** two `fresh-reviewer` agents, started together in one message, so neither sees the other. Give each the same sources, and a different lens:
   - *conformance:* does the work do what its sources and requirements say?
   - *first principles:* should the work exist in this form at all, and what would make it fail?
 

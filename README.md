@@ -32,7 +32,7 @@ A subagent starts with no context. It has to rebuild what it needs, and it can't
 1. **Independence.** The judgment would be anchored by what this context already believes: reviewing your own work, generating options without your favorite in view, estimating the risk of a plan you wrote. Fresh context is the whole point.
 2. **Parallelism.** Several independent pieces can run at once, and must not see each other: council seats, the two lenses of a deep review.
 3. **Context isolation.** A large read or search whose details the caller doesn't need, only its conclusion.
-4. **Enforcement.** A different model or effort, or tool limits the agent's own definition enforces, such as a read-only reviewer pinned to Opus.
+4. **Enforcement.** A different model or effort, or tool limits the agent's own definition enforces, such as a reviewer whose definition removes the file-editing tools and asks for Opus. Read-only beyond that is an instruction, not a hard limit: reviewers keep Bash so they can run git and validators.
 
 A skill stays in the current context when:
 
@@ -45,19 +45,17 @@ Every skill that starts a subagent also checks that the surface can start one, a
 
 | Skill | Subagent? | Reason |
 |---|---|---|
-| `/review:fresh-eyes` | Yes: one, or two for deep review | Independence; parallelism for the two deep lenses; enforcement (read-only, Opus) |
+| `/review:fresh-eyes` | Yes: one, or two for deep review | Independence; parallelism for the two deep lenses; enforcement (no file-editing tools; Opus by default) |
 | `/council:decision-council` | Yes: three to five, in parallel | Independence and parallelism |
 | `/council:best-of-n` | Yes: one | Independence (no anchoring on your favorite); isolation of the build |
 | `/council:risk-evaluation` | No by default. Yes for your own high-stakes work | It needs the context; an independent run removes author bias where that matters |
 | `/council:ask-specialist` | Yes: one | Independence on one hard question. Started by the user, or by a workflow step that names it |
 
-## Copies in other repositories
+## Using these in Claude Code cloud sessions
 
-Cloud sessions don't load locally installed plugins. A repository that needs a skill or agent in the cloud keeps a committed copy of it, unchanged. **After changing a skill or agent here, refresh every copy**, and name this repository's commit in that PR. The owner's tooling notes list where the copies are.
+Cloud sessions don't load locally installed plugins. To use a skill or agent in a cloud session, commit an unchanged copy of it into your repository's `.claude/skills/` or `.claude/agents/`, and note this repository's commit in that PR so you can tell when it falls behind.
 
 ## Install
-
-Not published yet: these commands work once the repository is public on GitHub. Until then, add it from a local clone with `claude plugin marketplace add <path-to-clone>`.
 
 In Claude Code:
 
@@ -67,7 +65,9 @@ claude plugin install review@agent-charter
 claude plugin install council@agent-charter
 ```
 
-On claude.ai: **Customize → Plugins → Add marketplace**, enter `StephanRyatt/agent-charter`, then add `review` and `council`.
+To update later, run `claude plugin marketplace update agent-charter`, or turn on auto-update for it under `/plugin` → Marketplaces. To try it from a local clone, use `claude plugin marketplace add ./agent-charter` instead.
+
+On claude.ai: **Customize → Plugins → Add → Add marketplace**, enter `StephanRyatt/agent-charter`, then add `review` and `council`. Plugins you add on claude.ai also reach Claude Code on any machine signed in to the same account.
 
 Plugin agents run in Claude Code and Cowork. In claude.ai chat they don't, so `fresh-eyes` and the council say they can't start independent reviewers there, rather than pretend to.
 

@@ -12,7 +12,7 @@ Use it for one hard question where judgment is the problem. Use its neighbors fo
 - `/council:decision-council` chooses between options, with several independent specialists.
 - `/council:best-of-n` compares solutions, then builds the best one.
 - `/council:risk-evaluation` estimates what could go wrong, how likely, how bad.
-- `/review:fresh-eyes` reviews finished work.
+- `/review:fresh-eyes` (when the `review` plugin is installed) reviews finished work.
 
 **Who starts it:** the user, or a workflow step that names the reasoning specialist. Don't start it on your own initiative for ordinary questions this session can answer.
 

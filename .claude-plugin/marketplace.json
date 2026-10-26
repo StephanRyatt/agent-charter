@@ -1,6 +1,6 @@
 {
   "name": "agent-charter",
-  "description": "Build from the spec. Check against the source. Plugins for directing AI agents: fresh-context review, decision councils, best-of-n solutions and risk evaluation.",
+  "description": "Build from the spec. Check against the source. Plugins for directing AI agents: fresh-context review, decision councils, best-of-n solutions, risk evaluation and a reasoning specialist.",
   "owner": {
     "name": "Stephan Ryatt"
   },

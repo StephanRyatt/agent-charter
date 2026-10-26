@@ -83,8 +83,8 @@ For each option, including any you added:
 
 ## 3. Comparison table (your working artifact)
 
-| | Specialist A | Specialist B | Specialist C | (D, E if 5) |
-|---|---|---|---|---|
+| | Specialist A | Specialist B | Specialist C | Specialist D (if 5) | Specialist E (if 5) |
+|---|---|---|---|---|---|
 | Pick | | | | | |
 | Confidence | | | | | |
 | Key reason | | | | | |

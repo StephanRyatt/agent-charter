@@ -10,7 +10,7 @@ Find the risks that matter for one case, put honest numbers on them where possib
 How it differs from its neighbors:
 
 - `/council:decision-council` chooses between options.
-- `/review:fresh-eyes` finds defects in finished work.
+- `/review:fresh-eyes` (when the `review` plugin is installed) finds defects in finished work.
 - `risk-evaluation` estimates what could go wrong, how likely it is, and how bad it would be.
 
 It advises; it does not act on the target.
@@ -96,7 +96,7 @@ For legal, medical, financial or immigration matters, present probabilities as e
 
 When the stakes are high and the risk is hard to judge from one context, offer once, in one line, an independent check:
 
-- `/review:fresh-eyes`, to challenge this risk evaluation or the work it covers;
+- `/review:fresh-eyes`, when the `review` plugin is installed, to challenge this risk evaluation or the work it covers;
 - `/council:decision-council`, when the real question turns out to be choosing between options.
 
 Do not start either unasked. Both cost several agent runs.

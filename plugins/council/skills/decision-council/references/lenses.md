@@ -12,7 +12,7 @@ You receive the question, constraints, and verified facts, but **not** the list 
 ### Skeptic (pre-mortem)
 Assume the leading approaches were each adopted and it is now a year later and the outcome was bad. For each option, write the most plausible story of how it failed: the hidden assumption that broke, the failure mode nobody budgeted for, the second-order effect. Then say which option's failure is least likely and cheapest to recover from. Attack hard; you are not asked to be balanced, but you must still finish by ranking the options.
 
-## Situational (pick 2–3)
+## Situational (one for a standard squad, three for a high-stakes squad)
 
 ### Domain expert (write this one fresh)
 Define a specific practitioner for the field of the question: seniority, years of experience, and the kind of scars they have ("an SRE who has restored production from backups under pressure", "a security engineer who has done incident response on leaked credentials"). Ask for the answer a seasoned practitioner would give, including the unglamorous operational details and the common mistakes newcomers make.
