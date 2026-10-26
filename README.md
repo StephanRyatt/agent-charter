@@ -14,7 +14,7 @@ It is a [Claude Code](https://code.claude.com) plugin marketplace. The skills fo
 | `council` | Several independent specialists analyze one consequential decision, each through a different lens, and their disagreements are synthesized into a recommendation. | `/council:decision-council` |
 | | A fresh subagent works out the best n distinct solutions from first principles, compares their tradeoffs, and builds the winner or a hybrid. n, the model (Opus by default) and the effort scale with the stakes. | `/council:best-of-n` |
 | | What could go wrong, how likely, how bad: the top risks quantified honestly (likelihood, impact, expected cost, with each number's basis) and qualified (reversibility, detection, cheapest mitigation), on one page. | `/council:risk-evaluation` |
-| | A single reasoning specialist for one bounded, hard question. | agent `council:reasoning-specialist` |
+| | One bounded, hard question put to a fresh reasoning specialist, with its answer checked against the sources. | `/council:ask-specialist` (agent `council:reasoning-specialist`) |
 
 Planned: `spec`, which covers deciding, planning, implementing with acceptance proofs, and review. It is published once its planning step has run end to end on real work.
 
@@ -49,7 +49,7 @@ Every skill that starts a subagent also checks that the surface can start one, a
 | `/council:decision-council` | Yes: three to five, in parallel | Independence and parallelism |
 | `/council:best-of-n` | Yes: one | Independence (no anchoring on your favorite); isolation of the build |
 | `/council:risk-evaluation` | No by default. Yes for your own high-stakes work | It needs the context; an independent run removes author bias where that matters |
-| agent `council:reasoning-specialist` | It is the subagent | Started on request for one bounded question |
+| `/council:ask-specialist` | Yes: one | Independence on one hard question. Started by the user, or by a workflow step that names it |
 
 ## Install
 
