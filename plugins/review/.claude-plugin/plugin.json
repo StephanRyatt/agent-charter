@@ -1,0 +1,11 @@
+{
+  "name": "review",
+  "version": "0.1.0",
+  "description": "Fresh-context review of what you just did (code, documents, plans, decisions), judged from the governing sources and first principles.",
+  "author": {
+    "name": "Stephan Ryatt"
+  },
+  "repository": "https://github.com/StephanRyatt/agent-charter",
+  "license": "MIT",
+  "keywords": ["review", "fresh-context", "quality", "agents"]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "council",
+  "version": "0.1.0",
+  "description": "A council of independent specialists for consequential decisions, plus a single reasoning specialist for one bounded question.",
+  "author": {
+    "name": "Stephan Ryatt"
+  },
+  "repository": "https://github.com/StephanRyatt/agent-charter",
+  "license": "MIT",
+  "keywords": ["decisions", "council", "red-team", "reasoning", "agents"]
+}
