@@ -13,7 +13,9 @@ How it differs from its neighbors:
 - `/review:fresh-eyes` finds defects in finished work.
 - `risk-evaluation` estimates what could go wrong, how likely it is, and how bad it would be.
 
-It runs in the current context. It advises; it does not act on the target.
+It advises; it does not act on the target.
+
+**Where it runs.** By default it runs in the current context, because it needs what this session knows. When the target is work authored in this session (your own plan, change or recommendation) and the stakes are high, run it in a fresh subagent instead: one `general-purpose` agent on `opus`, given this skill's steps, the target and its sources, but not your own view of the risks. An author tends to underrate the risks of their own work, and a fresh context removes that bias. Check the subagent's table against the sources before you report it. If this surface cannot start a subagent, say that the evaluation is the author's own, and label it so.
 
 ## 1. Set the scope
 
