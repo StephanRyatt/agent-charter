@@ -51,6 +51,10 @@ Every skill that starts a subagent also checks that the surface can start one, a
 | `/council:risk-evaluation` | No by default. Yes for your own high-stakes work | It needs the context; an independent run removes author bias where that matters |
 | `/council:ask-specialist` | Yes: one | Independence on one hard question. Started by the user, or by a workflow step that names it |
 
+## Copies in other repositories
+
+Cloud sessions don't load locally installed plugins. A repository that needs a skill or agent in the cloud keeps a committed copy of it, unchanged. **After changing a skill or agent here, refresh every copy**, and name this repository's commit in that PR. The owner's tooling notes list where the copies are.
+
 ## Install
 
 Not published yet: these commands work once the repository is public on GitHub. Until then, add it from a local clone with `claude plugin marketplace add <path-to-clone>`.
