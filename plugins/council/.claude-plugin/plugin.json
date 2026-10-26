@@ -1,6 +1,6 @@
 {
   "name": "council",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Deliberation tools: a council of independent specialists for consequential decisions, best-of-n (compare n first-principles solutions, then build the winner), risk evaluation, and a reasoning specialist for one bounded question.",
   "author": {
     "name": "Stephan Ryatt"

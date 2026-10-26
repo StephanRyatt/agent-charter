@@ -53,6 +53,8 @@ Every skill that starts a subagent also checks that the surface can start one, a
 
 ## Install
 
+Not published yet: these commands work once the repository is public on GitHub. Until then, add it from a local clone with `claude plugin marketplace add <path-to-clone>`.
+
 In Claude Code:
 
 ```bash

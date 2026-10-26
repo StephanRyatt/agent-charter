@@ -1,6 +1,6 @@
 ---
 name: reasoning-specialist
-description: Read-only deep reasoning on a bounded architectural, domain, mathematical, algorithmic, or semantic question where difficult judgment is the dominant problem. Use only when explicitly assigned by the user; do not invoke proactively for ordinary questions or routine work.
+description: Read-only deep reasoning on a bounded architectural, domain, mathematical, algorithmic, or semantic question where difficult judgment is the dominant problem. Use only when the user assigns it, or a workflow step names it (such as an escalation step for a stuck builder); do not invoke it proactively for ordinary questions or routine work.
 model: opus
 effort: high
 disallowedTools: Edit, Write, NotebookEdit

@@ -13,7 +13,7 @@ The council advises; it does not act. Do not execute the chosen approach, change
 
 Use it when the decision is consequential (costly, slow, or risky to reverse) *and* there are genuinely different credible approaches. A council costs roughly 5 agent runs plus synthesis, so spend that only where a wrong call is expensive. For a simple, reversible, or factual question, answer directly. Whether to launch depends on how you got here:
 
-- **The user explicitly asked** (invoked `/decision-council`, or asked for a council, second opinions, a red team or a stress-test): run it straight away.
+- **The user explicitly asked** (invoked `/council:decision-council`, or asked for a council, second opinions, a red team or a stress-test): run it straight away.
 - **You reached it on your own** because the decision looks consequential: do not launch. Ask first, in one line, naming the squad size you'd use and the rough cost (for example, "This looks high-stakes and hard to reverse. Want me to run a 5-specialist decision council on it? It costs roughly 5× a normal answer."). Launch only after the user says yes. Spending several agent runs unasked is a surprise the user didn't choose, even when the stakes really are high.
 
 **Check that subagents are available first.** The specialists must run as separate agents. If this surface cannot start subagents (for example, claude.ai chat), say so. Offer to run the council in Claude Code or Cowork. Never role-play several specialists in one context and call it a council.

@@ -1,11 +1,16 @@
 {
   "name": "review",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Fresh eyes on any work (code against its spec, plans, decisions, documents, filings), judged from the governing sources and first principles.",
   "author": {
     "name": "Stephan Ryatt"
   },
   "repository": "https://github.com/StephanRyatt/agent-charter",
   "license": "MIT",
-  "keywords": ["review", "fresh-context", "quality", "agents"]
+  "keywords": [
+    "review",
+    "fresh-context",
+    "quality",
+    "agents"
+  ]
 }
