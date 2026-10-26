@@ -1,11 +1,19 @@
 {
   "name": "council",
-  "version": "0.1.0",
-  "description": "A council of independent specialists for consequential decisions, plus a single reasoning specialist for one bounded question.",
+  "version": "0.2.0",
+  "description": "Deliberation tools: a council of independent specialists for consequential decisions, best-of-n (compare n first-principles solutions, then build the winner), risk evaluation, and a reasoning specialist for one bounded question.",
   "author": {
     "name": "Stephan Ryatt"
   },
   "repository": "https://github.com/StephanRyatt/agent-charter",
   "license": "MIT",
-  "keywords": ["decisions", "council", "red-team", "reasoning", "agents"]
+  "keywords": [
+    "decisions",
+    "council",
+    "best-of-n",
+    "risk",
+    "red-team",
+    "reasoning",
+    "agents"
+  ]
 }

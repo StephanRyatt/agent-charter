@@ -11,7 +11,10 @@ It is a [Claude Code](https://code.claude.com) plugin marketplace. The skills fo
 | Plugin | What it does | Command |
 |---|---|---|
 | `review` | Fresh eyes on any work: code against its spec, a plan, a decision, a document or filing, yours or someone else's. Independent reviewers judge it from the governing sources and first principles, with a checklist suited to each kind of work. Pick report-only or fix mode, and standard or deep scrutiny. | `/review:fresh-eyes` |
-| `council` | Several independent specialists analyze one consequential decision, each through a different lens. Their disagreements are compared and synthesized into a recommendation. Also includes a single reasoning specialist for one bounded question. | `/council:decision-council` |
+| `council` | Several independent specialists analyze one consequential decision, each through a different lens, and their disagreements are synthesized into a recommendation. | `/council:decision-council` |
+| | A fresh subagent works out the best n distinct solutions from first principles, compares their tradeoffs, and builds the winner or a hybrid. n, the model (Opus by default) and the effort scale with the stakes. | `/council:best-of-n` |
+| | What could go wrong, how likely, how bad: the top risks quantified honestly (likelihood, impact, expected cost, with each number's basis) and qualified (reversibility, detection, cheapest mitigation), on one page. | `/council:risk-evaluation` |
+| | A single reasoning specialist for one bounded, hard question. | agent `council:reasoning-specialist` |
 
 Planned: `spec`, which covers deciding, planning, implementing with acceptance proofs, and review. It is published once its planning step has run end to end on real work.
 

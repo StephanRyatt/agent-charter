@@ -1,6 +1,6 @@
 {
   "name": "agent-charter",
-  "description": "Build from the spec. Check against the source. Plugins for directing AI agents: fresh-context review and decision councils.",
+  "description": "Build from the spec. Check against the source. Plugins for directing AI agents: fresh-context review, decision councils, best-of-n solutions and risk evaluation.",
   "owner": {
     "name": "Stephan Ryatt"
   },
@@ -13,7 +13,7 @@
     {
       "name": "council",
       "source": "./plugins/council",
-      "description": "A council of independent specialists for consequential decisions, plus a single reasoning specialist for one bounded question."
+      "description": "Deliberation tools: a council of independent specialists for consequential decisions, best-of-n (compare n first-principles solutions, then build the winner), risk evaluation, and a reasoning specialist for one bounded question."
     }
   ]
 }
