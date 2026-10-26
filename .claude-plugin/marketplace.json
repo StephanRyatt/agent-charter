@@ -8,7 +8,7 @@
     {
       "name": "review",
       "source": "./plugins/review",
-      "description": "Fresh-context review of what you just did (code, documents, plans, decisions), judged from the governing sources and first principles."
+      "description": "Fresh eyes on any work (code against its spec, plans, decisions, documents, filings), judged from the governing sources and first principles."
     },
     {
       "name": "council",

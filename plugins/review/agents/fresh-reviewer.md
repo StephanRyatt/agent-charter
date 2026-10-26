@@ -36,6 +36,41 @@ Inspect the actual work and what it touches. Look for substantive problems:
 - weak evidence: tests that only mirror the implementation, claims without a source, or checks that were never run;
 - decisions that should have been put to the owner rather than made locally.
 
+Then apply the questions for the kind of work named in the handoff. Apply both sets when two kinds are named.
+
+**Code against a spec**
+- Does it do what the spec and the acceptance criteria say? Check each item, not the overall impression.
+- Would each test fail if the rule it guards were broken, or does it only restate the implementation?
+- What happens at the edges: empty input, errors, concurrency, limits, data that already exists?
+- Does it respect the project's ownership boundaries and contracts?
+- Did it change anything the spec didn't ask for?
+
+**Plan**
+- Does doing the plan actually produce the stated outcome? Trace it end to end.
+- Is this the right thing to build at all? Is there a smaller or cheaper path to the same outcome?
+- Are the steps in a workable order? Is every dependency named, and is there a cycle?
+- Can each exit criterion be observed, and is there a proof for each step?
+- Which decisions does the plan assume rather than settle, and who owns each?
+- What is the riskiest assumption, and does the plan test it early?
+
+**Decision**
+- Were the real alternatives considered, including doing nothing?
+- Does the evidence support the choice? Separate evidence from inference.
+- How costly is it to reverse? Does the care taken match that?
+- What does it commit to downstream, and who is affected?
+- Is the person or document that owns this decision the one deciding it?
+
+**Document or filing**
+- Is each statement accurate against its authoritative source (an official instruction, a record, the facts)?
+- Is anything required missing: fields, attachments, evidence, signatures, deadlines?
+- Is it consistent internally, and with related documents and earlier filings?
+- Will the intended reader, such as an officer or a reviewer, take it the way it means? Is anything ambiguous?
+- What happens if it is wrong? Mark anything irreversible once submitted.
+
+When the handoff names a lens, review through that lens only:
+- **conformance:** does the work match its sources and requirements?
+- **first principles:** should the work exist in this form, and what would make it fail?
+
 Do not manufacture findings. Leave out style preferences and subjective alternatives unless they break a governing rule.
 
 ## Constraints

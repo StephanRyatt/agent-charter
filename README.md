@@ -10,7 +10,7 @@ It is a [Claude Code](https://code.claude.com) plugin marketplace. The skills fo
 
 | Plugin | What it does | Command |
 |---|---|---|
-| `review` | An independent reviewer with fresh context challenges what was just done (code, a document, a plan, a filing, a decision) against the governing sources and first principles. The author then resolves the confirmed findings. | `/review:self-review` |
+| `review` | Fresh eyes on any work: code against its spec, a plan, a decision, a document or filing, yours or someone else's. Independent reviewers judge it from the governing sources and first principles, with a checklist suited to each kind of work. Pick report-only or fix mode, and standard or deep scrutiny. | `/review:fresh-eyes` |
 | `council` | Several independent specialists analyze one consequential decision, each through a different lens. Their disagreements are compared and synthesized into a recommendation. Also includes a single reasoning specialist for one bounded question. | `/council:decision-council` |
 
 Planned: `spec`, which covers deciding, planning, implementing with acceptance proofs, and review. It is published once its planning step has run end to end on real work.
@@ -34,7 +34,7 @@ claude plugin install council@agent-charter
 
 On claude.ai: **Customize → Plugins → Add marketplace**, enter `StephanRyatt/agent-charter`, then add `review` and `council`.
 
-Plugin agents run in Claude Code and Cowork. In claude.ai chat they don't, so the review and the council say they can't start independent reviewers there, rather than pretend to.
+Plugin agents run in Claude Code and Cowork. In claude.ai chat they don't, so `fresh-eyes` and the council say they can't start independent reviewers there, rather than pretend to.
 
 ## License
 
