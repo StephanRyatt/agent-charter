@@ -2,7 +2,7 @@
 
 ## Mechanical scans
 
-Run against the in-scope files only (changed files or the target directory). Get changed files with `git diff --name-only <base>...HEAD`. Use `rg`; adapt globs to the repo's file types.
+Run against the in-scope files only (changed files or the target directory). Get changed files with `git diff --name-only <base>...HEAD`. Use `rg`; adapt globs to the repo's file types. Paths can contain spaces or parentheses (route groups such as `app/(prototype)/`): build `FILES` as an array (`mapfile -t FILES < <(...)`) and pass `"${FILES[@]}"`. Hits are keyword matches; check each before calling it a finding.
 
 ```bash
 FILES=$(git diff --name-only --diff-filter=AM <base>...HEAD | rg '\.(css|scss|sass|less|tsx?|jsx?|vue|svelte|astro|html)$')
@@ -28,7 +28,7 @@ git diff --name-status --diff-filter=A <base>...HEAD | rg '\.(css|scss|sass|less
 git diff -U0 <base>...HEAD | rg '^\+\s*(--[\w-]+\s*:|\$[\w-]+\s*:|@theme)'
 
 # Edits to shared code (potential cross-screen impact)
-git diff --name-only <base>...HEAD | rg -i '(tokens?|theme|design-system|ui/|components/(ui|common|shared))'
+git diff --name-only <base>...HEAD | rg -i '(tokens?|theme|tailwind\.config|design-system|ui/|components/(ui|common|shared)|globals?\.css|:root)'
 ```
 
 ### Scans for what is missing (coverage, spacing, wiring)

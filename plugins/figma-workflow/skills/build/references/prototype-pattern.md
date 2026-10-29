@@ -28,7 +28,7 @@ No developer is needed and no database is read. The sample data comes from the a
 
 1. **Find the entities** the screen shows in the data model `prototype.md` names (ORM models, a schema file, migrations, API types). Search by entity name; don't read a huge model file whole. Never open configuration files for connection strings.
 2. **Read their shape**: field names and types, maximum lengths, which fields can be empty (nullable, optional or not required), enumerations and lookups, relations the screen shows.
-3. **Mirror the shape in the data shape**: same field names and types as the entity for every field the screen shows, so promotion is a swap of the data source, not a rewrite. Fields the design shows that no entity has: name them clearly and list them under "needs backend".
+3. **Mirror the shape in the data shape**: same field names and types as the entity for every field the screen shows, so promotion is a swap of the data source, not a rewrite. Include the entity's id even when it isn't shown, as the key for lists and row actions. Fields the design shows that no entity has: name them clearly and list them under "needs backend".
 4. **Generate realistic sample data** that respects those types and lengths (plausible names, dates, amounts; never real customer data or text copied from another page), and always include edge cases:
    - the longest allowed values for names and texts (at the maximum length);
    - empty or missing optional fields;
@@ -55,4 +55,6 @@ No developer is needed and no database is read. The sample data comes from the a
 - Render repeated rows and action markup from one template or component, not by copying an existing row.
 - Use the layout's real ways to add page styles and scripts, and check that shared libraries load before the page's own code.
 - No `debugger` statements, `console.log` noise, or commented-out blocks left behind.
+- Text the pattern forces but the design doesn't show (a no-results message, a local Save confirmation): short and neutral, and listed under "Inferred, not shown in the design" in the screen record.
+- No existing access check to copy (a new app, or none on similar pages): add none, and list "access check" under "needs backend" in the summary.
 - Sample data is obviously sample data (plausible, but never real customer names or text copied from another page).

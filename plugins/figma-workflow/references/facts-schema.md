@@ -8,7 +8,7 @@ The skills are generic. Everything specific to one repository lives in that repo
 
 This path is the only place the skills look. If your team moves the files, change the path in each skill's "Facts directory" line (sync, build, verify, verify-audit).
 
-Every facts file starts with a title line and then this line, exactly:
+Every facts file starts with a title line and then this line, exactly (blank lines between them are fine). The `screens/` folder may be missing until the first screen is built; that is not an error:
 
 ```
 figma-workflow-schema: 2

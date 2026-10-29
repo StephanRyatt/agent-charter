@@ -7,6 +7,7 @@ For component frameworks: React (Next.js, Remix, Vite), Vue (Nuxt), Svelte (Svel
 - A **page or route component** (for example `app/<route>/page.tsx` in the Next.js app router, `pages/<route>.vue` in Nuxt, `src/routes/<route>/+page.svelte`) that renders the screen's components with hardcoded sample data. It imports the sample data from a file next to it (for example `sample-data.ts`).
 - The **prototype marker** goes where `prototype.md` says. Common forms: a route guard in the page or its layout (for example `if (!isPrototypeEnabled()) notFound()` in Next.js), a feature flag checked the same way, a route group or folder for prototype pages (for example `app/(prototype)/`) guarded by its layout, or middleware that blocks a path prefix. Use exactly the form `prototype.md` names, never a new one.
 - Reuse the existing layout and its authentication, so the page loads like a real one. Copy the access check from the most similar existing page and list it for the backend team to confirm.
+- A shell can still be `async` to read route or query parameters (for example `await searchParams` in Next.js 15 for the `?state=` switch). That is not data fetching.
 - In frameworks that render on the server: the shell does no data fetching on the server either. No loaders or `getServerSideProps` that read data, no server actions, no route handlers, no database client.
 
 ## Data shape and data model
@@ -34,6 +35,7 @@ For component frameworks: React (Next.js, Remix, Vite), Vue (Nuxt), Svelte (Svel
 - Reuse the repository's components (`components/ui/`, `components/`, a design-system package) and the UI library it already uses (shadcn/ui, MUI, Radix, Chakra, Vuetify...). Pass variants and props; don't fork a component to restyle it.
 - New components go where similar ones live, small and prop-driven, with the data shape as their props.
 - When Code Connect is set up, the mapped component at each mapped node is the answer.
+- Intentionally inert controls: render the normal component with no handler, and list them as inert; the audit's handler scan will show them as unhandled, which the list explains.
 
 ## Registering new files
 
@@ -41,7 +43,7 @@ For component frameworks: React (Next.js, Remix, Vite), Vue (Nuxt), Svelte (Svel
 
 ## Build checks
 
-Run on the files the build changed:
+Run on the files the build changed. Hits are keyword matches: a comment naming the data model it mirrors is fine. Route folders can contain parentheses (`app/(prototype)/`), so quote paths or use an array (`mapfile -t FILES < <(git diff --name-only ...)`, then `"${FILES[@]}"`).
 
 ```bash
 # Shell purity: no data access or server calls in the page, its components or its sample data
