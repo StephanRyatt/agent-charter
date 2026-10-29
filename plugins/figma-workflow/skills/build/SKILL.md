@@ -11,6 +11,8 @@ Typing this command is the user's approval of the most recent plan that the `syn
 
 **Facts directory:** `docs/figma-workflow/` in the target repository.
 
+**Target repository:** the one the sync plan names (its "Repository / area" line and the last "Sync state" line hold its path). The working directory may be a workspace that is a git repository itself: never use it as the target when it holds nested app repositories. If the plan doesn't make the repository clear, ask with AskUserQuestion, listing the git repositories nested directly under the working directory. Read the facts files from the target, make every edit inside it, and run every git command there (`git -C <path>`).
+
 ## Before editing
 
 1. **Find the plan.** Use the latest plan from the sync skill in this conversation, including any changes the user asked for after it. If there is none, stop: "There's no approved plan in this chat. Start with the sync command and your Figma link." If the user's later changes were large (new frames, a different screen), ask them to run sync again instead.

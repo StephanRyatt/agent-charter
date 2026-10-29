@@ -22,7 +22,7 @@ This skill's model and effort apply only while its turn lasts. Answers typed int
 - **An answer that is a question** (or a request to explain or wait): answer it briefly, then ask the open question again with AskUserQuestion. Never treat it as an answer, and never skip the question.
 - **A plain chat message** that arrives later in this planning conversation without a figma-workflow command: don't advance, change or approve the plan in that turn. Answer briefly if it is a question, then say: "To keep planning, type **`/figma-workflow:sync`** followed by your question or change." Stop there.
 - **Resuming.** When this skill starts in a chat that already holds a sync for the same screen, don't start over. Take the state from the chat: the inputs and answers so far and the last step reached (the last "Sync state" line, see below). Handle the arguments as a question or change, then continue from that step.
-- **Sync state line.** At the end of each of your messages in this skill, add one line in this form, so a resumed sync can pick up: `Sync state: step <n> · repo <folder> · frame <link> · kind <new|update|re-implementation> · placement <isolated|integrated> · plan <none|draft|revised n>`.
+- **Sync state line.** At the end of each of your messages in this skill, add one line in this form, so a resumed sync can pick up: `Sync state: step <n> · repo <absolute path of the target repository> · frame <link> · kind <new|update|re-implementation> · placement <isolated|integrated> · plan <none|draft|revised n>`.
 
 ## Arguments
 
@@ -45,7 +45,11 @@ Whatever follows `/figma-workflow:sync` is one of:
 ### 1. Check prerequisites
 
 1. **Figma access.** Look for the Figma MCP server's tools (design context, screenshot, metadata, variables). If they are missing, stop: say the Figma connector or plugin must be installed and connected, and how the user can check. Do not hardcode tool names; use what the server offers and follow its own instructions.
-2. **Target repository.** If the working directory is not a git repository, list the git repositories directly under it and ask which one this screen belongs to (use the facts directory's README, where present, to describe each one).
+2. **Target repository.** The working directory may be a workspace that holds several app repositories, and it may be a git repository itself. Resolve the target this way:
+   1. List the git repositories nested directly under the working directory (subfolders with their own `.git`). If there are any, the target is one of them, **even when the working directory is itself a git repository**: never use the workspace repository as the target.
+   2. Pick it from what you already know: a repository this chat already chose, the user's words, or a screen record or code match for the Figma frame. If more than one fits, or none does, ask with AskUserQuestion, describing each repository from its `docs/figma-workflow/README.md` where present (and saying which have no facts directory).
+   3. No nested repositories: the target is the git repository the working directory is in (its top level, `git rev-parse --show-toplevel`). Not in any repository: stop and ask the user to open the app's folder or its workspace.
+   4. From then on, use the chosen repository's absolute path for everything: its facts directory, code searches, and any git command (`git -C <path>`). State it once: "Working in <folder>."
 3. **Facts files.** Read every file in the facts directory. Check each one's `figma-workflow-schema:` line as described in the schema reference. Missing or outdated: stop with the exact file name and "the repository owner needs to add or update this file". Do not continue on guesses.
 
 ### 2. Collect the inputs

@@ -19,6 +19,8 @@ You run in a fresh context on purpose: you have not seen how the work was built,
 
 **Read-only.** Do not edit code, tokens, components, facts files or git state. Never open secret configuration files (for example `Web.config`, `App.config`, `.env`) or print their contents. Return the report as your final message; do not write it into the repository. Do not ask whether to execute the plan; the invoking skill does that.
 
+**Target repository:** exactly the absolute path in the inputs' "Repository:" line, never the working directory (which may be a workspace holding several repositories). Read files and run git commands there (`git -C <path>`). If the line is missing or the path is not a git repository, stop and report it.
+
 **Facts directory:** `docs/figma-workflow/` in the target repository. Read every file there first and check each `figma-workflow-schema:` line is `1`; if missing or different, say so in the report and audit without them, marking reuse verdicts as lower confidence.
 
 **"Sensible" is the bar, not 100% reuse.** Reuse is sensible when the existing piece expresses the design's intent and semantics. It is *not* sensible when it would visibly break the design, need heavy overrides (`!important`, deep selectors, fighting internals), stretch a component past its purpose, or couple unrelated things. Hand-written code in those cases is a **pass**, not a finding.

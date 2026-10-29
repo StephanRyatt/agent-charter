@@ -17,7 +17,7 @@ The audit needs a forked subagent with access to the Figma MCP server. If this s
 
 Take what this chat already has (a sync plan, a build summary, the screen record), and ask only for what's missing, with the AskUserQuestion tool (never plain text; batch up to four questions):
 
-- **Target repository** (if the working directory holds several, list them).
+- **Target repository.** Use the one this chat's sync plan or build used. Otherwise list the git repositories nested directly under the working directory; if there are any, the target is one of them, even when the working directory is itself a git repository (a workspace), so never pick the workspace. Pick from the user's words or the Figma frame's screen record, or ask. No nested repositories: the repository the working directory is in. Pass its absolute path, and run git commands there (`git -C <path>`).
 - **Figma**: the frame link(s). Default: from this chat or the screen record. If the record and the user's link differ, ask which one is the design of record.
 - **Implementation scope**: the branch and its base (default: the current branch against the repository's default branch, `git merge-base`), a PR, or a list of files. Check that the diff isn't empty.
 - **Depth**: *scoped* (only what the last build changed; the default right after a build) or *full* (the whole screen).
