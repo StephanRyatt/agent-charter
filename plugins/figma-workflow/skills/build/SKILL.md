@@ -25,6 +25,7 @@ Typing this command is the user's approval of the most recent plan that the `syn
 Follow the plan's build order. Ask with AskUserQuestion (never plain text) when the plan turns out wrong or a decision is missing; don't improvise a change the design doesn't show.
 
 - **Clickable prototype:** new pages and interactions follow [references/prototype-pattern.md](references/prototype-pattern.md), including the boundary. Apply the prototype marker exactly as `prototype.md` prescribes. If `prototype.md` says the guard behind it is not in place yet, build anyway and say in the summary that the page must not be merged into a shared branch until it is.
+- **Sample data:** generate it from the app's data model as the pattern's "Sample data" section says (view models mirror the entities' shapes; edge cases always included; no database, no entity references in the shell). Follow the plan's sample-data section; if the plan has none, derive it before writing the shell.
 - **Integrated screens** (no marker): presentation changes only, as the plan says.
 - **Reuse:** existing components, classes and tokens from the mapping table. A gap gets the fill the plan proposed, in the canonical stylesheet, as an additive variant or token. No hardcoded hex or pixel values where a token exists; no `!important`; no inline styles or `<style>` blocks in views.
 - **Duplicated stylesheets:** edit the copy that `design-system.md` and `pitfalls.md` name as the loaded one. If unsure which copy the page loads, trace the layout's style references before editing.

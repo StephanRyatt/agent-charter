@@ -51,6 +51,10 @@ Kept on purpose: <code that differs from the design for a recorded reason, or "n
 | Control | In the prototype it will | Or inert because |
 Every control either does something visible or is listed as inert. Behaviour the design shows only by implication is marked "inferred".
 
+## Sample data                  (new pages and new lists)
+| Screen data | Source entity (model file) | Fields shown, with type, max length, can be empty | Edge cases |
+Sample data is generated from the app's data model, never read from a database. Always: longest allowed values, empty optional fields, an empty list, a long list; a `?state=` switch if cheap. Fields with no entity go under "Needs backend".
+
 ## Files
 | File | New / changed | What |
 Include the project-file entries for every new view, stylesheet and script, and name which copy of a duplicated stylesheet is edited.

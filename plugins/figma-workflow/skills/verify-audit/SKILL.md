@@ -146,6 +146,7 @@ Run the unwired-control scans in [reference.md](reference.md). Stubs that are no
 
 - **Prototype or integrated**: read the prototype marker convention from `prototype.md`. A page with the marker is a prototype; one without it is integrated by the backend team.
 - **Shell purity** (prototype pages): the controller returns only hardcoded sample data (no service, data context, repository or handler; no POST actions), and the page script makes no server calls. Any of these is a **High** finding: the frontend workflow must not do backend work.
+- **Sample data** (prototype pages): view-model properties mirror the source entities' names and types for the fields shown; sample values respect their maximum lengths and nullability; the data includes the longest allowed values, empty optional fields, an empty list and a long list. Missing edge cases are **Med** findings (the design's empty and overflow states go untested). No real-looking personal data, no text copied from another page.
 - **Marker present** on every new prototype shell; authorization attribute present (its roles are for the backend team to confirm: list them).
 - **Integrated pages**: changes are presentation-only; flag any edit to data wiring, server handlers or view-model properties.
 - **Project file**: in old-style project files that list contents, every new view, stylesheet, script, image and class is listed (unlisted files are silently left out of the published site, or don't compile).

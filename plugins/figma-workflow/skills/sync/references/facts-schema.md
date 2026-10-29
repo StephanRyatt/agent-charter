@@ -36,6 +36,7 @@ The no-backend prototype convention for this repository.
 
 - **Marker**: how a prototype page is marked (for example a `[PrototypeOnly]` attribute on the controller), and whether the guard behind it is in place yet.
 - **Guard behaviour**: in which environments prototype pages are reachable, and what they return elsewhere (for example 404 outside `localhost` and `dev`, failing closed). A visible "prototype, sample data" banner if the guard adds one.
+- **Sample data**: where the data model lives (entity classes, model file, where maximum lengths and nullability are defined), and any approved source of sanitized real records. Prototypes never read a database.
 - **Where shells go**: controller and view-model locations, route conventions, the authorization attribute to copy and from which existing page.
 - **Navigation**: how an *integrated* prototype's menu entry is hidden where prototypes are unreachable.
 - **Preview**: how the designer sees a built page (a preview environment, a VM, or none), and what login it needs.

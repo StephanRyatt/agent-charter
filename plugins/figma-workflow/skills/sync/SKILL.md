@@ -66,7 +66,7 @@ Match by role, not only by value. *Exact*: use it. *Nearest within about one ste
 
 ### 6. Write the plan
 
-Use the plan template in the mapping reference. Scale it to the work: a small change is the difference list, the mapping table and the file list; a new screen or multi-frame flow adds the frame inventory, the interaction table (every control: what it does in the clickable prototype, or why it is inert), build order and the "needs backend" list. Include the pitfalls from `pitfalls.md` that apply.
+Use the plan template in the mapping reference. Scale it to the work: a small change is the difference list, the mapping table and the file list; a new screen or multi-frame flow adds the frame inventory, the interaction table (every control: what it does in the clickable prototype, or why it is inert), the sample-data table (source entities from the data model named in `prototype.md`, their field types, lengths and nullability, and the edge cases), build order and the "needs backend" list. Include the pitfalls from `pitfalls.md` that apply.
 
 ### 7. Hand over
 

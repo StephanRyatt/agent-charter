@@ -16,9 +16,24 @@ A shell controller never calls a service, data context, repository or handler, h
 
 ## How it works
 
-- A thin controller action returns a view, with hardcoded sample data from a small view model. It never calls an application service, EF/ORM, or a handler.
+- A thin controller action returns a view, with hardcoded sample data from a small view model. It never calls an application service, EF/ORM, or a handler, and never touches a database.
 - The page sits in the existing layout and gets the normal login and role check, so it looks and loads like a real page. The prototype marker from `prototype.md` goes on the controller.
 - One page-level script file holds all interaction as in-memory state: arrays for lists, plus show/hide for tabs and panels.
+
+## Sample data, generated from the data model
+
+No developer is needed and no database is read. The sample data comes from the app's own data model:
+
+1. **Find the entities** the screen shows: the ORM model (for example an Entity Framework `.edmx` and its generated entity classes, code-first entity classes, or migrations). Search for the entity by name; don't read a huge model file whole. Never open configuration files for connection strings.
+2. **Read their shape**: field names and types, maximum lengths, which fields can be empty (nullable or not required), enumerations and lookups, relations the screen shows.
+3. **Mirror the shape in the view model**: same property names and types as the entity for every field the screen shows, so promotion is a swap of the data source, not a rewrite. Fields the design shows that no entity has: name them clearly and list them under "needs backend".
+4. **Generate realistic sample data** that respects those types and lengths (plausible names, dates, amounts; never real customer data or text copied from another page), and always include edge cases:
+   - the longest allowed values for names and texts (at the maximum length);
+   - empty or missing optional fields;
+   - an empty list (the empty state);
+   - a long list (enough rows to page, scroll or wrap).
+5. **State switch, if cheap**: a query parameter such as `?state=empty` (or `long`, `edge`) that makes the action return that variant, so each state can be previewed without editing code.
+6. The shell still references nothing but the framework (`System.*`, MVC) and its own view models: the entity classes are read, never referenced.
 
 ## What each control does
 
