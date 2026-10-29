@@ -1,6 +1,7 @@
 ---
 name: sync
 description: Front door for turning a Figma frame into a frontend screen in a repository that has docs/figma-workflow/ facts files. Plans a new screen or an update to an existing one from its Figma link, with a mapping table and one approval, then hands over to the build skill. Use when the user shares a figma.com link and wants it implemented, updated, synced or brought in line with the design in such a repository; use it instead of starting a design-to-code skill directly there.
+argument-hint: "[Figma link, or a question or change]"
 model: opus
 effort: high
 ---
@@ -11,7 +12,25 @@ You plan; the `build` skill implements after the user approves. You never edit a
 
 **Facts directory:** `docs/figma-workflow/` in the target repository (see [references/facts-schema.md](references/facts-schema.md)).
 
-**Ask every question with the AskUserQuestion tool, never as plain text.** A plain-text question ends your turn, and the next turn runs on a different model without this skill's instructions. Batch up to four questions per call. For free-text answers (a link, a name), offer the likely options and let the user type theirs under "Other".
+**Ask every question with the AskUserQuestion tool, never as plain text.** A plain-text question ends your turn, and the next turn runs on a different model and effort. Batch up to four questions per call. For free-text answers (a link, a name), offer the likely options and let the user type theirs under "Other".
+
+## Keeping the conversation inside this skill
+
+This skill's model and effort apply only while its turn lasts. Answers typed into a question's "Other" row or notes keep the turn going; a message typed into the chat box ends it.
+
+- **Tell the user once how to ask back.** In the first AskUserQuestion of this conversation, add to the first question's text: "To ask me something first, type it under Other."
+- **An answer that is a question** (or a request to explain or wait): answer it briefly, then ask the open question again with AskUserQuestion. Never treat it as an answer, and never skip the question.
+- **A plain chat message** that arrives later in this planning conversation without a figma-workflow command: don't advance, change or approve the plan in that turn. Answer briefly if it is a question, then say: "To keep planning, type **`/figma-workflow:sync`** followed by your question or change." Stop there.
+- **Resuming.** When this skill starts in a chat that already holds a sync for the same screen, don't start over. Take the state from the chat: the inputs and answers so far and the last step reached (the last "Sync state" line, see below). Handle the arguments as a question or change, then continue from that step.
+- **Sync state line.** At the end of each of your messages in this skill, add one line in this form, so a resumed sync can pick up: `Sync state: step <n> · repo <folder> · frame <link> · kind <new|update|re-implementation> · placement <isolated|integrated> · plan <none|draft|revised n>`.
+
+## Arguments
+
+Whatever follows `/figma-workflow:sync` is one of:
+- **a Figma link** (with or without other text): the frame to plan; other text is extra instructions;
+- **a question** (no link): answer it, then continue (resume, or step 1 for a new sync);
+- **a requested change to the plan in this chat**: revise the plan (step 6), then hand over again (step 7);
+- **nothing**: resume if this chat holds a sync, otherwise start at step 1 and ask for the link.
 
 ## Hard rules
 
@@ -70,8 +89,13 @@ Use the plan template in the mapping reference. Scale it to the work: a small ch
 
 ### 7. Hand over
 
-End with the plan and exactly this instruction:
+Show the plan, then end with an AskUserQuestion (not plain text), so a change request stays in this turn:
 
-> To approve this plan, type **`/figma-workflow:build`** (or pick the build command from the `/` menu). To change something first, tell me what; for a large change, I'll re-plan.
+- Question: "Approve this plan or change it? To approve, type **`/figma-workflow:build`** in the chat (or pick it from the `/` menu). To change something, or to ask me something first, type it under Other."
+- Options: "I'll approve with the build command" and "Explain a part of the plan first".
+
+On a change typed under Other: revise the plan in this same turn (re-plan fully if the change is large), show it, and ask this question again. On "Explain": ask which part if unclear, explain, and ask again. On "I'll approve": end the turn with one line repeating that the build command is the approval.
 
 Do not start building, and do not treat "ok", "yes" or "approved" as approval to edit: approval is the build command.
+
+**Later option, not built:** a `UserPromptSubmit` hook could detect plain chat messages during a sync reliably. It is left out for now because the hook script would have to run on both Windows and macOS.
