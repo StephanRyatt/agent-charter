@@ -15,6 +15,9 @@ It is a [Claude Code](https://code.claude.com) plugin marketplace. The skills fo
 | | A fresh subagent works out the best n distinct solutions from first principles, compares their tradeoffs, and builds the winner or a hybrid. n, the model (Opus by default) and the effort scale with the stakes. | `/council:best-of-n` |
 | | What could go wrong, how likely, how bad: the top risks quantified honestly (likelihood, impact, expected cost, with each number's basis) and qualified (reversibility, detection, cheapest mitigation), on one page. | `/council:risk-evaluation` |
 | | One bounded, hard question put to a fresh reasoning specialist, with its answer checked against the sources. | `/council:ask-specialist` (agent `council:reasoning-specialist`) |
+| `figma-workflow` | Figma to frontend for legacy server-rendered web apps (for example Razor views with jQuery and Bootstrap). Plans a screen from its Figma frame, new or changed, with a mapping to the repo's own tokens and components, and says so when nothing changed. Repository facts live in the repo's `docs/figma-workflow/`. | `/figma-workflow:sync` |
+| | Builds the approved plan in the same chat as a clickable prototype with no backend: real navigation, in-memory state, every control working or listed as inert. Typing it is the approval. | `/figma-workflow:build` |
+| | An independent audit of the result against the design: coverage, fidelity, behaviour, design-system reuse, with a to-do list for the designer. | `/figma-workflow:verify` |
 
 Planned: `spec`, which covers deciding, planning, implementing with acceptance proofs, and review. It is published once its planning step has run end to end on real work.
 
@@ -50,6 +53,8 @@ Every skill that starts a subagent also checks that the surface can start one, a
 | `/council:best-of-n` | Yes: one | Independence (no anchoring on your favorite); isolation of the build |
 | `/council:risk-evaluation` | No by default. Yes for your own high-stakes work | It needs the context; an independent run removes author bias where that matters |
 | `/council:ask-specialist` | Yes: one | Independence on one hard question. Started by the user, or by a workflow step that names it |
+| `/figma-workflow:sync`, `:build` | No | They need the conversation, questions and one approval; `sync` runs on Opus for the turn, `build` on the session model so the user can steer |
+| `/figma-workflow:verify` | Yes: one (`verify-audit`, forked) | Independence from the build; enforcement (Opus, high effort) |
 
 ## Using these in Claude Code cloud sessions
 
@@ -63,11 +68,12 @@ In Claude Code:
 claude plugin marketplace add StephanRyatt/agent-charter
 claude plugin install review@agent-charter
 claude plugin install council@agent-charter
+claude plugin install figma-workflow@agent-charter
 ```
 
 To update later, run `claude plugin marketplace update agent-charter`, or turn on auto-update for it under `/plugin` → Marketplaces. To try it from a local clone, use `claude plugin marketplace add ./agent-charter` instead.
 
-On claude.ai: **Customize → Plugins → Add → Add marketplace**, enter `StephanRyatt/agent-charter`, then add `review` and `council`. Plugins you add on claude.ai also reach Claude Code on any machine signed in to the same account.
+On claude.ai: **Customize → Plugins → Add → Add marketplace**, enter `StephanRyatt/agent-charter`, then add the plugins you want. Plugins you add on claude.ai also reach Claude Code on any machine signed in to the same account.
 
 Plugin agents run in Claude Code and Cowork. In claude.ai chat they don't, so `fresh-eyes` and the council say they can't start independent reviewers there, rather than pretend to.
 

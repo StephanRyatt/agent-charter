@@ -14,6 +14,11 @@
       "name": "council",
       "source": "./plugins/council",
       "description": "Deliberation tools: a council of independent specialists for consequential decisions, best-of-n (compare n first-principles solutions, then build the winner), risk evaluation, and ask-specialist for one bounded, hard question."
+    },
+    {
+      "name": "figma-workflow",
+      "source": "./plugins/figma-workflow",
+      "description": "Figma to frontend for legacy server-rendered web apps: plan a screen from its Figma frame (new or changed), build it as a clickable no-backend prototype after one approval, and audit it independently against the design."
     }
   ]
 }

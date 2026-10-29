@@ -1,0 +1,17 @@
+{
+  "name": "figma-workflow",
+  "version": "0.1.0",
+  "description": "Figma to frontend for legacy server-rendered web apps: plan a screen from its Figma frame (new or changed), build it as a clickable no-backend prototype after one approval, and audit it independently against the design.",
+  "author": {
+    "name": "Stephan Ryatt"
+  },
+  "repository": "https://github.com/StephanRyatt/agent-charter",
+  "license": "MIT",
+  "keywords": [
+    "figma",
+    "design-to-code",
+    "frontend",
+    "design-system",
+    "review"
+  ]
+}
