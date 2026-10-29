@@ -18,7 +18,7 @@
     {
       "name": "figma-workflow",
       "source": "./plugins/figma-workflow",
-      "description": "Figma to frontend for legacy server-rendered web apps: plan a screen from its Figma frame (new or changed), build it as a clickable no-backend prototype after one approval, and audit it independently against the design."
+      "description": "Governance for Figma to frontend, on top of Figma's MCP server and Code Connect: plan a screen from its Figma frame (new or changed) with a mapping table and one approval, build it as a clickable no-backend prototype, keep it in sync as the design changes, and audit it independently. Stack adapters for server-rendered and component stacks."
     }
   ]
 }

@@ -24,7 +24,7 @@ Take what this chat already has (a sync plan, a build summary, the screen record
 - **Audience**: *designer* (plain-language summary and a to-do list for Figma first; the default when the user is the designer) or *developer* (the full report).
 - **Preview URL**, if the facts file names one and the page is deployed there. Optional.
 
-Also collect, without asking: the screen record path, the facts files' paths, the Figma frame names and node ids, the list of changed files, and the intentionally inert controls from the record or build summary.
+Also collect, without asking: the `Stack adapter` and `Code Connect` lines from `design-system.md`, the screen record path, the facts files' paths, the Figma frame names and node ids, the list of changed files, and the intentionally inert controls from the record or build summary.
 
 ## 3. Run the audit
 
@@ -32,6 +32,7 @@ Invoke the `verify-audit` skill (the plugin may namespace it, for example `figma
 
 ```
 Repository: <absolute path>   Facts directory: <path>/docs/figma-workflow/
+Stack adapter: <legacy-server-rendered | modern-component>   Code Connect: <set up | not set up>
 Figma: <link(s) with node ids and frame names>
 Scope: <branch>..<base> (merge-base <sha>) | PR <ref> | files: <list>
 Changed files: <list>
@@ -47,5 +48,5 @@ Do not pass your own judgement of the work (what was hard, what you think is fin
 
 1. For the designer: show the "For the designer" section first, then offer the full report.
 2. Separate what to fix in code from what to fix in Figma.
-3. Ask with AskUserQuestion whether to apply the code fixes now (all, selected items, or none). Fixes follow the same rules as the build skill: frontend only, existing tokens and components, the prototype pattern, the project-file entries.
+3. Ask with AskUserQuestion whether to apply the code fixes now (all, selected items, or none). Fixes follow the same rules as the build skill: frontend only, existing tokens and components, the prototype pattern, the stack adapter's file registration and checks.
 4. Never push or merge.

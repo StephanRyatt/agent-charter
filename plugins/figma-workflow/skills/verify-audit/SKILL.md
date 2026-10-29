@@ -17,11 +17,13 @@ You run in a fresh context on purpose: you have not seen how the work was built,
 
 **Inputs (from the invoking skill):** $ARGUMENTS
 
-**Read-only.** Do not edit code, tokens, components, facts files or git state. Never open secret configuration files (for example `Web.config`, `App.config`, `.env`) or print their contents. Return the report as your final message; do not write it into the repository. Do not ask whether to execute the plan; the invoking skill does that.
+**Read-only.** Do not edit code, tokens, components, facts files or git state. Never open secret configuration files (for example `Web.config`, `App.config`, `.env*`) or print their contents. Return the report as your final message; do not write it into the repository. Do not ask whether to execute the plan; the invoking skill does that.
 
 **Target repository:** exactly the absolute path in the inputs' "Repository:" line, never the working directory (which may be a workspace holding several repositories). Read files and run git commands there (`git -C <path>`). If the line is missing or the path is not a git repository, stop and report it.
 
-**Facts directory:** `docs/figma-workflow/` in the target repository. Read every file there first and check each `figma-workflow-schema:` line is `1`; if missing or different, say so in the report and audit without them, marking reuse verdicts as lower confidence.
+**Facts directory:** `docs/figma-workflow/` in the target repository. Read every file there first and check each `figma-workflow-schema:` line is `2`; if missing or different, say so in the report and audit without them, marking reuse verdicts as lower confidence.
+
+**Stack adapter:** load the file the inputs' `Stack adapter` value names (or, failing that, `design-system.md`'s line) from the plugin's `references/stacks/`, which lives at `../../references/stacks/` relative to this skill's folder (`${CLAUDE_SKILL_DIR}/../../references/stacks/`). It says what the page shell, data shape, prototype marker and interaction code are on this stack, and holds the stack's audit scans. With no adapter, audit with the generic scans only and say so under "Not verified".
 
 **"Sensible" is the bar, not 100% reuse.** Reuse is sensible when the existing piece expresses the design's intent and semantics. It is *not* sensible when it would visibly break the design, need heavy overrides (`!important`, deep selectors, fighting internals), stretch a component past its purpose, or couple unrelated things. Hand-written code in those cases is a **pass**, not a finding.
 
@@ -35,7 +37,7 @@ You run in a fresh context on purpose: you have not seen how the work was built,
 - [ ] 5. Extract what the implementation actually uses
 - [ ] 6. Audit each style/component decision (reuse)
 - [ ] 7. Fidelity check (render, or geometry + assets when you cannot)
-- [ ] 8. Behavior and wiring check (8b: prototype boundary and legacy-stack checks)
+- [ ] 8. Behavior and wiring check (8b: prototype boundary and stack checks)
 - [ ] 9. Build the remediation plan and report
 ```
 
@@ -71,7 +73,7 @@ Use `Grep`/`Glob` on large repos.
 ### 3. Fetch the design
 
 - Load the Figma plugin's design-to-code skill before requesting design context, as that skill requires (usually named `figma:figma-design-to-code` when the plugin is installed; if only the MCP server is present, the skill it serves as a resource). If neither is available, follow the server's instructions directly and note it under "Not verified".
-- Design context (reference only, never final code), a screenshot if none returned, variable definitions, and Code Connect mappings. Code Connect mappings are authoritative.
+- Design context (reference only, never final code), a screenshot if none returned, and variable definitions. When the inputs say Code Connect is set up, read its mappings: they are authoritative. When it isn't, don't call the Code Connect tools, and decline any offer to connect components; judge reuse from the facts files.
 - Note whether Figma itself uses variables/styles/library components or raw/detached values. Off-system Figma is a **design-side** finding, not an implementation defect.
 
 ### 4. Figma-side inventory (coverage)
@@ -120,7 +122,7 @@ Separate **findings** (backed by `path:line` evidence) from **hypotheses** (e.g.
 
 ### 7. Fidelity check
 
-Reuse must not cost fidelity. If the inputs give a preview URL, or the app can be run here, render it with whichever browser tool is available (Claude Desktop's built-in browser or Claude in Chrome) and compare against the Figma screenshot: layout, spacing, type, color, assets, states. Never sign in or enter credentials; if the page needs a login the browser doesn't already have, treat it as not rendered. Many legacy server-rendered stacks don't run on every OS; don't try to install or build one. Record where an existing token's drift is visible.
+Reuse must not cost fidelity. If the inputs give a preview URL, or the app can be run here, render it with whichever browser tool is available (Claude Desktop's built-in browser or Claude in Chrome) and compare against the Figma screenshot: layout, spacing, type, color, assets, states. Never sign in or enter credentials; if the page needs a login the browser doesn't already have, treat it as not rendered. Follow the adapter's "Preview" section; don't try to install or build a stack that doesn't run here. Record where an existing token's drift is visible.
 
 **If you cannot render it, "not rendered" is not the end of the step.** Compensate with a geometry comparison and say it is source-derived, not visual:
 1. From the metadata tree, compute for each repeated pattern: element sizes, gaps between siblings (next.x - (prev.x + prev.width)), icon-to-label offsets, paddings, row heights, column widths.
@@ -142,18 +144,19 @@ Figma often has no navigation prototype, so intended behavior is inferred. Do bo
    - **intent unknown**.
 3. Intent-unknown controls are design-side follow-ups ("ask design where X goes"), not silently out of scope.
 
-Run the unwired-control scans in [reference.md](reference.md). Stubs that are not listed are findings; listed inert controls are not.
+Run the missing-content scans in [reference.md](reference.md) and the adapter's control and handler scans. Stubs that are not listed are findings; listed inert controls are not.
 
-### 8b. Prototype boundary and legacy-stack checks
+### 8b. Prototype boundary and stack checks
 
 - **Prototype or integrated**: read the prototype marker convention from `prototype.md`. A page with the marker is a prototype; one without it is integrated by the backend team.
-- **Shell purity** (prototype pages): the controller returns only hardcoded sample data (no service, data context, repository or handler; no POST actions), and the page script makes no server calls. Any of these is a **High** finding: the frontend workflow must not do backend work.
-- **Sample data** (prototype pages): view-model properties mirror the source entities' names and types for the fields shown; sample values respect their maximum lengths and nullability; the data includes the longest allowed values, empty optional fields, an empty list and a long list. Missing edge cases are **Med** findings (the design's empty and overflow states go untested). No real-looking personal data, no text copied from another page.
-- **Marker present** on every new prototype shell; authorization attribute present (its roles are for the backend team to confirm: list them).
-- **Integrated pages**: changes are presentation-only; flag any edit to data wiring, server handlers or view-model properties.
-- **Project file**: in old-style project files that list contents, every new view, stylesheet, script, image and class is listed (unlisted files are silently left out of the published site, or don't compile).
+- **Shell purity** (prototype pages): the page shell renders only hardcoded sample data (no service, data context, repository, ORM client, API call or server action; accepts no posted data), and the interaction code makes no server calls. Any of these is a **High** finding: the frontend workflow must not do backend work.
+- **Sample data** (prototype pages): data-shape fields mirror the source entities' names and types for the fields shown; sample values respect their maximum lengths and nullability; the data includes the longest allowed values, empty optional fields, an empty list and a long list. Missing edge cases are **Med** findings (the design's empty and overflow states go untested). No real-looking personal data, no text copied from another page.
+- **Marker present** on every new page shell, in the form `prototype.md` names; access check present (its roles are for the backend team to confirm: list them).
+- **Integrated pages**: changes are presentation-only; flag any edit to data wiring, server handlers or data-shape fields.
+- **File registration**: every new file is registered as the adapter's "Registering new files" says (for example in an old-style project file; unlisted files can be silently left out of the published site).
 - **Duplicated stylesheets**: the edited copy is the one the page loads.
-- Run the legacy-web scans in [reference.md](reference.md).
+- **Tests and stories**: where the adapter and the repository call for them, they exist and cover the sample-data states.
+- Run the adapter's "Audit scans".
 
 ### 9. Remediation plan and report
 

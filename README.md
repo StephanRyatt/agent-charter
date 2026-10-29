@@ -15,11 +15,23 @@ It is a [Claude Code](https://code.claude.com) plugin marketplace. The skills fo
 | | A fresh subagent works out the best n distinct solutions from first principles, compares their tradeoffs, and builds the winner or a hybrid. n, the model (Opus by default) and the effort scale with the stakes. | `/council:best-of-n` |
 | | What could go wrong, how likely, how bad: the top risks quantified honestly (likelihood, impact, expected cost, with each number's basis) and qualified (reversibility, detection, cheapest mitigation), on one page. | `/council:risk-evaluation` |
 | | One bounded, hard question put to a fresh reasoning specialist, with its answer checked against the sources. | `/council:ask-specialist` (agent `council:reasoning-specialist`) |
-| `figma-workflow` | Figma to frontend for legacy server-rendered web apps (for example Razor views with jQuery and Bootstrap). Plans a screen from its Figma frame, new or changed, with a mapping to the repo's own tokens and components, and says so when nothing changed. Repository facts live in the repo's `docs/figma-workflow/`. | `/figma-workflow:sync` |
+| `figma-workflow` | Governance for Figma to frontend, on top of Figma's own tooling. Plans a screen from its Figma frame, new or changed, with a mapping to the repo's own tokens and components, and says so when nothing changed. Works on server-rendered apps (Razor, jQuery, Bootstrap) and component stacks (React, Vue, Next.js) through stack adapters. Repository facts live in the repo's `docs/figma-workflow/`. | `/figma-workflow:sync` |
 | | Builds the approved plan in the same chat as a clickable prototype with no backend: real navigation, in-memory state, every control working or listed as inert. Typing it is the approval. | `/figma-workflow:build` |
 | | An independent audit of the result against the design: coverage, fidelity, behaviour, design-system reuse, with a to-do list for the designer. | `/figma-workflow:verify` |
 
 Planned: `spec`, which covers deciding, planning, implementing with acceptance proofs, and review. It is published once its planning step has run end to end on real work.
+
+## figma-workflow and Figma's own tooling
+
+Figma's MCP server, its design-to-code skill and Code Connect turn a frame into code that fits a codebase. figma-workflow uses them and adds the controls a small team needs when a designer, not a frontend developer, ships the UI:
+
+- **An approval gate.** Nothing is built until the designer has seen a plan with a mapping table: every design element against the repo's existing component or token, marked exact, nearest (flagged) or gap.
+- **Screens kept in sync over time.** Each built screen gets a record in the repo. When the frame changes, `sync` plans only the differences, keeps what differs on purpose, and says so when nothing changed.
+- **A prototype boundary.** Designer-built pages are clickable prototypes with no backend: sample data generated from the app's data model, in-memory interaction, and a prototype marker that keeps them out of production until the backend team promotes them.
+- **An independent audit.** `verify` checks coverage, fidelity, behaviour and design-system reuse in a fresh context that never saw the build.
+- **The right model for each step.** Planning runs on Opus at high effort; building runs on the session's model, usually Sonnet, so the designer can steer it cheaply.
+
+Code Connect is optional. When a repo has it, its mappings win; when it doesn't, the skills match components from the repo's facts files and don't push you into setting it up. The plugin's `references/code-connect.md` says how to adopt it.
 
 ## Principles
 

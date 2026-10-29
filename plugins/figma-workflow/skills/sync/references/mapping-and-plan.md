@@ -16,7 +16,7 @@ Rules:
 - **Exact**: use the existing component, class or token.
 - **Nearest within about one step** of the scale (one spacing step, one type size, a near-identical colour): use the existing one and flag the drift. Use strict fidelity instead only if the difference is visible at a glance, and say so.
 - **Gap** (no reasonable match): say so and propose how to fill it, preferring an additive variant or token in the canonical stylesheet over a one-off. Never hardcode silently.
-- **Code Connect** mappings, where present, are authoritative.
+- **Code Connect** mappings are authoritative when `design-system.md` says Code Connect is set up. When it isn't, match from the facts files and say so once in the plan.
 - **Never** copy Figma's absolute positioning, fixed pixel layouts or generated class names. Translate to the repository's own layout (flex, grid, its utility classes).
 - **Off-system Figma values** (raw hex, detached components) go to the design-side list for the designer.
 
@@ -24,7 +24,7 @@ Rules:
 
 Write the full plan (all sections below) when any of these hold; otherwise the short plan (differences, mapping table, files, pitfalls) is enough:
 - more than one frame, or modals, states or tabs beyond the main view;
-- a new page (new route, controller shell, view model);
+- a new page (new route, page shell, data shape);
 - changes to shared components, tokens, layouts or menus;
 - more than one repository;
 - anything that would need backend work to behave as designed.
@@ -57,10 +57,10 @@ Sample data is generated from the app's data model, never read from a database. 
 
 ## Files
 | File | New / changed | What |
-Include the project-file entries for every new view, stylesheet and script, and name which copy of a duplicated stylesheet is edited.
+Include whatever the stack adapter's "Registering new files" requires (for example project-file entries), any tests or stories the adapter calls for, and name which copy of a duplicated stylesheet is edited.
 
 ## Build order                  (full plan)
-Shared pieces first (tokens, component variants), then page shell, then views, then the page script.
+Shared pieces first (tokens, component variants), then the data shape and sample data, then the page shell, then views or components, then the interaction code, then tests or stories.
 
 ## Needs backend (not built)
 <behaviour that needs saving, real data, permissions or server calls: control — what it would need. Or "none".>

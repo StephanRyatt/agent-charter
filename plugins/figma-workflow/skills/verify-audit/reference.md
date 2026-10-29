@@ -33,7 +33,7 @@ git diff --name-only <base>...HEAD | rg -i '(tokens?|theme|design-system|ui/|com
 
 ### Scans for what is missing (coverage, spacing, wiring)
 
-Scans above find wrong values that exist. These look for things that are absent or stubbed. Adapt selectors to the stack (jQuery/Razor shown; use the equivalent for React/Vue etc.).
+Scans above find wrong values that exist. These look for things that are absent or stubbed. The stack adapter adds the stack's own control and handler scans.
 
 ```bash
 # Placeholder content standing in for assets/icons
@@ -42,14 +42,7 @@ rg -n -i 'initials|placeholder|lorem|todo|tbd|dummy|sample' $FILES
 # Stub or dead links/buttons
 rg -n 'href="#"|href=""|javascript:void|onclick=""' $FILES
 
-# Controls in markup: list ids/classes of buttons, links, toggles, selects, forms
-rg -n -o '<(button|a|select|input)[^>]*\b(id|data-action)="[^"]+"' $FILES
-
-# Handlers in scripts: list bound selectors, then diff against the control list above
-rg -n -o '\$\(\s*["\x27][#.][\w-]+["\x27]\s*\)\s*\.(on|click|change)\b|\.on\(\s*["\x27]\w+["\x27]\s*,\s*["\x27][^"\x27]+["\x27]' $FILES
-
-# Handlers that only close/hide something (likely stubs)
-rg -n -B1 -A3 '\.(on|click)\(' $FILES | rg -i 'hide|dropdown\(.close|removeClass\("show"\)'
+# Controls and their handlers: see the stack adapter's audit scans
 
 # Inline label directly against closing tag with an ::after/icon rule: zero gap
 rg -n '>[^<\s][^<]*</button>' $FILES
@@ -59,42 +52,9 @@ rg -n -g '*.css' '::after|:after' <global style dirs> | rg -v 'margin'
 rg -n -o '(src|url)\(?=?["\x27]?[^"\x27) >]+\.(png|jpe?g|svg|webp)' $FILES
 ```
 
-### Legacy server-rendered web scans (Razor/MVC, jQuery, Bootstrap and similar)
+### Stack-specific scans
 
-```bash
-# Prototype shell purity: data access or server calls in shells and page scripts (High if on a prototype page)
-rg -n 'Service|DbContext|Repository|Entities|\[HttpPost\]|\$\.ajax|\$\.post|\$\.get\(|\$\.getJSON|fetch\(|XMLHttpRequest' <shell controllers> <page scripts>
-
-# Debug leftovers
-rg -n 'debugger|console\.(log|debug)' $FILES
-
-# Values inserted as HTML (each must be escaped or static), raw output in views
-rg -n '\.html\(|\.append\(|innerHTML|insertAdjacentHTML|Html\.Raw' $FILES
-
-# Images without alt, clickable non-buttons
-rg -n '<img(?![^>]*\balt=)[^>]*>' --pcre2 $FILES
-rg -n '<(div|span)[^>]*\b(onclick|data-toggle|data-bs-toggle)=' $FILES
-
-# Inline style blocks and !important fixes in views
-rg -n '<style|style="|!important' $FILES
-
-# Hardcoded hex next to tokens: list hex values, then grep the token source for each
-rg -n -o '#[0-9a-fA-F]{3,8}\b' $FILES | sort | uniq -c | sort -rn
-
-# Token references that don't exist: every var(--x) used must be defined somewhere
-for t in $(rg -o --no-filename 'var\(--[\w-]+' $FILES | sed 's/var(//' | sort -u); do
-  rg -q -- "$t\s*:" <token/style dirs> || echo "UNDEFINED token: $t"; done
-
-# New files missing from an old-style project file that lists contents
-for f in $(git diff --name-only --diff-filter=A <base>...HEAD); do
-  rg -q "$(basename "$f")" <project file> || echo "NOT IN PROJECT FILE: $f"; done
-
-# Duplicated stylesheets: same file name in several folders (which copy did the change touch, which does the layout load?)
-git ls-files '*.css' | xargs -n1 basename | sort | uniq -d
-
-# Copied-page leftovers: distinctive words from the source page the screen was based on
-git diff <base>...HEAD -M --stat | rg '=>'   # renames/copies, then grep the new file for the old page's names and text
-```
+Run the "Audit scans" section of the stack adapter (`references/stacks/<adapter>.md` in the plugin). They cover shell purity, escape hatches, control-to-handler wiring, file registration and the stack's typical leftovers.
 
 Manual cross-check (always do it): take the Figma control list from step 8 and tick each against a handler/href/route. An id with markup but no handler is **unwired**; a handler that only closes a menu is a **stub**.
 
