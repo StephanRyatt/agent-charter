@@ -1,6 +1,6 @@
 {
   "name": "review",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Fresh eyes on any work (code against its spec, plans, decisions, documents, filings), judged from the governing sources and first principles.",
   "author": {
     "name": "Stephan Ryatt"

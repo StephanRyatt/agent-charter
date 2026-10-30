@@ -13,7 +13,7 @@
     {
       "name": "council",
       "source": "./plugins/council",
-      "description": "Deliberation tools: a council of independent specialists for consequential decisions, best-of-n (compare n first-principles solutions, then build the winner), risk evaluation, and ask-specialist for one bounded, hard question."
+      "description": "Deliberation tools, one per question: decision-council when a costly call is yours to make (independent specialists advise), best-of-n when you want a problem solved and built after comparing distinct approaches (drafted in parallel from different starting points when the problem is open-ended, and measured when checks can tell the finalists apart), risk-evaluation for what could go wrong with one plan, and ask-specialist for one bounded, hard question."
     },
     {
       "name": "figma-workflow",

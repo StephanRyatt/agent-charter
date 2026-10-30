@@ -1,6 +1,6 @@
 ---
 name: risk-evaluation
-description: Estimate what could go wrong with a plan, decision, change, filing, launch or any situation the user names, how likely each risk is, and how bad it would be. Quantifies likelihood, impact and expected cost where that can be done honestly, qualifies reversibility, detection, drivers and the cheapest mitigation, and returns a one-page ranked risk table. Use when the user asks "what's the risk", "evaluate the risk", "how risky is this", "what could go wrong", for a risk assessment, or for a pre-mortem on likelihood and impact.
+description: Estimate what could go wrong with one plan, decision, change, filing, launch or any situation the user names, how likely each risk is, and how bad it would be. Quantifies likelihood, impact and expected cost where that can be done honestly, qualifies reversibility, detection, drivers and the cheapest mitigation, and returns a one-page ranked risk table. Use when the user asks "what's the risk", "evaluate the risk", "how risky is this", "what could go wrong", for a risk assessment, or for a pre-mortem. Not for choosing between options (decision-council) or checking whether finished work is correct (fresh-eyes).
 ---
 
 # Risk evaluation
@@ -10,12 +10,12 @@ Find the risks that matter for one case, put honest numbers on them where possib
 How it differs from its neighbors:
 
 - `/council:decision-council` chooses between options.
-- `/review:fresh-eyes` (when the `review` plugin is installed) finds defects in finished work.
+- `/review:fresh-eyes` (when the `review` plugin is installed) finds defects in finished work: whether it is correct, and red-teaming it. Risk evaluation asks what could happen even if the work is correct.
 - `risk-evaluation` estimates what could go wrong, how likely it is, and how bad it would be.
 
 It advises; it does not act on the target.
 
-**Where it runs.** By default it runs in the current context, because it needs what this session knows. When the target is work authored in this session (your own plan, change or recommendation) and the stakes are high, run it in a fresh subagent instead: one `general-purpose` agent on `opus`, given this skill's steps, the target and its sources, but not your own view of the risks. An author tends to underrate the risks of their own work, and a fresh context removes that bias. Check the subagent's table against the sources before you report it. If this surface cannot start a subagent, say that the evaluation is the author's own, and label it so.
+**Where it runs.** By default it runs in the current context, because it needs what this session knows. When the target is work authored or shaped in this session (your own plan, change or recommendation, or one you helped the user form) and the stakes are high, run it in a fresh subagent instead: one `general-purpose` agent on `opus`, given this skill's steps, the target and its sources, but not your own view of the risks. An author tends to underrate the risks of their own work, and a fresh context removes that bias. Check the subagent's table against the sources before you report it. If this surface cannot start a subagent, say that the evaluation is the author's own, and label it so.
 
 ## 1. Set the scope
 
@@ -97,6 +97,6 @@ For legal, medical, financial or immigration matters, present probabilities as e
 When the stakes are high and the risk is hard to judge from one context, offer once, in one line, an independent check:
 
 - `/review:fresh-eyes`, when the `review` plugin is installed, to challenge this risk evaluation or the work it covers;
-- `/council:decision-council`, when the real question turns out to be choosing between options.
+- `/council:decision-council`, when the real question turns out to be choosing between options, for example when two or more credible alternatives to the plan appear during the evaluation.
 
 Do not start either unasked. Both cost several agent runs.
