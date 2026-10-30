@@ -1,13 +1,22 @@
 ---
 name: fresh-eyes
-description: Get an independent, fresh-context review of any work: code against its spec, a plan, a decision, a document or filing, a PR, your own just-finished work or someone else's. The reviewer judges from the governing sources and first principles, never from the author's reasoning. Use when the user asks for fresh eyes, an independent or second look, extra scrutiny, a self-review, or a red-team of a plan, and when a workflow calls for review before handing work over. Not for choosing between options (decision-council) or estimating the likelihood and impact of risks (risk-evaluation).
+description: "Get an independent check that finished work is correct: code against its spec, a plan, a decision, a document or filing. Findings are verified against the sources, then fixed if the work was made in this session, otherwise reported."
+when_to_use: "Use when the user asks for fresh eyes, an independent review or a second look, extra scrutiny, a self-review, or a red team of a plan or other work, and when a workflow calls for review before handing work over. Works on the user's own work or someone else's, including a PR. Not for choosing between options (decision-council), estimating how likely and how bad risks are (risk-evaluation), one question with a definite answer (ask-specialist), or checking a frontend against its Figma design (figma-workflow:verify)."
+argument-hint: "[what to review]"
 ---
 
 # Fresh eyes
 
-Have the `fresh-reviewer` agent challenge one piece of work in a fresh context, then act on what it confirms. When this skill comes from the `review` plugin, the agent is named `review:fresh-reviewer`.
+Get an independent check that finished work is correct: the `fresh-reviewer` agent challenges one piece of work in a fresh context, then you act on what it confirms. When this skill comes from the `review` plugin, the agent is named `review:fresh-reviewer`.
 
 Review policy lives in that agent: what to look for, the questions for each kind of work, the finding format, and its read-only limits. Do not restate or override it in the handoff.
+
+Use a neighbor when the question is different (the `/council:` skills need the `council` plugin):
+
+- **A costly call the user will make, with or without options:** `/council:decision-council`: stress-test a costly decision before you commit.
+- **A problem the user wants solved and built, with the choice delegated:** `/council:best-of-n`: compare n approaches to a problem, then build the best.
+- **One plan, and the question is what could go wrong:** `/council:risk-evaluation`: see what could go wrong with one plan, how likely, how bad.
+- **One hard question with a definite answer:** `/council:ask-specialist`: get an independent, deep answer to one hard question.
 
 ## 1. Check that a fresh context is available
 

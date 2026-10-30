@@ -10,11 +10,11 @@ It is a [Claude Code](https://code.claude.com) plugin marketplace. The skills fo
 
 | Plugin | What it does | Command |
 |---|---|---|
-| `review` | Fresh eyes on any work: code against its spec, a plan, a decision, a document or filing, yours or someone else's. Independent reviewers judge it from the governing sources and first principles, with a checklist suited to each kind of work. Pick report-only or fix mode, and standard or deep scrutiny. | `/review:fresh-eyes` |
-| `council` | Before you commit to a costly call that is yours to make: several independent specialists analyze it, each through a different lens, and their disagreements are synthesized into a recommendation. Advises; builds nothing. | `/council:decision-council` |
-| | When you want a problem solved and built, not the first idea taken: n distinct solutions are worked out from first principles in fresh contexts and compared, then the winner is built. One subagent drafts all n when the approaches can be named up front; for an open-ended problem, n subagents draft in parallel from different starting points. When checks can tell the finalists apart, they are built in parallel and measured. n, the model (Opus by default) and the effort scale with the stakes. | `/council:best-of-n` |
-| | What could go wrong with one plan, how likely, how bad: the top risks quantified honestly (likelihood, impact, expected cost, with each number's basis) and qualified (reversibility, detection, cheapest mitigation), on one page. | `/council:risk-evaluation` |
-| | One bounded, hard question put to a fresh reasoning specialist, with its answer checked against the sources. | `/council:ask-specialist` (agent `council:reasoning-specialist`) |
+| `review` | **Get an independent check that finished work is correct.** Code against its spec, a plan, a decision, a document or filing, yours or someone else's. The reviewer judges it from the governing sources with a checklist suited to each kind of work. Pick report-only or fix mode, and standard or deep scrutiny. | `/review:fresh-eyes` |
+| `council` | **Stress-test a costly decision before you commit.** Three to five independent specialists weigh the options, each from a different angle, and you get a recommendation with its tradeoffs, what it turns on, and the strongest dissent. You make the call; nothing is built. | `/council:decision-council` |
+| | **Compare n approaches to a problem, then build the best.** Distinct solutions are drafted independently: by one agent, or by several in parallel for open-ended problems. The winner is picked on criteria set up front, measured by tests where they can tell it apart, then built. It makes the call; you review the result. n, the model (Opus by default) and the effort scale with the stakes. | `/council:best-of-n` |
+| | **See what could go wrong with one plan, how likely, how bad.** For a plan, change, launch, filing or situation: what could happen, not whether the work is correct. The top risks ranked on one page, with honest numbers and their basis, how reversible each is, and the one action that cuts the most risk. | `/council:risk-evaluation` |
+| | **Get an independent, deep answer to one hard question,** such as whether a formula, algorithm or rule holds. A reasoning specialist works it out from your sources, and its answer is checked before you get it. | `/council:ask-specialist` (agent `council:reasoning-specialist`) |
 | `figma-workflow` | Governance for Figma to frontend, on top of Figma's own tooling. Plans a screen from its Figma frame, new or changed, with a mapping to the repo's own tokens and components, and says so when nothing changed. Works on server-rendered apps (Razor, jQuery, Bootstrap) and component stacks (React, Vue, Next.js) through stack adapters. Repository facts live in the repo's `docs/figma-workflow/`. | `/figma-workflow:sync` |
 | | Builds the approved plan in the same chat as a clickable prototype with no backend: real navigation, in-memory state, every control working or listed as inert. Typing it is the approval. | `/figma-workflow:build` |
 | | An independent audit of the result against the design: coverage, fidelity, behaviour, design-system reuse, with a to-do list for the designer. | `/figma-workflow:verify` |
@@ -25,13 +25,13 @@ Planned: `spec`, which covers deciding, planning, implementing with acceptance p
 
 Pick by what you have in hand and who makes the call:
 
-| You have | You want | Use |
+| You have | Use | What it does for you |
 |---|---|---|
-| A costly or hard-to-reverse call that is yours to make, with or without options | A recommendation, stress-tested by independent specialists | `/council:decision-council` |
-| A problem, and you're happy to delegate the choice of approach | The best of several distinct solutions, built | `/council:best-of-n` |
-| One plan, change, launch or situation | What could go wrong, how likely, how bad, what to do first | `/council:risk-evaluation` |
-| One hard question with a definite answer | An independent, deep answer, checked against the sources | `/council:ask-specialist` |
-| Finished work: code, a plan, a decision already made, a document | Whether it is correct against its sources (including a red team) | `/review:fresh-eyes` |
+| A costly call that is yours to make, with or without options | `/council:decision-council` | Stress-test a costly decision before you commit. You decide. |
+| A problem you're happy to hand over | `/council:best-of-n` | Compare n approaches to a problem, then build the best. It decides. |
+| One plan, change, launch or situation | `/council:risk-evaluation` | See what could go wrong with one plan, how likely, how bad. |
+| One hard question with a definite answer | `/council:ask-specialist` | Get an independent, deep answer to one hard question. |
+| Finished work, including a plan or a decision already made | `/review:fresh-eyes` | Get an independent check that finished work is correct (a red team included). |
 
 For a low-stakes or easily reversed question, just ask; none of these is needed.
 

@@ -1,21 +1,24 @@
 ---
 name: best-of-n
-description: Get a problem solved and built, with the approach chosen by comparing n genuinely distinct solutions worked out from first principles in fresh contexts, rather than by taking the first idea. One subagent drafts all n when the approaches can be named once the problem is understood; for an open-ended problem, n subagents draft in parallel, each from a different starting point. When checks can tell the finalists apart, they are built in parallel and measured, and the evidence picks the winner. Use when the user asks for "best of n", "best of 3", "try a few approaches and build the best", "explore options then build", or wants something built only after a first-principles comparison. Not for a costly call the user wants to make themselves (that is decision-council). Optionally takes n, a model and a reasoning level.
+description: "Compare n approaches to a problem, then build the best. Distinct solutions are drafted independently; the winner is picked on criteria set up front, tested where possible, then built. It makes the call; you review the result."
+when_to_use: "Use when the user asks for best of n or best of 3, to try a few approaches and build the best, or to explore options and then build, or wants something built only after comparing real alternatives. Optional arguments: n (2 to 5), a model, a reasoning level. Not for a costly call the user wants to make themselves (decision-council), one plan's risks (risk-evaluation), or checking finished work (fresh-eyes)."
+argument-hint: "[problem] [n] [model] [effort]"
 ---
 
 # Best of n
 
-Get a problem solved well: compare n distinct solutions, then build the best one. The user delegates the choice; this skill makes it and builds the result. The value comes from three things:
+Compare n approaches to a problem, then build the best. The user delegates the choice; this skill makes it and builds the result. The value comes from three things:
 
 - **First principles:** solutions derived from what the problem requires, not from the first idea or from convention.
 - **A fresh context:** the drafters haven't seen your own preferred answer, so they can't anchor on it.
 - **Evidence where it is available:** when checks can separate the finalists, they are built and measured, not judged on paper.
 
-Neighbors:
+Use a neighbor when the question is different (`/review:fresh-eyes` needs the `review` plugin):
 
-- `/council:decision-council` is for a costly or hard-to-reverse call the **user** will make. It advises and builds nothing.
-- `/council:risk-evaluation` estimates what could go wrong with one plan.
-- `/review:fresh-eyes` (when the `review` plugin is installed) reviews work that is already finished.
+- **A costly call the user will make, with or without options:** `/council:decision-council`: stress-test a costly decision before you commit.
+- **One plan, and the question is what could go wrong:** `/council:risk-evaluation`: see what could go wrong with one plan, how likely, how bad.
+- **One hard question with a definite answer:** `/council:ask-specialist`: get an independent, deep answer to one hard question.
+- **Finished work to check, including a decision already made:** `/review:fresh-eyes`: get an independent check that finished work is correct.
 
 **Who starts it.** If the user invoked `/council:best-of-n` or asked for best of n in words, run it. If you reached it on your own because a problem looks worth comparing, don't launch. Settle n and the drafting first (step 2), then offer it in one line with that path's rough cost, and start only on a yes. For example: "Want me to run best of 3 on this? With one drafter it costs roughly 2–3× a normal answer." or "… with three parallel drafters, roughly 4–5×." Any later step that adds agents beyond what the user agreed to asks again.
 

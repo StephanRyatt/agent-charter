@@ -1,18 +1,20 @@
 ---
 name: ask-specialist
-description: Put one bounded, hard question to the reasoning-specialist agent in a fresh context, and get back a reasoned conclusion with its sources, constraints, edge cases and how to verify it. Use when the user asks to "ask the specialist", wants an independent, deep answer to one question with a definite answer shape (is this formula right, does this break an invariant, what does this rule imply, is this algorithm correct), or when a workflow step names the reasoning specialist, for example a stuck builder escalating one question. Not for choosing between options (decision-council) or reviewing finished work (fresh-eyes).
+description: "Get an independent, deep answer to one hard question, such as whether a formula, algorithm or rule holds. A reasoning specialist works it out from your sources; you get the conclusion, the edge cases and how to verify it."
+when_to_use: "Use when the user asks to ask the specialist, or wants an independent answer to one question with a definite answer: is this formula or algorithm right, does this break an invariant, what does this rule imply. Also when a workflow step names the reasoning specialist, for example a stuck builder escalating one question. Don't start it unasked for questions this session can answer. Not for choosing between options (decision-council) or reviewing finished work (fresh-eyes)."
+argument-hint: "[one question]"
 ---
 
 # Ask the specialist
 
-Put one bounded question to the `reasoning-specialist` agent, then check its answer before you rely on it. When this skill comes from the `council` plugin, the agent is named `council:reasoning-specialist`.
+Get an independent, deep answer to one hard question: put it to the `reasoning-specialist` agent, then check its answer before you rely on it. When this skill comes from the `council` plugin, the agent is named `council:reasoning-specialist`.
 
-Use it for one hard question where judgment is the problem. Use its neighbors for other questions:
+Use a neighbor when the question is different (`/review:fresh-eyes` needs the `review` plugin):
 
-- `/council:decision-council` chooses between options, with several independent specialists.
-- `/council:best-of-n` compares solutions, then builds the best one.
-- `/council:risk-evaluation` estimates what could go wrong, how likely, how bad.
-- `/review:fresh-eyes` (when the `review` plugin is installed) reviews finished work.
+- **A costly call the user will make, with or without options:** `/council:decision-council`: stress-test a costly decision before you commit.
+- **A problem the user wants solved and built, with the choice delegated:** `/council:best-of-n`: compare n approaches to a problem, then build the best.
+- **One plan, and the question is what could go wrong:** `/council:risk-evaluation`: see what could go wrong with one plan, how likely, how bad.
+- **Finished work to check, including a decision already made:** `/review:fresh-eyes`: get an independent check that finished work is correct.
 
 **Who starts it:** the user, or a workflow step that names the reasoning specialist. Don't start it on your own initiative for ordinary questions this session can answer.
 
