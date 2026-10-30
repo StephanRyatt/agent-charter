@@ -84,7 +84,7 @@ Every skill that starts a subagent also checks that the surface can start one, a
 
 ## Using these in Claude Code cloud sessions
 
-Cloud sessions don't load locally installed plugins. To use a skill or agent in a cloud session, commit an unchanged copy of it into your repository's `.claude/skills/` or `.claude/agents/`, and note this repository's commit in that PR so you can tell when it falls behind.
+Cloud sessions don't install plugins from a marketplace. Commit the whole plugin folder, unchanged, to your repository's `.claude/skills/<plugin>/` instead: Claude Code loads it from there as `<plugin>@skills-dir`, with the same command and agent names, and an installed copy of the same plugin takes precedence where you have one. My own repositories get these folders from `sync.json` and a workflow that opens and merges a PR whenever a plugin changes (see [MAINTAINING.md](MAINTAINING.md#syncing-into-repositories)).
 
 ## Install
 

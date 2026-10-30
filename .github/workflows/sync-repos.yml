@@ -1,0 +1,51 @@
+name: Sync plugins into repositories
+
+# Copies plugins into the repositories sync.json lists, one PR per repository,
+# merged once its checks pass (MAINTAINING.md, "Syncing into repositories").
+# SYNC_TOKEN: fine-grained token; permissions in MAINTAINING.md, "Syncing into repositories".
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - plugins/**
+      - sync.json
+      - scripts/sync-repos.py
+      - .github/workflows/sync-repos.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sync-repos
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      repos: ${{ steps.list.outputs.repos }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: list
+        run: echo "repos=$(python3 scripts/sync-repos.py list)" >> "$GITHUB_OUTPUT"
+
+  sync:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        repo: ${{ fromJSON(needs.plan.outputs.repos) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sync ${{ matrix.repo }}
+        env:
+          GH_TOKEN: ${{ secrets.SYNC_TOKEN }}
+        run: |
+          git config --global user.name "agent-charter sync"
+          git config --global user.email "agent-charter-sync@users.noreply.github.com"
+          gh auth setup-git
+          python3 scripts/sync-repos.py sync "${{ matrix.repo }}"

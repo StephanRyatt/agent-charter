@@ -2,7 +2,19 @@
 
 - **Bump the version on every content change.** Each plugin's `.claude-plugin/plugin.json` pins `version`. Installed users stay on their cached copy until that string changes, so a change without a bump never reaches them.
 - **Validate before pushing:** `claude plugin validate --strict .` and `claude plugin validate --strict plugins/<name>`.
-- **Refresh committed copies.** A repository that commits a copy of a skill or agent for cloud sessions needs that copy refreshed after a change here. Name this repository's commit in that PR.
+- **Don't copy plugins into other repositories by hand.** The sync below keeps their copies current.
+
+## Syncing into repositories
+
+Cloud sessions don't install plugins from a marketplace, so a repository gets these plugins in the cloud only by committing them. The sync does that, so no repository keeps a hand-made copy.
+
+- **What goes where:** `sync.json` maps each repository to the plugins it gets. It is the only place to change that. Each plugin lands verbatim at `<repo>/.claude/skills/<plugin>/`, where Claude Code loads it as `<plugin>@skills-dir`, with the same names as the installed plugin (`/council:decision-council`, `council:reasoning-specialist`). Locally an installed `@agent-charter` or claude.ai copy of the same plugin takes precedence, so exactly one loads.
+- **What the sync owns in a repository:** those folders and `.claude/agent-charter.json`, which lists them. Nothing else. A plugin dropped from `sync.json` is removed at the next sync; to stop syncing a repository, set its plugins to `[]`, let it sync, then delete the entry. The sync refuses to overwrite a folder it didn't create.
+- **When it runs:** `.github/workflows/sync-repos.yml`, on every push to `main` that touches `plugins/`, `sync.json` or the sync itself, and by hand (Actions → Run workflow). Branches don't sync until they merge.
+- **Branches and PRs:** in each repository, one branch, `agent-charter/sync`, rebuilt from its default branch on every run, with at most one open PR, which names this repository's commit. The workflow waits for that PR's checks and squash-merges it. It merges only its own PR, and only while the PR changes nothing outside the paths above. A failing check, a timeout or a stray path leaves the PR open and fails the run, which GitHub emails about. `"merge": "manual"` on a repository leaves its PRs open.
+- **Token:** the `SYNC_TOKEN` secret, a fine-grained personal access token for `StephanRyatt` with **Contents** and **Pull requests** read and write, and **Commit statuses** and **Actions** read, on exactly the repositories in `sync.json`. Add a repository to the token before adding it to `sync.json`. Renew the token before it expires; an expired token fails the run.
+- **By hand:** `scripts/sync-repos.py sync StephanRyatt/<repo> --dry-run` shows what would change; `--no-merge` opens the PR without merging. `scripts/sync-repos.py apply <checkout> review council` writes the plugins into a local checkout, for a PR that also changes other files. Both use the committed plugins (`--ref`, default `HEAD`), never local edits, and the `gh` login.
+- **This repository:** `.claude/skills/review` and `.claude/skills/council` are symlinks to `plugins/`, so cloud sessions here load the source itself. Add one per plugin that work here needs.
 
 ## Writing skill copy
 

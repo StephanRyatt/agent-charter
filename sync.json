@@ -1,0 +1,8 @@
+{
+  "branch": "agent-charter/sync",
+  "repos": {
+    "StephanRyatt/stephan-ryatt": { "plugins": ["review", "council"] },
+    "StephanRyatt/tarot-reader": { "plugins": ["review", "council"] },
+    "StephanRyatt/uranian": { "plugins": ["review", "council"] }
+  }
+}
