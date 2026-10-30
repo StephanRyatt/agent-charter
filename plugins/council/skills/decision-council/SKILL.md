@@ -1,6 +1,6 @@
 ---
 name: decision-council
-description: Convene a council of independent reasoning specialists, each with fresh context and a distinct lens, to analyze a consequential, hard-to-reverse, or contested decision, then compare their assessments and tradeoffs and synthesize the most likely best approach. Use whenever the user asks for a council, panel, second opinions, a "red team" or "pre-mortem", wants a decision stress-tested, or asks "what's the best way to do X" where X is high-stakes (architecture, migrations, backup/security/infra changes, irreversible or costly choices, strategy, hiring/vendor/tooling bets) and several credible approaches exist. Not for trivial, factual, or easily reversible questions.
+description: Before the user commits to a consequential, hard-to-reverse, or contested call that is theirs to make, convene a council of independent reasoning specialists, each with fresh context and a distinct lens, then compare their assessments and tradeoffs and synthesize a recommendation. Advises; builds nothing. Use whenever the user asks for a council or a panel, wants a choice between approaches stress-tested before committing, or asks for help deciding or choosing between credible approaches where the stakes are high (architecture, migrations, backup/security/infra changes, irreversible or costly choices, strategy, hiring/vendor/tooling bets). Options are optional: with only a problem, the council surfaces them. Not for trivial, factual, or easily reversible questions; not for one plan's risks (risk-evaluation), a decision already made (fresh-eyes), or a problem the user wants solved and built (best-of-n).
 ---
 
 # Decision council
@@ -9,11 +9,18 @@ Run several independent specialists on one consequential question, then reason o
 
 The council advises; it does not act. Do not execute the chosen approach, change files, or run side-effecting commands as part of this skill. Present the recommendation and let the user decide (and, in operational contexts, obtain whatever approval their rules require before acting).
 
+Neighbors, when the question is a different one:
+
+- **One plan, and the question is how risky it is:** `/council:risk-evaluation`.
+- **A decision already made, to be checked:** `/review:fresh-eyes` (when the `review` plugin is installed), with the decision as its target.
+- **The user wants the problem solved and built, and is happy to delegate the choice:** `/council:best-of-n`.
+- **One bounded question with a definite answer:** `/council:ask-specialist`.
+
 ## When to use it (and when not)
 
 Use it when the decision is consequential (costly, slow, or risky to reverse) *and* there are genuinely different credible approaches. A council costs 3 to 5 agent runs plus synthesis, so spend that only where a wrong call is expensive. For a simple, reversible, or factual question, answer directly. Whether to launch depends on how you got here:
 
-- **The user explicitly asked** (invoked `/council:decision-council`, or asked for a council, second opinions, a red team or a stress-test): run it straight away.
+- **The user explicitly asked** (invoked `/council:decision-council`, or asked for a council, a panel, or a stress-test of a decision): run it straight away.
 - **You reached it on your own** because the decision looks consequential: do not launch. Ask first, in one line, naming the squad size you'd use and the rough cost (for example, "This looks high-stakes and hard to reverse. Want me to run a 5-specialist decision council on it? It costs roughly 5× a normal answer."). Launch only after the user says yes. Spending several agent runs unasked is a surprise the user didn't choose, even when the stakes really are high.
 
 **Check that subagents are available first.** The specialists must run as separate agents. If this surface cannot start subagents (for example, claude.ai chat), say so. Offer to run the council in Claude Code or Cowork. Never role-play several specialists in one context and call it a council.
@@ -30,7 +37,7 @@ Write the brief using the template in `references/brief-and-report.md`. It conta
 
 - **Neutral framing.** Describe options in parallel, even-handed language. Do not state your own leaning, do not order options by preference, and do not editorialize. Your framing is the biggest source of correlated error in the whole exercise.
 - **Separate fact from assumption.** Mark what you verified and what you're guessing. Specialists should be able to challenge assumptions.
-- **Invite new options.** The listed options are a starting point, not a menu. The best answer is sometimes one nobody listed.
+- **Invite new options.** The listed options are a starting point, not a menu. The best answer is sometimes one nobody listed. If the user brought only a problem, list only the options already on the table, or none, and say so in the brief; the specialists generate the rest.
 - **No secrets.** Don't put credentials or sensitive data in the brief; specialists don't need them.
 
 ### 2. Assemble the squad
@@ -86,6 +93,8 @@ Give the user a decision-ready report (template in `references/brief-and-report.
 - **dissent worth keeping**: the strongest case against your recommendation.
 
 Present it in the chat. Save a copy to a file only if the user asks, and never write it into a location that the user's instructions say must stay clean.
+
+End by saying that once the user has decided, you can build the chosen option here. Don't start building until they say so.
 
 ## Failure modes to guard against
 

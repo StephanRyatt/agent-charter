@@ -1,6 +1,6 @@
 ---
 name: ask-specialist
-description: Put one bounded, hard question to the reasoning-specialist agent in a fresh context, and get back a reasoned conclusion with its sources, constraints, edge cases and how to verify it. Use when the user asks to "ask the specialist", wants a deep second opinion on a single question (is this formula right, does this break an invariant, what does this rule imply, is this algorithm correct), or when a workflow step names the reasoning specialist, for example a stuck builder escalating one question.
+description: Put one bounded, hard question to the reasoning-specialist agent in a fresh context, and get back a reasoned conclusion with its sources, constraints, edge cases and how to verify it. Use when the user asks to "ask the specialist", wants an independent, deep answer to one question with a definite answer shape (is this formula right, does this break an invariant, what does this rule imply, is this algorithm correct), or when a workflow step names the reasoning specialist, for example a stuck builder escalating one question. Not for choosing between options (decision-council) or reviewing finished work (fresh-eyes).
 ---
 
 # Ask the specialist

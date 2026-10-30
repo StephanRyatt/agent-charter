@@ -1,6 +1,6 @@
 ---
 name: fresh-eyes
-description: Get an independent, fresh-context review of any work: code against its spec, a plan, a decision, a document or filing, a PR, your own just-finished work or someone else's. The reviewer judges from the governing sources and first principles, never from the author's reasoning. Use when the user asks for fresh eyes, an independent or second look, extra scrutiny, a self-review, or a red-team of a plan, and when a workflow calls for review before handing work over.
+description: Get an independent, fresh-context review of any work: code against its spec, a plan, a decision, a document or filing, a PR, your own just-finished work or someone else's. The reviewer judges from the governing sources and first principles, never from the author's reasoning. Use when the user asks for fresh eyes, an independent or second look, extra scrutiny, a self-review, or a red-team of a plan, and when a workflow calls for review before handing work over. Not for choosing between options (decision-council) or estimating the likelihood and impact of risks (risk-evaluation).
 ---
 
 # Fresh eyes
@@ -55,6 +55,7 @@ Match the depth to the stakes:
 
   Use deep when the work is costly or slow to reverse, such as a filing, an irreversible migration, a plan for many PRs, or a public release. Use it also when the user asks for extra scrutiny.
 - **Hand over to the council** (`/council:decision-council`, when installed) when the real question is choosing between options, not whether this work is correct. Say so, and ask before starting it. A council costs several agent runs.
+- **Hand over to risk evaluation** (`/council:risk-evaluation`, when installed) when the real question is how likely and how bad the ways it could go wrong are, rather than whether it is correct. Say so, and offer it.
 
 When you start a reviewer:
 
