@@ -2,6 +2,7 @@
 
 - **Bump the version on every content change.** Each plugin's `.claude-plugin/plugin.json` pins `version`. Installed users stay on their cached copy until that string changes, so a change without a bump never reaches them.
 - **Validate before pushing:** `claude plugin validate --strict .` and `claude plugin validate --strict plugins/<name>`.
+- **Sync claude.ai after merging.** Installs through claude.ai don't reliably pick up a push to `main` on their own, even with the marketplace's auto-sync on. After merging, trigger the sync for the `agent-charter` marketplace on claude.ai (Customize → Plugins). Claude Code then downloads the new version the next time it starts. In a session that is already open, run `/reload-plugins`.
 - **Refresh committed copies.** A repository that commits a copy of a skill or agent for cloud sessions needs that copy refreshed after a change here. Name this repository's commit in that PR.
 
 ## Writing skill copy
