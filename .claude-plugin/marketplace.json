@@ -1,6 +1,6 @@
 {
   "name": "agent-charter",
-  "description": "Build from the spec. Check against the source. Plugins for directing AI agents: fresh-context review, decision councils, best-of-n solutions, risk evaluation and a reasoning specialist.",
+  "description": "Build from the spec. Check against the source. Plugins that keep AI agents tied to their governing sources: independent review, decision support, and Figma-to-frontend governance.",
   "owner": {
     "name": "Stephan Ryatt"
   },
@@ -8,12 +8,12 @@
     {
       "name": "review",
       "source": "./plugins/review",
-      "description": "Fresh eyes on any work (code against its spec, plans, decisions, documents, filings), judged from the governing sources and first principles."
+      "description": "Independent review of finished work. fresh-eyes: get an independent check that finished work is correct (code against its spec, a plan, a decision, a document or filing), judged from its governing sources, with findings fixed or reported."
     },
     {
       "name": "council",
       "source": "./plugins/council",
-      "description": "Deliberation tools, one per question: decision-council when a costly call is yours to make (independent specialists advise), best-of-n when you want a problem solved and built after comparing distinct approaches (drafted in parallel from different starting points when the problem is open-ended, and measured when checks can tell the finalists apart), risk-evaluation for what could go wrong with one plan, and ask-specialist for one bounded, hard question."
+      "description": "Think it through before you act. decision-council: stress-test a costly decision before you commit. best-of-n: compare n approaches to a problem, then build the best. risk-evaluation: see what could go wrong with one plan, how likely, how bad. ask-specialist: get an independent, deep answer to one hard question."
     },
     {
       "name": "figma-workflow",

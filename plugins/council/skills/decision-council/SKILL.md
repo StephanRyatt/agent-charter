@@ -1,20 +1,22 @@
 ---
 name: decision-council
-description: Before the user commits to a consequential, hard-to-reverse, or contested call that is theirs to make, convene a council of independent reasoning specialists, each with fresh context and a distinct lens, then compare their assessments and tradeoffs and synthesize a recommendation. Advises; builds nothing. Use whenever the user asks for a council or a panel, wants a choice between approaches stress-tested before committing, or asks for help deciding or choosing between credible approaches where the stakes are high (architecture, migrations, backup/security/infra changes, irreversible or costly choices, strategy, hiring/vendor/tooling bets). Options are optional: with only a problem, the council surfaces them. Not for trivial, factual, or easily reversible questions; not for one plan's risks (risk-evaluation), a decision already made (fresh-eyes), or a problem the user wants solved and built (best-of-n).
+description: "Stress-test a costly decision before you commit. Three to five independent specialists weigh the options, and you get a recommendation with its tradeoffs, what it turns on, and the strongest dissent. You make the call; nothing is built."
+when_to_use: "Use when the user asks for a council or a panel, wants a choice stress-tested before committing, or asks for help deciding between credible approaches where a wrong call is costly, hard to reverse or contested: architecture, migrations, backup, security or infrastructure changes, vendor, hiring or tooling bets, strategy. The user makes the call and may bring options or only the problem. Not for trivial, factual or easily reversed questions; one plan's risks (risk-evaluation); a decision already made (fresh-eyes); a problem the user wants solved and built (best-of-n); one question with a definite answer (ask-specialist)."
+argument-hint: "[the decision, and options if any]"
 ---
 
 # Decision council
 
-Run several independent specialists on one consequential question, then reason over their disagreement to find the best approach. The value comes from two things: **independence** (each specialist reaches its own conclusion without seeing yours or anyone else's) and **comparison** (you work out *why* they differ, not just count votes). If either is compromised, the council is just one opinion repeated five times.
+Stress-test a costly decision before you commit: several independent specialists analyze it, each from a different angle, and you reason over their disagreement to find the best approach. The value comes from two things: **independence** (each specialist reaches its own conclusion without seeing yours or anyone else's) and **comparison** (you work out *why* they differ, not just count votes). If either is compromised, the council is just one opinion repeated five times.
 
 The council advises; it does not act. Do not execute the chosen approach, change files, or run side-effecting commands as part of this skill. Present the recommendation and let the user decide (and, in operational contexts, obtain whatever approval their rules require before acting).
 
-Neighbors, when the question is a different one:
+Use a neighbor when the question is different (`/review:fresh-eyes` needs the `review` plugin):
 
-- **One plan, and the question is how risky it is:** `/council:risk-evaluation`.
-- **A decision already made, to be checked:** `/review:fresh-eyes` (when the `review` plugin is installed), with the decision as its target.
-- **The user wants the problem solved and built, and is happy to delegate the choice:** `/council:best-of-n`.
-- **One bounded question with a definite answer:** `/council:ask-specialist`.
+- **A problem the user wants solved and built, with the choice delegated:** `/council:best-of-n`: compare n approaches to a problem, then build the best.
+- **One plan, and the question is what could go wrong:** `/council:risk-evaluation`: see what could go wrong with one plan, how likely, how bad.
+- **One hard question with a definite answer:** `/council:ask-specialist`: get an independent, deep answer to one hard question.
+- **Finished work to check, including a decision already made:** `/review:fresh-eyes`: get an independent check that finished work is correct.
 
 ## When to use it (and when not)
 

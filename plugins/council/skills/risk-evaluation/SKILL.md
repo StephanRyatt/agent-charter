@@ -1,17 +1,22 @@
 ---
 name: risk-evaluation
-description: Estimate what could go wrong with one plan, decision, change, filing, launch or any situation the user names, how likely each risk is, and how bad it would be. Quantifies likelihood, impact and expected cost where that can be done honestly, qualifies reversibility, detection, drivers and the cheapest mitigation, and returns a one-page ranked risk table. Use when the user asks "what's the risk", "evaluate the risk", "how risky is this", "what could go wrong", for a risk assessment, or for a pre-mortem. Not for choosing between options (decision-council) or checking whether finished work is correct (fresh-eyes).
+description: "See what could go wrong with one plan, how likely, how bad. It asks what could happen, not whether the work is correct. You get the top risks ranked on one page, with honest numbers and the one action that cuts the most risk."
+when_to_use: "Use when the user asks what the risk is, to evaluate the risk, how risky something is, what could go wrong, for a risk assessment or for a pre-mortem, about a plan, decision, change, filing, launch or situation. Runs in this conversation; uses an independent agent for high-stakes work written or shaped in this session. Not for choosing between options (decision-council), a problem to solve and build (best-of-n), one question with a definite answer (ask-specialist), or checking whether finished work, a plan included, is correct, or red-teaming it (fresh-eyes)."
+argument-hint: "[plan, change or situation]"
 ---
 
 # Risk evaluation
 
-Find the risks that matter for one case, put honest numbers on them where possible, and say which one to act on first. The output is a page, not a report.
+See what could go wrong with one plan, how likely, how bad: find the risks that matter, put honest numbers on them where possible, and say which one to act on first. The output is a page, not a report.
 
-How it differs from its neighbors:
+Use a neighbor when the question is different (`/review:fresh-eyes` needs the `review` plugin):
 
-- `/council:decision-council` chooses between options.
-- `/review:fresh-eyes` (when the `review` plugin is installed) finds defects in finished work: whether it is correct, and red-teaming it. Risk evaluation asks what could happen even if the work is correct.
-- `risk-evaluation` estimates what could go wrong, how likely it is, and how bad it would be.
+- **A costly call the user will make, with or without options:** `/council:decision-council`: stress-test a costly decision before you commit.
+- **A problem the user wants solved and built, with the choice delegated:** `/council:best-of-n`: compare n approaches to a problem, then build the best.
+- **One hard question with a definite answer:** `/council:ask-specialist`: get an independent, deep answer to one hard question.
+- **Finished work to check, including a decision already made:** `/review:fresh-eyes`: get an independent check that finished work is correct.
+
+Fresh eyes asks whether the work is correct. Risk evaluation asks what could happen even if it is.
 
 It advises; it does not act on the target.
 
