@@ -24,7 +24,7 @@ Use a neighbor when the question is different (`/review:fresh-eyes` needs the `r
 
 ## 1. Check that a subagent is available
 
-The work must run in separate agents. If this surface cannot start one (for example, claude.ai chat), say so. Offer to run it in Claude Code or Cowork. Never simulate the subagents in this context and present the result as independent. If the user still wants a same-context attempt, label it as such.
+The work must run in separate agents. If this surface cannot start one, say so. Offer to run it in Claude Code or Cowork. Never simulate the subagents in this context and present the result as independent. If the user still wants a same-context attempt, label it as such.
 
 ## 2. Settle n, the model, the effort and the drafting
 

@@ -25,7 +25,7 @@ Use it when the decision is consequential (costly, slow, or risky to reverse) *a
 - **The user explicitly asked** (invoked `/council:decision-council`, or asked for a council, a panel, or a stress-test of a decision): run it straight away.
 - **You reached it on your own** because the decision looks consequential: do not launch. Ask first, in one line, naming the squad size you'd use and the rough cost (for example, "This looks high-stakes and hard to reverse. Want me to run a 5-specialist decision council on it? It costs roughly 5× a normal answer."). Launch only after the user says yes. Spending several agent runs unasked is a surprise the user didn't choose, even when the stakes really are high.
 
-**Check that subagents are available first.** The specialists must run as separate agents. If this surface cannot start subagents (for example, claude.ai chat), say so. Offer to run the council in Claude Code or Cowork. Never role-play several specialists in one context and call it a council.
+**Check that subagents are available first.** The specialists must run as separate agents. If this surface cannot start subagents, say so. Offer to run the council in Claude Code or Cowork. Never role-play several specialists in one context and call it a council.
 
 ## Workflow
 
