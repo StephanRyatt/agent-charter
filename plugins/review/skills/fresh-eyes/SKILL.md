@@ -22,7 +22,7 @@ Use a neighbor when the question is different (the `/council:` skills need the `
 
 Independence is the point: a reviewer that has not seen the author's reasoning. That needs a subagent.
 
-If this surface cannot start one (for example, claude.ai chat, where plugin agents do not run), say so. Offer to run the review in Claude Code or Cowork. Never review in the same context and call it independent. If the user still wants a same-context check, label it as such.
+If this surface cannot start one, say so. Offer to run the review in Claude Code or Cowork. Never review in the same context and call it independent. If the user still wants a same-context check, label it as such.
 
 ## 2. Settle three things
 

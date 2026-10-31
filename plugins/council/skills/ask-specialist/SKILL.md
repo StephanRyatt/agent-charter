@@ -20,7 +20,7 @@ Use a neighbor when the question is different (`/review:fresh-eyes` needs the `r
 
 ## 1. Check that a subagent is available
 
-The value is a fresh context that hasn't seen your reasoning. If this surface cannot start a subagent (for example, claude.ai chat), say so, and offer Claude Code or Cowork. Never answer in this context and present it as the specialist's view.
+The value is a fresh context that hasn't seen your reasoning. If this surface cannot start a subagent, say so, and offer Claude Code or Cowork. Never answer in this context and present it as the specialist's view.
 
 ## 2. Make the question bounded
 

@@ -101,7 +101,7 @@ To update later, run `claude plugin marketplace update agent-charter`, or turn o
 
 On claude.ai: **Customize → Plugins → Add → Add marketplace**, enter `StephanRyatt/agent-charter`, then add the plugins you want. Plugins you add on claude.ai also reach Claude Code on any machine signed in to the same account. To get an update, trigger the sync for the marketplace under Customize → Plugins: it may not pick up a new version on its own, even with auto-sync on. Claude Code then downloads the update the next time it starts; in a session that is already open, run `/reload-plugins`.
 
-Plugin agents run in Claude Code and Cowork. In claude.ai chat they don't, so `fresh-eyes` and the council say they can't start independent reviewers there, rather than pretend to.
+Plugin agents run in Claude Code (local and cloud sessions), Cowork and claude.ai chat (checked 2026-10-31). On a surface that can't start one, `fresh-eyes` and the council say so rather than pretend to.
 
 ## License
 
