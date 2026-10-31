@@ -84,7 +84,14 @@ Every skill that starts a subagent also checks that the surface can start one, a
 
 ## Using these in Claude Code cloud sessions
 
-Cloud sessions don't load locally installed plugins. To use a skill or agent in a cloud session, commit an unchanged copy of it into your repository's `.claude/skills/` or `.claude/agents/`, and note this repository's commit in that PR so you can tell when it falls behind.
+Cloud sessions don't install plugins from your settings or your repository's settings. Install them from the cloud environment instead: add this to the environment's setup script on claude.ai/code (Environments), naming the plugins you want:
+
+```bash
+# agent-charter plugins, refreshed 2026-10-31. Edit the date to refresh them now.
+curl -fsSL https://raw.githubusercontent.com/StephanRyatt/agent-charter/main/cloud/install-plugins.sh | bash -s review council || true
+```
+
+Every session in that environment then has the plugins under their usual names, in any repository, with nothing committed. The script installs from `main` before Claude Code starts. If an install fails, it links the plugin from a clone into `~/.claude/skills/` instead; if that fails too, it adds a note to `~/.claude/CLAUDE.md`, so the session tells you. A cloud environment caches its setup and rebuilds it about weekly or when the script changes, so a new release reaches cloud sessions within about a week, or at once after you edit the date line. A repository can opt out of a plugin with `"enabledPlugins": {"review@agent-charter": false}` in its `.claude/settings.json`.
 
 ## Install
 
