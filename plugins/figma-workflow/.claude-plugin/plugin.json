@@ -1,6 +1,6 @@
 {
   "name": "figma-workflow",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Figma to frontend for designers, on top of Figma's MCP server and Code Connect. plan: plan a screen from its Figma frame, new or changed. build: build the approved plan as a clickable prototype. verify: check a built screen against its Figma design.",
   "author": {
     "name": "Stephan Ryatt"
