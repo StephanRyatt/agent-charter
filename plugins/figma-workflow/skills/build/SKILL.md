@@ -1,21 +1,22 @@
 ---
 name: build
-description: Implements the plan that the figma-workflow sync skill wrote and the user approved, in the same chat. Run only when the user types the build command after a sync plan.
+description: "Build the approved plan as a clickable prototype. No backend: real navigation, sample data, every control working or listed as inert. Only you can start it; typing it approves the plan."
+argument-hint: "[none: approves the plan above]"
 effort: high
 disable-model-invocation: true
 ---
 
 # Figma build: implement the approved plan
 
-Typing this command is the user's approval of the most recent plan that the `sync` skill wrote in this chat. Implement exactly that plan in this chat, so the user can watch and steer. The user is usually a designer: report progress in plain language.
+Typing this command is the user's approval of the most recent plan that the `plan` skill wrote in this chat. Implement exactly that plan in this chat, so the user can watch and steer. The user is usually a designer: report progress in plain language.
 
 **Facts directory:** `docs/figma-workflow/` in the target repository. The plugin's shared references (facts schema, stack adapters, Code Connect) live in `../../references/` relative to this skill's folder (`${CLAUDE_SKILL_DIR}/../../references/`).
 
-**Target repository:** the one the sync plan names (its "Repository / area" line and the last "Sync state" line hold its path). The working directory may be a workspace that is a git repository itself: never use it as the target when it holds nested app repositories. If the plan doesn't make the repository clear, ask with AskUserQuestion, listing the git repositories nested directly under the working directory. Read the facts files from the target, make every edit inside it, and run every git command there (`git -C <path>`).
+**Target repository:** the one the plan names (its "Repository / area" line and the last "Plan state" line hold its path). The working directory may be a workspace that is a git repository itself: never use it as the target when it holds nested app repositories. If the plan doesn't make the repository clear, ask with AskUserQuestion, listing the git repositories nested directly under the working directory. Read the facts files from the target, make every edit inside it, and run every git command there (`git -C <path>`).
 
 ## Before editing
 
-1. **Find the plan.** Use the latest plan from the sync skill in this conversation, including any changes the user asked for after it. If there is none, stop: "There's no approved plan in this chat. Start with the sync command and your Figma link." If the user's later changes were large (new frames, a different screen), ask them to run sync again instead.
+1. **Find the plan.** Use the latest plan from the plan skill in this conversation, including any changes the user asked for after it. If there is none, stop: "There's no approved plan in this chat. Start with `/figma-workflow:plan` and your Figma link." If the user's later changes were large (new frames, a different screen), ask them to run `/figma-workflow:plan` again instead.
 2. **Re-read the facts files** (`design-system.md`, `prototype.md`, `pitfalls.md`, the screen record if any) and check their `figma-workflow-schema:` line is `2`. Missing or different: stop and say which file.
    Then load the stack adapter that `design-system.md`'s `Stack adapter` line names, from `references/stacks/`, and note its `Code Connect` line. The adapter says what the page shell, data shape, prototype marker and interaction code are here, how new files are registered, and which checks to run.
 3. **Branch safety.** Run `git status` and `git branch --show-current` in the target repository.

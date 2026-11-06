@@ -1,28 +1,28 @@
 ---
-name: decision-council
-description: "Stress-test a costly decision before you commit. Three to five independent specialists weigh the options, and you get a recommendation with its tradeoffs, what it turns on, and the strongest dissent. You make the call; nothing is built."
-when_to_use: "Use when the user asks for a council or a panel, wants a choice stress-tested before committing, or asks for help deciding between credible approaches where a wrong call is costly, hard to reverse or contested: architecture, migrations, backup, security or infrastructure changes, vendor, hiring or tooling bets, strategy. The user makes the call and may bring options or only the problem. Not for trivial, factual or easily reversed questions; one plan's risks (risk-evaluation); a decision already made (fresh-eyes); a problem the user wants solved and built (best-of-n); one question with a definite answer (ask-specialist)."
-argument-hint: "[the decision, and options if any]"
+name: council
+description: "Stress-test a costly decision while you can still change it. Bring the problem, the options or your chosen path; three to five independent specialists weigh the alternatives. You get a recommendation, tradeoffs and the strongest dissent. You decide."
+when_to_use: "Use when the user asks for a council or a panel, wants a choice or an already chosen path stress-tested against its alternatives, or wants help deciding between credible approaches where a wrong call is costly, hard to reverse or contested: architecture, migrations, security or infrastructure changes, vendor, hiring or tooling bets, strategy. The user makes the call; nothing is built. Not for trivial, factual or easily reversed questions; a problem the user wants solved and built (best-of-n); one plan's risks (review:risks); checking a decision against its sources rather than its alternatives (review:fresh-eyes)."
+argument-hint: "[decision, options or chosen path]"
 ---
 
-# Decision council
+# Council
 
-Stress-test a costly decision before you commit: several independent specialists analyze it, each from a different angle, and you reason over their disagreement to find the best approach. The value comes from two things: **independence** (each specialist reaches its own conclusion without seeing yours or anyone else's) and **comparison** (you work out *why* they differ, not just count votes). If either is compromised, the council is just one opinion repeated five times.
+Stress-test a costly decision while you can still change it, whether it is still open or the user has already chosen a path: several independent specialists analyze it, each from a different angle, and you reason over their disagreement to find the best approach. The value comes from two things: **independence** (each specialist reaches its own conclusion without seeing yours or anyone else's) and **comparison** (you work out *why* they differ, not just count votes). If either is compromised, the council is just one opinion repeated five times. A path the user has already chosen is one option among its alternatives: frame it as neutrally as the rest.
 
 The council advises; it does not act. Do not execute the chosen approach, change files, or run side-effecting commands as part of this skill. Present the recommendation and let the user decide (and, in operational contexts, obtain whatever approval their rules require before acting).
 
-Use a neighbor when the question is different (`/review:fresh-eyes` needs the `review` plugin):
+Use a neighbor when the question is different (the `/review:` skills need the `review` plugin):
 
-- **A problem the user wants solved and built, with the choice delegated:** `/council:best-of-n`: compare n approaches to a problem, then build the best.
-- **One plan, and the question is what could go wrong:** `/council:risk-evaluation`: see what could go wrong with one plan, how likely, how bad.
-- **One hard question with a definite answer:** `/council:ask-specialist`: get an independent, deep answer to one hard question.
-- **Finished work to check, including a decision already made:** `/review:fresh-eyes`: get an independent check that finished work is correct.
+- **A problem the user wants solved and built, with the choice delegated:** `/decision:best-of-n`: compare n approaches to a problem, then build the best.
+- **One plan, and the question is what could go wrong:** `/review:risks`: see what could go wrong with one plan, how likely, how bad.
+- **Finished work to check, including a decision checked against its sources:** `/review:fresh-eyes`: get an independent check that finished work is correct.
+- **One hard question with a definite answer, in a fresh context:** the `decision:reasoner` agent: get an independent answer to one hard question.
 
 ## When to use it (and when not)
 
 Use it when the decision is consequential (costly, slow, or risky to reverse) *and* there are genuinely different credible approaches. A council costs 3 to 5 agent runs plus synthesis, so spend that only where a wrong call is expensive. For a simple, reversible, or factual question, answer directly. Whether to launch depends on how you got here:
 
-- **The user explicitly asked** (invoked `/council:decision-council`, or asked for a council, a panel, or a stress-test of a decision): run it straight away.
+- **The user explicitly asked** (invoked `/decision:council`, or asked for a council, a panel, or a stress-test of a decision): run it straight away.
 - **You reached it on your own** because the decision looks consequential: do not launch. Ask first, in one line, naming the squad size you'd use and the rough cost (for example, "This looks high-stakes and hard to reverse. Want me to run a 5-specialist decision council on it? It costs roughly 5× a normal answer."). Launch only after the user says yes. Spending several agent runs unasked is a surprise the user didn't choose, even when the stakes really are high.
 
 **Check that subagents are available first.** The specialists must run as separate agents. If this surface cannot start subagents, say so. Offer to run the council in Claude Code or Cowork. Never role-play several specialists in one context and call it a council.

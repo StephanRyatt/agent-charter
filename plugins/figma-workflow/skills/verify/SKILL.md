@@ -1,11 +1,13 @@
 ---
 name: verify
-description: Check a frontend implementation against its Figma design with an independent audit (coverage, fidelity, behaviour, design-system reuse) in a repository that has docs/figma-workflow/ facts files. Use when the user asks to verify, check, review or audit a screen, branch, PR or diff against a Figma design or figma.com link, or types the verify command after a build.
+description: "Check a built screen against its Figma design. An independent audit of coverage, fidelity, behaviour and design-system reuse, with a to-do list for the designer."
+when_to_use: "Use when the user asks to verify, check, review or audit a screen, branch, PR or diff against a Figma design or figma.com link, or types verify after a build, in a repository that has docs/figma-workflow/ facts files. Not for checking work against a spec or plan (review:fresh-eyes)."
+argument-hint: "[screen, branch, PR or Figma link]"
 ---
 
 # Figma verify: independent check against the design
 
-This skill collects the inputs, then starts the hidden `verify-audit` skill, which runs in a fresh context so it judges the work without this chat's assumptions. The audit cannot ask questions, so gather everything first. You don't audit anything yourself here.
+This skill collects the inputs, then starts the hidden `verify-worker` skill, which runs in a fresh context so it judges the work without this chat's assumptions. The audit cannot ask questions, so gather everything first. You don't audit anything yourself here.
 
 **Facts directory:** `docs/figma-workflow/` in the target repository.
 
@@ -15,9 +17,9 @@ The audit needs a forked subagent with access to the Figma MCP server. If this s
 
 ## 2. Collect the inputs
 
-Take what this chat already has (a sync plan, a build summary, the screen record), and ask only for what's missing, with the AskUserQuestion tool (never plain text; batch up to four questions):
+Take what this chat already has (a plan, a build summary, the screen record), and ask only for what's missing, with the AskUserQuestion tool (never plain text; batch up to four questions):
 
-- **Target repository.** Use the one this chat's sync plan or build used. Otherwise list the git repositories nested directly under the working directory; if there are any, the target is one of them, even when the working directory is itself a git repository (a workspace), so never pick the workspace. Pick from the user's words or the Figma frame's screen record, or ask. No nested repositories: the repository the working directory is in. Pass its absolute path, and run git commands there (`git -C <path>`).
+- **Target repository.** Use the one this chat's plan or build used. Otherwise list the git repositories nested directly under the working directory; if there are any, the target is one of them, even when the working directory is itself a git repository (a workspace), so never pick the workspace. Pick from the user's words or the Figma frame's screen record, or ask. No nested repositories: the repository the working directory is in. Pass its absolute path, and run git commands there (`git -C <path>`).
 - **Figma**: the frame link(s). Default: from this chat or the screen record. If the record and the user's link differ, ask which one is the design of record.
 - **Implementation scope**: the branch and its base (default: the current branch against the repository's default branch, `git merge-base`), a PR, or a list of files. Check that the diff isn't empty.
 - **Depth**: *scoped* (only what the last build changed; the default right after a build) or *full* (the whole screen).
@@ -28,7 +30,7 @@ Also collect, without asking: the `Stack adapter` and `Code Connect` lines from 
 
 ## 3. Run the audit
 
-Invoke the `verify-audit` skill (the plugin may namespace it, for example `figma-workflow:verify-audit`) with one self-contained brief as its arguments:
+Invoke the `verify-worker` skill (the plugin may namespace it, for example `figma-workflow:verify-worker`) with one self-contained brief as its arguments:
 
 ```
 Repository: <absolute path>   Facts directory: <path>/docs/figma-workflow/

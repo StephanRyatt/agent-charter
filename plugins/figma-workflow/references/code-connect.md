@@ -13,13 +13,13 @@ figma-workflow works with and without it. `design-system.md` says which applies,
 
 ## When it is not set up
 
-- Don't call the Code Connect tools, and don't offer to set it up during a sync or build.
+- Don't call the Code Connect tools, and don't offer to set it up during planning or a build.
 - If the Figma server or its design-to-code skill asks whether to connect code components, or suggests mappings, decline on the user's behalf without asking them, and carry on with the mapping table. Say once in the plan: "Code Connect isn't set up for this repository, so components were matched from the facts files."
 - Matching then comes from the `Figma mapping` and `Components and patterns` sections of `design-system.md`, by role first.
 
 ## How a project adopts it
 
-A one-time task for a developer with edit rights on the Figma library, not part of a screen sync:
+A one-time task for a developer with edit rights on the Figma library, not part of planning a screen:
 
 1. Check the plan: Code Connect needs a Figma plan and seat that include Dev Mode, and a published component library.
 2. Pick the components that recur most (buttons, inputs, badges, cards, modals). Mapping a few common ones pays off more than mapping everything.

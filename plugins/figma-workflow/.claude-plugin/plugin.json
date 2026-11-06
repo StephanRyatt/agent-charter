@@ -1,7 +1,7 @@
 {
   "name": "figma-workflow",
-  "version": "0.2.0",
-  "description": "Governance for Figma to frontend, on top of Figma's MCP server and Code Connect: plan a screen from its Figma frame (new or changed) with a mapping table and one approval, build it as a clickable no-backend prototype, keep it in sync as the design changes, and audit it independently. Stack adapters for server-rendered and component stacks.",
+  "version": "0.3.0",
+  "description": "Figma to frontend for designers, on top of Figma's MCP server and Code Connect. plan: plan a screen from its Figma frame, new or changed. build: build the approved plan as a clickable prototype. verify: check a built screen against its Figma design.",
   "author": {
     "name": "Stephan Ryatt"
   },

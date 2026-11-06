@@ -1,22 +1,22 @@
 ---
-name: risk-evaluation
+name: risks
 description: "See what could go wrong with one plan, how likely, how bad. It asks what could happen, not whether the work is correct. You get the top risks ranked on one page, with honest numbers and the one action that cuts the most risk."
-when_to_use: "Use when the user asks what the risk is, to evaluate the risk, how risky something is, what could go wrong, for a risk assessment or for a pre-mortem, about a plan, decision, change, filing, launch or situation. Runs in this conversation; uses an independent agent for high-stakes work written or shaped in this session. Not for choosing between options (decision-council), a problem to solve and build (best-of-n), one question with a definite answer (ask-specialist), or checking whether finished work, a plan included, is correct, or red-teaming it (fresh-eyes)."
+when_to_use: "Use when the user asks what the risk is, to evaluate the risk, how risky something is, what could go wrong, for a risk assessment or for a pre-mortem, about a plan, decision, change, filing, launch or situation. Runs in this conversation; uses an independent agent for high-stakes work written or shaped in this session. Not for choosing between options (decision:council), a problem to solve and build (decision:best-of-n), or checking whether work, a plan included, is correct, or red-teaming it (fresh-eyes)."
 argument-hint: "[plan, change or situation]"
 ---
 
-# Risk evaluation
+# Risks
 
 See what could go wrong with one plan, how likely, how bad: find the risks that matter, put honest numbers on them where possible, and say which one to act on first. The output is a page, not a report.
 
-Use a neighbor when the question is different (`/review:fresh-eyes` needs the `review` plugin):
+Use a neighbor when the question is different (the `/decision:` skills and agent need the `decision` plugin):
 
-- **A costly call the user will make, with or without options:** `/council:decision-council`: stress-test a costly decision before you commit.
-- **A problem the user wants solved and built, with the choice delegated:** `/council:best-of-n`: compare n approaches to a problem, then build the best.
-- **One hard question with a definite answer:** `/council:ask-specialist`: get an independent, deep answer to one hard question.
-- **Finished work to check, including a decision already made:** `/review:fresh-eyes`: get an independent check that finished work is correct.
+- **A costly decision the user will make, open or already chosen:** `/decision:council`: stress-test a costly decision while you can still change it.
+- **A problem the user wants solved and built, with the choice delegated:** `/decision:best-of-n`: compare n approaches to a problem, then build the best.
+- **Finished work to check, including a decision checked against its sources:** `/review:fresh-eyes`: get an independent check that finished work is correct.
+- **One hard question with a definite answer, in a fresh context:** the `decision:reasoner` agent: get an independent answer to one hard question.
 
-Fresh eyes asks whether the work is correct. Risk evaluation asks what could happen even if it is.
+Fresh eyes asks whether the work is correct. Risks asks what could happen even if it is.
 
 It advises; it does not act on the target.
 
@@ -101,7 +101,7 @@ For legal, medical, financial or immigration matters, present probabilities as e
 
 When the stakes are high and the risk is hard to judge from one context, offer once, in one line, an independent check:
 
-- `/review:fresh-eyes`, when the `review` plugin is installed, to challenge this risk evaluation or the work it covers;
-- `/council:decision-council`, when the real question turns out to be choosing between options, for example when two or more credible alternatives to the plan appear during the evaluation.
+- `/review:fresh-eyes`, when the `review` plugin is installed, to challenge this risk assessment or the work it covers;
+- `/decision:council`, when the real question turns out to be choosing between options, for example when two or more credible alternatives to the plan appear during the evaluation.
 
 Do not start either unasked. Both cost several agent runs.
