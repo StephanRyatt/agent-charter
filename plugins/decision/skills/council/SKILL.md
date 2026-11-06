@@ -1,7 +1,7 @@
 ---
 name: council
 description: "Stress-test a costly decision while you can still change it. Bring the problem, the options or your chosen path; three to five independent specialists weigh the alternatives. You get a recommendation, tradeoffs and the strongest dissent. You decide."
-when_to_use: "Use when the user asks for a council or a panel, wants a choice or an already chosen path stress-tested against its alternatives, or wants help deciding between credible approaches where a wrong call is costly, hard to reverse or contested: architecture, migrations, security or infrastructure changes, vendor, hiring or tooling bets, strategy. The user makes the call; nothing is built. Not for trivial, factual or easily reversed questions; a problem the user wants solved and built (best-of-n); one plan's risks (review:risks); checking a decision against its sources rather than its alternatives (review:fresh-eyes)."
+when_to_use: "Use when the user asks for a council or a panel, wants a choice or an already chosen path stress-tested against its alternatives, or wants help deciding between credible approaches where a wrong call is costly, hard to reverse or contested: architecture, migrations, security or infrastructure changes, vendor, hiring or tooling bets, strategy. The user makes the call; nothing is built. Not for trivial, factual or easily reversed questions; a problem the user wants solved and built (best-of-n); one plan's risks (review:risks); checking a decision against its sources rather than its alternatives (review:fresh-eyes); one question with a definite answer (the reasoner agent)."
 argument-hint: "[decision, options or chosen path]"
 ---
 

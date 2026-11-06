@@ -107,15 +107,16 @@ Plugin agents run in Claude Code (local and cloud sessions), Cowork and claude.a
 
 ## Upgrading from earlier versions
 
-This release renames the `council` plugin and several skills. Settings move to the new names on their own; two things need one command each.
+This release renames the `council` plugin and several skills. In Claude Code, installs from this marketplace move to the new plugin name on their own; two things need one command each. A committed `.claude/settings.json` that enables `council` is rewritten too, so commit that change.
 
 - **`council` is now `decision`.** After the marketplace updates, run `/plugin install decision@agent-charter` once. Until you do, Claude Code reports the plugin as not cached.
 - **`/council:decision-council` is now `/decision:council`.**
 - **`/council:risk-evaluation` is now `/review:risks`.** If you don't have `review` yet, run `/plugin install review@agent-charter`.
 - **`/council:ask-specialist` is retired.** Use the `decision:reasoner` agent instead: in Claude Code, type `@` and pick it, or ask for the reasoner.
 - **`/figma-workflow:sync` is now `/figma-workflow:plan`.** The old command still works for one release and points to the new one.
-- **Agents:** `council:reasoning-specialist` is now `decision:reasoner`, and `review:fresh-reviewer` is now `review:reviewer`. Update any workflow or instruction file that names them.
-- **On claude.ai:** trigger the sync for the marketplace under Customize → Plugins, then add `decision`, and `review` if you want `risks`.
+- **Agents:** `council:reasoning-specialist` is now `decision:reasoner`, and `review:fresh-reviewer` is now `review:reviewer`.
+- **Old names in other files:** update any workflow, instruction file (such as `CLAUDE.md`) or permission rule (such as `Skill(council:...)`) that names an old skill or agent. Nothing rewrites those for you.
+- **On claude.ai:** trigger the sync for the marketplace under Customize → Plugins, add `decision` (and `review` if you want `risks`), then remove `council` if it is still listed. Otherwise your sessions load the old and new skills side by side.
 
 ## License
 

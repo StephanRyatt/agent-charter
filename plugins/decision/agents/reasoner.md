@@ -1,6 +1,6 @@
 ---
 name: reasoner
-description: "Get an independent answer to one hard question. Read-only deep reasoning on one bounded question with a definite answer, such as whether a formula, algorithm or rule holds, from its governing sources. Use when the user asks for the reasoner or a workflow step names it, not for ordinary questions. Brief it with the question, checked facts and sources, not your own answer; check its main claims before relying on them."
+description: "Get an independent answer to one hard question. Read-only deep reasoning on one question with a definite answer, such as whether a formula, algorithm or rule holds, from its governing sources. Use when the user asks for the reasoner or a workflow step names it, not for ordinary questions. Brief it with the question, checked facts and sources, not your own answer; check its main claims before relying on them. If no subagent can start, say so; never answer in its place."
 model: opus
 effort: high
 disallowedTools: Edit, Write, NotebookEdit

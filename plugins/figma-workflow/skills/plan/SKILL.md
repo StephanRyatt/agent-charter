@@ -23,7 +23,7 @@ This skill's model and effort apply only while its turn lasts. Answers typed int
 - **An answer that is a question** (or a request to explain or wait): answer it briefly, then ask the open question again with AskUserQuestion. Never treat it as an answer, and never skip the question.
 - **A plain chat message** that arrives later in this planning conversation without a figma-workflow command: don't advance, change or approve the plan in that turn. Answer briefly if it is a question, then say: "To keep planning, type **`/figma-workflow:plan`** followed by your question or change." Stop there.
 - **Resuming.** When this skill starts in a chat that already holds a plan for the same screen, don't start over. Take the state from the chat: the inputs and answers so far and the last step reached (the last "Plan state" line, see below). Handle the arguments as a question or change, then continue from that step.
-- **Plan state line.** At the end of each of your messages in this skill, add one line in this form, so a resumed plan can pick up: `Plan state: step <n> · repo <absolute path of the target repository> · frame <link> · kind <new|update|re-implementation> · placement <isolated|integrated> · plan <none|draft|revised n>`.
+- **Plan state line.** At the end of each of your messages in this skill, add one line in this form, so a resumed plan can pick up (a "Sync state" line from an earlier version counts as the same line): `Plan state: step <n> · repo <absolute path of the target repository> · frame <link> · kind <new|update|re-implementation> · placement <isolated|integrated> · plan <none|draft|revised n>`.
 
 ## Arguments
 

@@ -12,7 +12,7 @@ Typing this command is the user's approval of the most recent plan that the `pla
 
 **Facts directory:** `docs/figma-workflow/` in the target repository. The plugin's shared references (facts schema, stack adapters, Code Connect) live in `../../references/` relative to this skill's folder (`${CLAUDE_SKILL_DIR}/../../references/`).
 
-**Target repository:** the one the plan names (its "Repository / area" line and the last "Plan state" line hold its path). The working directory may be a workspace that is a git repository itself: never use it as the target when it holds nested app repositories. If the plan doesn't make the repository clear, ask with AskUserQuestion, listing the git repositories nested directly under the working directory. Read the facts files from the target, make every edit inside it, and run every git command there (`git -C <path>`).
+**Target repository:** the one the plan names (its "Repository / area" line and the last "Plan state" line, or "Sync state" from an earlier version, hold its path). The working directory may be a workspace that is a git repository itself: never use it as the target when it holds nested app repositories. If the plan doesn't make the repository clear, ask with AskUserQuestion, listing the git repositories nested directly under the working directory. Read the facts files from the target, make every edit inside it, and run every git command there (`git -C <path>`).
 
 ## Before editing
 

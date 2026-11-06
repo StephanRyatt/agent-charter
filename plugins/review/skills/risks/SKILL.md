@@ -101,7 +101,7 @@ For legal, medical, financial or immigration matters, present probabilities as e
 
 When the stakes are high and the risk is hard to judge from one context, offer once, in one line, an independent check:
 
-- `/review:fresh-eyes`, when the `review` plugin is installed, to challenge this risk assessment or the work it covers;
-- `/decision:council`, when the real question turns out to be choosing between options, for example when two or more credible alternatives to the plan appear during the evaluation.
+- `/review:fresh-eyes`, to challenge this risk assessment or the work it covers;
+- `/decision:council`, when the `decision` plugin is installed and the real question turns out to be choosing between options, for example when two or more credible alternatives to the plan appear during the evaluation.
 
 Do not start either unasked. Both cost several agent runs.

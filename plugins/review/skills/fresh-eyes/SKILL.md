@@ -1,7 +1,7 @@
 ---
 name: fresh-eyes
 description: "Get an independent check that finished work is correct: code against its spec, a plan, a decision, a document or filing. Findings are verified against the sources, then fixed if the work was made in this session, otherwise reported."
-when_to_use: "Use when the user asks for fresh eyes, an independent review or a second look, extra scrutiny, a self-review, or a red team of a plan or other work, and when a workflow calls for review before handing work over. Works on the user's own work or someone else's, including a PR against its spec or issue. Not for a plain bug hunt in a diff (/code-review), weighing a decision against its alternatives (decision:council), what could go wrong (risks), or a frontend against its Figma design (figma-workflow:verify)."
+when_to_use: "Use when the user asks for fresh eyes, an independent review or a second look, extra scrutiny, a self-review, or a red team of a plan or other work, and when a workflow calls for review before handing work over. Works on the user's own work or someone else's, including a PR against its spec or issue. Not for a plain bug hunt in a diff (/code-review), weighing a decision against its alternatives (decision:council), what could go wrong (risks), one hard question with a definite answer (the decision:reasoner agent), or a frontend against its Figma design (figma-workflow:verify)."
 argument-hint: "[what to review]"
 ---
 
@@ -57,14 +57,14 @@ In fix mode, run any required validation that has not run yet, so the reviewer c
 
 Match the depth to the stakes:
 
-- **Standard:** one `reviewer`. Use it for most work.
-- **Deep:** two `reviewer` agents, started together in one message, so neither sees the other. Give each the same sources, and a different lens:
+- **Standard:** one `review:reviewer`. Use it for most work.
+- **Deep:** two `review:reviewer` agents, started together in one message, so neither sees the other. Give each the same sources, and a different lens:
   - *conformance:* does the work do what its sources and requirements say?
   - *first principles:* should the work exist in this form at all, and what would make it fail?
 
   Use deep when the work is costly or slow to reverse, such as a filing, an irreversible migration, a plan for many PRs, or a public release. Use it also when the user asks for extra scrutiny.
-- **Hand over to the council** (`/decision:council`, when installed) when the real question is choosing between options, not whether this work is correct. Say so, and ask before starting it. A council costs several agent runs.
-- **Hand over to risks** (`/review:risks`, when installed) when the real question is how likely and how bad the ways it could go wrong are, rather than whether it is correct. Say so, and offer it.
+- **Hand over to the council** (`/decision:council`, when the `decision` plugin is installed) when the real question is choosing between options, not whether this work is correct. Say so, and ask before starting it. A council costs several agent runs.
+- **Hand over to risks** (`/review:risks`) when the real question is how likely and how bad the ways it could go wrong are, rather than whether it is correct. Say so, and offer it.
 
 When you start a reviewer:
 
