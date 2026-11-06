@@ -6,7 +6,7 @@ The skills are generic. Everything specific to one repository lives in that repo
 <repo root>/docs/figma-workflow/
 ```
 
-This path is the only place the skills look. If your team moves the files, change the path in each skill's "Facts directory" line (sync, build, verify, verify-audit).
+This path is the only place the skills look. If your team moves the files, change the path in each skill's "Facts directory" line (plan, build, verify, verify-worker).
 
 Every facts file starts with a title line and then this line, exactly (blank lines between them are fine). The `screens/` folder may be missing until the first screen is built; that is not an error:
 
@@ -91,7 +91,7 @@ figma-workflow-schema: 2
 - **Last synced**: <YYYY-MM-DD> against frame version seen on that date
 - **Intentionally inert controls**: <control — reason>, ... (or "none")
 - **Inferred, not shown in the design**: <behaviour — basis>, ... (or "none")
-- **Notes**: <anything the next sync must know>
+- **Notes**: <anything the next plan must know>
 ```
 
 Status (prototype or integrated) is **not** stored here. It is read from the code: a page that still carries the prototype marker is a prototype; one without it has been integrated by the backend team. The record is a hint for finding the screen, not proof: the Figma link the designer gives always wins, and a mismatch is surfaced, never silently resolved.

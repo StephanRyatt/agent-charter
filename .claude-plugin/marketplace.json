@@ -1,24 +1,27 @@
 {
   "name": "agent-charter",
-  "description": "Build from the spec. Check against the source. Plugins that keep AI agents tied to their governing sources: independent review, decision support, and Figma-to-frontend governance.",
+  "description": "Decide before you build. Build from the spec. Check against the source. Plugins that keep AI agents' work tied to its specs, decisions and designs, with decisions left to their owners and the work checked independently before it ships.",
   "owner": {
     "name": "Stephan Ryatt"
   },
   "plugins": [
     {
-      "name": "review",
-      "source": "./plugins/review",
-      "description": "Independent review of finished work. fresh-eyes: get an independent check that finished work is correct (code against its spec, a plan, a decision, a document or filing), judged from its governing sources, with findings fixed or reported."
+      "name": "decision",
+      "source": "./plugins/decision",
+      "description": "Settle what to do before you act. council: stress-test a costly decision while you can still change it. best-of-n: compare n approaches to a problem, then build the best. Agent reasoner: get an independent answer to one hard question."
     },
     {
-      "name": "council",
-      "source": "./plugins/council",
-      "description": "Think it through before you act. decision-council: stress-test a costly decision before you commit. best-of-n: compare n approaches to a problem, then build the best. risk-evaluation: see what could go wrong with one plan, how likely, how bad. ask-specialist: get an independent, deep answer to one hard question."
+      "name": "review",
+      "source": "./plugins/review",
+      "description": "Scrutinize what already exists. fresh-eyes: get an independent check that finished work is correct. risks: see what could go wrong with one plan, how likely, how bad."
     },
     {
       "name": "figma-workflow",
       "source": "./plugins/figma-workflow",
-      "description": "Governance for Figma to frontend, on top of Figma's MCP server and Code Connect: plan a screen from its Figma frame (new or changed) with a mapping table and one approval, build it as a clickable no-backend prototype, keep it in sync as the design changes, and audit it independently. Stack adapters for server-rendered and component stacks."
+      "description": "Figma to frontend for designers, on top of Figma's MCP server and Code Connect. plan: plan a screen from its Figma frame, new or changed. build: build the approved plan as a clickable prototype. verify: check a built screen against its Figma design."
     }
-  ]
+  ],
+  "renames": {
+    "council": "decision"
+  }
 }

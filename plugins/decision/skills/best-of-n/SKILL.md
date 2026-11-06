@@ -1,7 +1,7 @@
 ---
 name: best-of-n
 description: "Compare n approaches to a problem, then build the best. Distinct solutions are drafted independently; the winner is picked on criteria set up front, tested where possible, then built. It makes the call; you review the result."
-when_to_use: "Use when the user asks for best of n or best of 3, to try a few approaches and build the best, or to explore options and then build, or wants something built only after comparing real alternatives. Optional arguments: n (2 to 5), a model, a reasoning level. Not for a costly call the user wants to make themselves (decision-council), one plan's risks (risk-evaluation), or checking finished work (fresh-eyes)."
+when_to_use: "Use when the user asks for best of n or best of 3, to try a few approaches and build the best, or to explore options and then build, or wants something built only after comparing real alternatives. Optional arguments: n (2 to 5), a model, a reasoning level. Not for a costly call the user wants to make themselves (council), one plan's risks (review:risks), or checking finished work (review:fresh-eyes)."
 argument-hint: "[problem] [n] [model] [effort]"
 ---
 
@@ -13,14 +13,14 @@ Compare n approaches to a problem, then build the best. The user delegates the c
 - **A fresh context:** the drafters haven't seen your own preferred answer, so they can't anchor on it.
 - **Evidence where it is available:** when checks can separate the finalists, they are built and measured, not judged on paper.
 
-Use a neighbor when the question is different (`/review:fresh-eyes` needs the `review` plugin):
+Use a neighbor when the question is different (the `/review:` skills need the `review` plugin):
 
-- **A costly call the user will make, with or without options:** `/council:decision-council`: stress-test a costly decision before you commit.
-- **One plan, and the question is what could go wrong:** `/council:risk-evaluation`: see what could go wrong with one plan, how likely, how bad.
-- **One hard question with a definite answer:** `/council:ask-specialist`: get an independent, deep answer to one hard question.
-- **Finished work to check, including a decision already made:** `/review:fresh-eyes`: get an independent check that finished work is correct.
+- **A costly decision the user will make, open or already chosen:** `/decision:council`: stress-test a costly decision while you can still change it.
+- **One plan, and the question is what could go wrong:** `/review:risks`: see what could go wrong with one plan, how likely, how bad.
+- **Finished work to check, including a decision checked against its sources:** `/review:fresh-eyes`: get an independent check that finished work is correct.
+- **One hard question with a definite answer, in a fresh context:** the `decision:reasoner` agent: get an independent answer to one hard question.
 
-**Who starts it.** If the user invoked `/council:best-of-n` or asked for best of n in words, run it. If you reached it on your own because a problem looks worth comparing, don't launch. Settle n and the drafting first (step 2), then offer it in one line with that path's rough cost, and start only on a yes. For example: "Want me to run best of 3 on this? With one drafter it costs roughly 2–3× a normal answer." or "… with three parallel drafters, roughly 4–5×." Any later step that adds agents beyond what the user agreed to asks again.
+**Who starts it.** If the user invoked `/decision:best-of-n` or asked for best of n in words, run it. If you reached it on your own because a problem looks worth comparing, don't launch. Settle n and the drafting first (step 2), then offer it in one line with that path's rough cost, and start only on a yes. For example: "Want me to run best of 3 on this? With one drafter it costs roughly 2–3× a normal answer." or "… with three parallel drafters, roughly 4–5×." Any later step that adds agents beyond what the user agreed to asks again.
 
 ## 1. Check that a subagent is available
 
@@ -46,7 +46,7 @@ Take any of these the user gave. Choose the rest:
   - **Yes: one drafter** (the default). Most code problems are like this, for example "cache with LRU, TTL or write-through". One subagent drafts all n. Seeing them side by side keeps them distinct, and it costs one agent.
   - **No: parallel drafters.** The problem is open-ended, for example designing a structure, boundaries or a workflow: the approaches aren't known until someone works them out, so how the problem is framed decides the answer, and one drafter would share one framing across all n. Start n subagents instead, each from a different **starting point** (step 3). It costs about n× the drafting. Unless the user asked for parallel drafting, or agreed to its cost in the offer above, ask before taking it, naming the cost.
 
-  A call the user should own, such as a strategy or a vendor, belongs with `/council:decision-council`, not here.
+  A call the user should own, such as a strategy or a vendor, belongs with `/decision:council`, not here.
 
 Say what you chose in one line, with the reason for each choice you made yourself and the cost. For example: "n = 3, opus, high effort, one drafter: a contained refactor that touches the public API, with well-known approaches."
 
@@ -142,7 +142,7 @@ If the drafts converged despite different starting points, say so and carry on: 
 
 You judged the drafts yourself, so you are not independent of the pick. When the stakes are high, offer, before building, an independent check of the comparison: `/review:fresh-eyes` (when the `review` plugin is installed), with the decision as its kind and the drafts and ranked criteria as its sources.
 
-**Ownership guard.** If the choice turns on a tradeoff only the user can weigh, stop. Show the user the comparison and ask them to choose. If the choice is consequential enough to deserve independent challenge, offer `/council:decision-council` instead. Build only after they answer.
+**Ownership guard.** If the choice turns on a tradeoff only the user can weigh, stop. Show the user the comparison and ask them to choose. If the choice is consequential enough to deserve independent challenge, offer `/decision:council` instead. Build only after they answer.
 
 Then choose one of two paths:
 

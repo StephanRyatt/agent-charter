@@ -1,6 +1,6 @@
 ---
-name: verify-audit
-description: Independent, read-only audit of a frontend implementation against its Figma design (coverage, fidelity, behaviour, design-system reuse), run in a fresh context. Started only by the figma-workflow verify skill, which passes every input.
+name: verify-worker
+description: "Internal: the independent, read-only audit of a built screen against its Figma design, run in a fresh context. Started only by figma-workflow:verify, which passes every input."
 context: fork
 agent: general-purpose
 model: opus

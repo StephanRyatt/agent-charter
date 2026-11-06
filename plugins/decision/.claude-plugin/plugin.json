@@ -1,0 +1,17 @@
+{
+  "name": "decision",
+  "version": "0.5.0",
+  "description": "Settle what to do before you act. council: stress-test a costly decision while you can still change it. best-of-n: compare n approaches to a problem, then build the best. Agent reasoner: get an independent answer to one hard question.",
+  "author": {
+    "name": "Stephan Ryatt"
+  },
+  "repository": "https://github.com/StephanRyatt/agent-charter",
+  "license": "MIT",
+  "keywords": [
+    "decisions",
+    "council",
+    "best-of-n",
+    "reasoning",
+    "agents"
+  ]
+}

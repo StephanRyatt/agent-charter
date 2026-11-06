@@ -16,7 +16,7 @@ figma-workflow-schema: 2
 - **Last synced**: <YYYY-MM-DD>
 - **Intentionally inert controls**: <control — reason>, ... (or "none")
 - **Inferred, not shown in the design**: <behaviour — basis>, ... (or "none")
-- **Notes**: <anything the next sync must know>
+- **Notes**: <anything the next plan must know>
 ```
 
 Do not record prototype or integrated status: it is read from the prototype marker in the code.
