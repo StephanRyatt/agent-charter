@@ -2,6 +2,7 @@
 name: build
 description: "Build the approved plan as a clickable prototype. No backend: real navigation, sample data, every control working or listed as inert. Only you can start it; typing it approves the plan."
 argument-hint: "[none: approves the plan above]"
+model: opus
 effort: high
 disable-model-invocation: true
 ---
@@ -16,7 +17,9 @@ Typing this command is the user's approval of the most recent plan that the `pla
 
 ## Before editing
 
-1. **Find the plan.** Use the latest plan from the plan skill in this conversation, including any changes the user asked for after it. If there is none, stop: "There's no approved plan in this chat. Start with `/figma-workflow:plan` and your Figma link." If the user's later changes were large (new frames, a different screen), ask them to run `/figma-workflow:plan` again instead.
+1. **Find the plan.** Use the latest plan the plan skill showed in this conversation, including its revisions. Build only what that plan shows. If there is none, stop: "There's no approved plan in this chat. Start with `/figma-workflow:plan` and your Figma link." If the user asked for a change after the latest plan and no revised plan shows it, ask with AskUserQuestion:
+   - "Plan it first" (recommended): stop and say "Type **`/figma-workflow:plan`** followed by the change, then **`/figma-workflow:build`** again."
+   - "Build without it": build the plan as shown, and list the change under "not done" in the summary.
 2. **Re-read the facts files** (`design-system.md`, `prototype.md`, `pitfalls.md`, the screen record if any) and check their `figma-workflow-schema:` line is `2`. Missing or different: stop and say which file.
    Then load the stack adapter that `design-system.md`'s `Stack adapter` line names, from `references/stacks/`, and note its `Code Connect` line. The adapter says what the page shell, data shape, prototype marker and interaction code are here, how new files are registered, and which checks to run.
 3. **Branch safety.** Run `git status` and `git branch --show-current` in the target repository.

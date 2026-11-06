@@ -3,6 +3,8 @@ name: verify
 description: "Check a built screen against its Figma design. An independent audit of coverage, fidelity, behaviour and design-system reuse, with a to-do list for the designer."
 when_to_use: "Use when the user asks to verify, check, review or audit a screen, branch, PR or diff against a Figma design or figma.com link, or types verify after a build, in a repository that has docs/figma-workflow/ facts files. Not for checking work against a spec or plan (review:fresh-eyes)."
 argument-hint: "[screen, branch, PR or Figma link]"
+model: opus
+effort: high
 ---
 
 # Figma verify: independent check against the design
