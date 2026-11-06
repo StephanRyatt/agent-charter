@@ -13,16 +13,24 @@ You plan; the `build` skill implements after the user approves. You never edit a
 
 **Facts directory:** `docs/figma-workflow/` in the target repository (see the plugin's [facts schema](../../references/facts-schema.md)). The plugin's shared references live in `../../references/` relative to this skill's folder (`${CLAUDE_SKILL_DIR}/../../references/`).
 
-**Ask every question with the AskUserQuestion tool, never as plain text.** A plain-text question ends your turn, and the next turn runs on a different model and effort. Batch up to four questions per call. For free-text answers (a link, a name), offer the likely options and let the user type theirs under "Other".
+**Ask choices with the AskUserQuestion tool,** so the user can answer with a click. Batch up to four questions per call. For free-text answers (a link, a name), offer the likely options and let the user type theirs under "Other". Planning is a normal conversation over several turns: the user can also ask or answer in the chat box.
 
-## Keeping the conversation inside this skill
+## Model and effort
 
-This skill's model and effort apply only while its turn lasts. Answers typed into a question's "Other" row or notes keep the turn going; a message typed into the chat box ends it.
+Planning needs the session on Opus at high effort, for every turn of the conversation. This skill's own `model` and `effort` settings cover only the turn it starts in. Every later turn (answers, questions, changes) runs on the model and effort the session is set to, and only the user can change those.
 
-- **Tell the user once how to ask back.** In the first AskUserQuestion of this conversation, add to the first question's text: "To ask me something first, type it under Other."
-- **An answer that is a question** (or a request to explain or wait): answer it briefly, then ask the open question again with AskUserQuestion. Never treat it as an answer, and never skip the question.
-- **A plain chat message** that arrives later in this planning conversation without a figma-workflow command: don't advance, change or approve the plan in that turn. Answer briefly if it is a question, then say: "To keep planning, type **`/figma-workflow:plan`** followed by your question or change." Stop there.
+At the start of each planning, new or resumed, check what the session is set to:
+
+- **The host can report it** (for example the desktop app's session details for this session, "self"): read the session's model and effort. An Opus model at high effort or above (high, xhigh, max): continue without comment. Otherwise, say in one line what it is set to and that planning needs Opus at high effort, then ask with AskUserQuestion: "Please choose Opus, with effort High, in the model menu next to the message box. Then pick Continue." Options:
+  - "Continue, I've switched": read the session's model and effort again. If they are still not Opus at high effort, say what you see and ask once more.
+  - "Plan on the current model": continue, and record under the plan's "Not covered / unknowns" which model and effort the planning ran on.
+- **The host can't report it** (for example the terminal tool): say once, in the first message: "Planning needs Opus at high effort for the whole conversation. If this session isn't set to it, type `/model opus` and `/effort high`." Then continue without waiting.
+
+## Across turns
+
+- **Later messages.** A message in this chat that answers, asks about or changes the planning continues it, whether or not it starts with the command. Handle it as the Arguments section says, and keep following this skill.
 - **Resuming.** When this skill starts in a chat that already holds a plan for the same screen, don't start over. Take the state from the chat: the inputs and answers so far and the last step reached (the last "Plan state" line, see below). Handle the arguments as a question or change, then continue from that step.
+- **Scope changes.** When an answer changes the scope (another repository, more frames, a different kind of change), update your progress list, where the host shows one, in the same turn.
 - **Plan state line.** At the end of each of your messages in this skill, add one line in this form, so a resumed plan can pick up (a "Sync state" line from an earlier version counts as the same line): `Plan state: step <n> · repo <absolute path of the target repository> · frame <link> · kind <new|update|re-implementation> · placement <isolated|integrated> · plan <none|draft|revised n>`.
 
 ## Arguments
@@ -59,7 +67,7 @@ Whatever follows `/figma-workflow:plan` is one of:
 
 Gather in as few AskUserQuestion calls as possible, skipping anything already in this chat:
 
-- **Figma link** to the frame (or the first frame of a flow). If the user has several frames, ask for all of them.
+- **Figma link** to the frame (or the first frame of a flow). Before asking whether there are more frames, look at the frame's neighbours on its Figma page (a light metadata read of the page or section around it) and propose the related ones you find: "These frames sit next to it: A, B, C. Plan them together?"
 - **New or existing.** Search the screen records (`screens/*.md`) and the code (route names, page titles, distinctive text from the frame). Propose what you found: "This looks like the existing screen X (`path`)", "This looks new", or several candidates. The user's link wins over a record; if the record points to a different frame, ask whether the new link replaces it.
 - **For a new screen:** which area of the app it belongs to (from the README or design-system file), and **placement**: *isolated* (reachable only by its URL, no menu entry; the default) or *integrated* (a menu entry, hidden wherever prototypes are unreachable, per `prototype.md`). Integrated edits shared layout or menu files, so say it will need a review by the backend team.
 
@@ -96,13 +104,10 @@ Use the plan template in the mapping reference, in the stack adapter's terms (na
 
 ### 7. Hand over
 
-Show the plan, then end with an AskUserQuestion (not plain text), so a change request stays in this turn:
+First settle every open decision the build depends on (for example a missing prototype guard, or a design question that changes the files): ask each with AskUserQuestion and write the answer into the plan. Don't leave a decision in the plan text for the approval to settle.
 
-- Question: "Approve this plan or change it? To approve, type **`/figma-workflow:build`** in the chat (or pick it from the `/` menu). To change something, or to ask me something first, type it under Other."
-- Options: "I'll approve with the build command" and "Explain a part of the plan first".
+Show the plan and end your message with: "To approve, type **`/figma-workflow:build`** (or pick it from the `/` menu). To change something or ask about it, just write it here."
 
-On a change typed under Other: revise the plan in this same turn (re-plan fully if the change is large), show it, and ask this question again. On "Explain": ask which part if unclear, explain, and ask again. On "I'll approve": end the turn with one line repeating that the build command is the approval.
+On a change: revise the plan (re-plan fully if the change is large), show it, and end with the same line. On a question: answer it and end with the same line.
 
 Do not start building, and do not treat "ok", "yes" or "approved" as approval to edit: approval is the build command.
-
-**Later option, not built:** a `UserPromptSubmit` hook could detect plain chat messages during planning reliably. It is left out for now because the hook script would have to run on both Windows and macOS.
