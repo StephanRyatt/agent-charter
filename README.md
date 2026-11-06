@@ -45,7 +45,7 @@ Figma's MCP server, its design-to-code skill and Code Connect turn a frame into 
 - **Screens kept in sync over time.** Each built screen gets a record in the repo. When the frame changes, `plan` plans only the differences, keeps what differs on purpose, and says so when nothing changed.
 - **A prototype boundary.** Designer-built pages are clickable prototypes with no backend: sample data generated from the app's data model, in-memory interaction, and a prototype marker that keeps them out of production until the backend team promotes them.
 - **An independent audit.** `verify` checks coverage, fidelity, behaviour and design-system reuse in a fresh context that never saw the build.
-- **The right model for planning.** Planning needs Opus at high effort for the whole conversation. A skill can set the model only for the turn it starts in, so `plan` checks what the session is set to and asks the user to switch in the model menu when it isn't. Building runs at high effort on whatever model the session is set to.
+- **The right model for planning.** Planning needs Opus at high effort for the whole conversation. A skill can set the model only for the turn it starts in, so `plan` checks what the session is set to and asks the user to switch in the model menu when it isn't. `plan` and `build` each run the turn they start in at exactly high effort, even when the session is set higher. Later turns, including steering a build, run at the session's effort, so keep the session on High.
 
 Code Connect is optional. When a repo has it, its mappings win; when it doesn't, the skills match components from the repo's facts files and don't push you into setting it up. The plugin's `references/code-connect.md` says how to adopt it.
 
