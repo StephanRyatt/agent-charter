@@ -1,6 +1,6 @@
 {
   "name": "agent-charter",
-  "description": "Decide before you build. Build from the spec. Check against the source. Plugins that keep AI agents' work tied to its specs, decisions and designs, with decisions left to their owners and the work checked independently before it ships.",
+  "description": "Decide before you build. Build from the spec. Check against the source. Agents build on every decision you hand them, so these plugins start there: they help you make better decisions, keep agents' work tied to its specs, decisions and designs, and get it checked independently before it ships.",
   "owner": {
     "name": "Stephan Ryatt"
   },

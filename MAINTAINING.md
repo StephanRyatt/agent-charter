@@ -24,7 +24,7 @@ A user picks a skill from a few words in a menu. Every level of copy answers the
 
 Rules:
 
-- **Names in plain words.** Use an established term only when users already say it (`best-of-n`, `fresh-eyes`). Across workflows, the same step uses the same verb.
+- **Names in plain words.** Use an established term only when users already say it (`best-of-n`, `fresh-eyes`). No word appears in both a plugin's name and its skills' names. Across workflows, the same step uses the same verb.
 - **Outcome before mechanism.** "Stress-test a costly decision while you can still change it", not "Convene a council of specialists". The mechanism comes after the lead.
 - **One discriminator vocabulary across the set,** so a user learns it once:
   - *you decide, open or already chosen:* council;
