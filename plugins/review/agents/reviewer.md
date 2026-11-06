@@ -1,6 +1,6 @@
 ---
 name: reviewer
-description: "Independent review of finished work. Read-only, fresh-context review of code, documents, plans, filings or decisions against their governing sources and approved decisions. Started by review:fresh-eyes, or by a workflow that asks for review after the work is done."
+description: "Independent review of finished work. Read-only review of code, documents, plans, filings or decisions against their governing sources and approved decisions. Started by review:fresh-eyes, or by a workflow that asks for review after the work is done."
 model: opus
 effort: high
 disallowedTools: Edit, Write, NotebookEdit
