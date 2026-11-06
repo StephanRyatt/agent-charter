@@ -45,7 +45,7 @@ Figma's MCP server, its design-to-code skill and Code Connect turn a frame into 
 - **Screens kept in sync over time.** Each built screen gets a record in the repo. When the frame changes, `plan` plans only the differences, keeps what differs on purpose, and says so when nothing changed.
 - **A prototype boundary.** Designer-built pages are clickable prototypes with no backend: sample data generated from the app's data model, in-memory interaction, and a prototype marker that keeps them out of production until the backend team promotes them.
 - **An independent audit.** `verify` checks coverage, fidelity, behaviour and design-system reuse in a fresh context that never saw the build.
-- **The right model for each step.** Planning runs on Opus at high effort; building runs on the session's model, usually Sonnet, so the designer can steer it cheaply.
+- **The right model for planning.** Planning needs Opus at high effort for the whole conversation. A skill can set the model only for the turn it starts in, so `plan` checks what the session is set to and asks the user to switch in the model menu when it isn't. Building runs at high effort on whatever model the session is set to.
 
 Code Connect is optional. When a repo has it, its mappings win; when it doesn't, the skills match components from the repo's facts files and don't push you into setting it up. The plugin's `references/code-connect.md` says how to adopt it.
 
@@ -81,7 +81,7 @@ Every skill that starts a subagent also checks that the surface can start one, a
 | agent `decision:reasoner` | It is one | Independence on one hard question; enforcement (Opus, no file-editing tools). Called by the user or by a workflow step that names it |
 | `/review:fresh-eyes` | Yes: one, or two for deep review | Independence; parallelism for the two deep lenses; enforcement (no file-editing tools; Opus by default) |
 | `/review:risks` | No by default. Yes for your own high-stakes work | It needs the context; an independent run removes author bias where that matters |
-| `/figma-workflow:plan`, `:build` | No | They need the conversation, questions and one approval; `plan` runs on Opus for the turn, `build` on the session model so the user can steer |
+| `/figma-workflow:plan`, `:build` | No | They need the conversation, questions and one approval; `plan` needs the session on Opus at high effort and checks it, `build` runs on the session model so the user can steer |
 | `/figma-workflow:verify` | Yes: one (`verify-worker`, forked) | Independence from the build; enforcement (Opus, high effort) |
 
 ## Using these in Claude Code cloud sessions
