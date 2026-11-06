@@ -30,6 +30,7 @@ At the start of each planning, new or resumed, check what the session is set to:
 
 - **Later messages.** A message in this chat that answers, asks about or changes the planning continues it, whether or not it starts with the command. Handle it as the Arguments section says, and keep following this skill.
 - **Resuming.** When this skill starts in a chat that already holds a plan for the same screen, don't start over. Take the state from the chat: the inputs and answers so far and the last step reached (the last "Plan state" line, see below). Handle the arguments as a question or change, then continue from that step.
+- **Revisions.** Before you revise the plan on a later turn (step 6), read the session's model and effort again where the host can report them. If they are no longer Opus at high effort, say so in one line and ask as in "Model and effort" above.
 - **Scope changes.** When an answer changes the scope (another repository, more frames, a different kind of change), update your progress list, where the host shows one, in the same turn.
 - **Plan state line.** At the end of each of your messages in this skill, add one line in this form, so a resumed plan can pick up (a "Sync state" line from an earlier version counts as the same line): `Plan state: step <n> · repo <absolute path of the target repository> · frame <link> · kind <new|update|re-implementation> · placement <isolated|integrated> · plan <none|draft|revised n>`.
 
