@@ -1,7 +1,7 @@
 ---
 name: plan
 description: "Plan a screen from its Figma frame, new or changed. You get every design element mapped to the repo's own components and tokens, and one approval. Nothing is built until you run build."
-when_to_use: "Use when the user shares a figma.com link and wants it implemented, updated, synced or brought in line with the design, in a repository that has docs/figma-workflow/ facts files. Use it instead of starting a design-to-code skill directly there. Also when the user asks a question or a change about a plan in this chat. Not for checking a built screen (verify)."
+when_to_use: "Use when the user shares a figma.com link and wants it implemented, updated, synced or brought in line with the design, in a repository that has docs/figma-workflow/ facts files. Use it instead of starting a design-to-code skill directly there. Not for checking a built screen (verify)."
 argument-hint: "[Figma link, or a question or change]"
 model: opus
 effort: high
@@ -13,24 +13,23 @@ You plan; the `build` skill implements after the user approves. You never edit a
 
 **Facts directory:** `docs/figma-workflow/` in the target repository (see the plugin's [facts schema](../../references/facts-schema.md)). The plugin's shared references live in `../../references/` relative to this skill's folder (`${CLAUDE_SKILL_DIR}/../../references/`).
 
-**Ask choices with the AskUserQuestion tool,** so the user can answer with a click. Batch up to four questions per call. For free-text answers (a link, a name), offer the likely options and let the user type theirs under "Other". Planning is a normal conversation over several turns: the user can also ask or answer in the chat box.
+**Ask every question with the AskUserQuestion tool, never as plain text,** until the hand-over (step 7). Batch up to four questions per call. For free-text answers (a link, a name), offer the likely options and let the user type theirs under "Other". The user can answer by clicking or by typing in the chat box; both keep this turn going.
 
 ## Model and effort
 
-Planning needs the session on Opus at high effort, for every turn of the conversation. This skill's own `model` and `effort` settings cover only the turn it starts in. Every later turn (answers, questions, changes) runs on the model and effort the session is set to, and only the user can change those.
+This skill's own settings run the turn it starts in on Opus at high effort. That turn lasts from the command to the hand-over: every question and answer, and anything the user types meanwhile, stays in it. A message sent after the turn ends runs on whatever model and effort the session is set to. So:
 
-At the start of each planning, new or resumed, check what the session is set to:
-
-- **The host can report it** (for example the desktop app's session details for this session, "self"): read the session's model and effort. **The session details are the only source for this check.** Any note in this conversation that you are running on Opus describes this skill's own first turn, not the session setting, so ignore it here; don't resolve a difference between the two in favour of the note. The model counts as Opus only when its name or id contains "opus". An Opus model at high effort or above (high, xhigh, max): continue without comment. Otherwise, say in one line what it is set to and that planning needs Opus at high effort, then ask with AskUserQuestion: "Please choose Opus, with effort High, in the model menu next to the message box. Then pick Continue." Options:
-  - "Continue, I've switched": read the session's model and effort again. If they are still not Opus at high effort, say what you see and ask once more.
-  - "Plan on the current model": continue, and record under the plan's "Not covered / unknowns" which model and effort the planning ran on.
-- **The host can't report it** (for example the terminal tool): say once, in the first message: "Planning needs Opus at high effort for the whole conversation. If this session isn't set to it, type `/model opus` and `/effort high`." Then continue without waiting.
+- **Keep the turn going until the hand-over.** A plain-text question would end it early.
+- **Changes come back through the command.** `/figma-workflow:plan` followed by the change starts a new turn on Opus.
+- **When you stop before the hand-over** because something is missing (a prerequisite in step 1), say what to fix, then: "Then type **`/figma-workflow:plan`** again."
+- **Don't check, report or record which model you run on.** From inside a turn you can't tell reliably; the settings take care of it.
 
 ## Across turns
 
-- **Later messages.** A message in this chat that answers, asks about or changes the planning continues it, whether or not it starts with the command. Handle it as the Arguments section says, and keep following this skill.
+- **Later messages.** A plain message in this chat after the hand-over, without the command:
+  - a question about the plan: answer it, then end with the hand-over line (step 7);
+  - a change to the plan, or an answer that changes it: don't revise the plan. Reply in one line, with their change filled in: "To change the plan, type **`/figma-workflow:plan`** followed by your change, for example `/figma-workflow:plan <their change>`."
 - **Resuming.** When this skill starts in a chat that already holds a plan for the same screen, don't start over. Take the state from the chat: the inputs and answers so far and the last step reached (the last "Plan state" line, see below). Handle the arguments as a question or change, then continue from that step.
-- **Revisions.** Before you revise the plan on a later turn (step 6), read the session's model and effort again where the host can report them. If they are no longer Opus at high effort, say so in one line and ask as in "Model and effort" above.
 - **Scope changes.** When an answer changes the scope (another repository, more frames, a different kind of change), update your progress list, where the host shows one, in the same turn.
 - **Plan state line.** At the end of each of your messages in this skill, add one line in this form, so a resumed plan can pick up (a "Sync state" line from an earlier version counts as the same line): `Plan state: step <n> · repo <absolute path of the target repository> · frame <link> · kind <new|update|re-implementation> · placement <isolated|integrated> · plan <none|draft|revised n>`.
 
@@ -48,7 +47,7 @@ Whatever follows `/figma-workflow:plan` is one of:
 - **Never open secret configuration files** (for example `Web.config`, `App.config`, `.env*`, credential files), and never print their contents.
 - **Don't invent changes.** Every planned change traces to the design or to a stated rule. If the design and the code already match, say so and stop.
 - **Design output is a reference, never final code.** No absolute positioning or hardcoded values copied from Figma.
-- **One screen (or one flow of frames) per chat.** If this chat already handled a different screen, recommend a new chat before continuing.
+- **One screen (or one flow of frames) per chat.** If this chat already handled a different screen, ask with AskUserQuestion whether to start a new chat (recommended) or continue here. For a new chat, stop and say: "Open a new chat and type **`/figma-workflow:plan`** with the link there."
 
 ## Steps
 
@@ -107,8 +106,8 @@ Use the plan template in the mapping reference, in the stack adapter's terms (na
 
 First settle every open decision the build depends on (for example a missing prototype guard, or a design question that changes the files): ask each with AskUserQuestion and write the answer into the plan. Don't leave a decision in the plan text for the approval to settle.
 
-Show the plan and end your message with: "To approve, type **`/figma-workflow:build`** (or pick it from the `/` menu). To change something or ask about it, just write it here."
+Show the plan and end your message, with no question open, with this hand-over line: "To approve, type **`/figma-workflow:build`** (or pick it from the `/` menu). To change something, type **`/figma-workflow:plan`** followed by your change. To ask about the plan, just write here."
 
-On a change: revise the plan (re-plan fully if the change is large), show it, and end with the same line. On a question: answer it and end with the same line.
+On a change sent with the command: revise the plan (re-plan fully if the change is large), show it, and end with the same line. On a question: answer it and end with the same line. A change sent as a plain message: see "Later messages".
 
 Do not start building, and do not treat "ok", "yes" or "approved" as approval to edit: approval is the build command.
