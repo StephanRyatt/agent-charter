@@ -22,7 +22,7 @@ Rules:
 
 ## When the plan must be full
 
-Write the full plan (all sections below) when any of these hold; otherwise the short plan (differences, mapping table, files, pitfalls) is enough:
+Write the full plan (all sections below) when any of these hold; otherwise the short plan (the header with its Viewports line, differences, mapping table, files, pitfalls) is enough:
 - more than one frame, or modals, states or tabs beyond the main view;
 - a new page (new route, page shell, data shape);
 - changes to shared components, tokens, layouts or menus;
@@ -36,13 +36,14 @@ Write the full plan (all sections below) when any of these hold; otherwise the s
 
 **Figma**: <frame link(s)>  **Repository / area**: <...>  **Kind**: new | update | re-implementation
 **Placement**: isolated | integrated  **Status in code**: prototype | integrated by backend | new
+**Viewports**: <viewport>: <frame link> | follows <reference screen> (no frame) | skipped | later; ... (one entry per viewport `design-system.md` declares for this area)
 
 ## What changes
 <For an update: each difference — Figma node, code now (path:line), becomes. For new: one paragraph.>
 Kept on purpose: <code that differs from the design for a recorded reason, or "none">
 
 ## Frames and states            (full plan)
-| Frame / state | Node | Route or trigger | In scope |
+| Frame / state | Viewport | Node | Route or trigger | In scope |
 
 ## Mapping
 <the mapping table>
@@ -57,7 +58,7 @@ Sample data is generated from the app's data model, never read from a database. 
 
 ## Files
 | File | New / changed | What |
-Include whatever the stack adapter's "Registering new files" requires (for example project-file entries), any tests or stories the adapter calls for, and name which copy of a duplicated stylesheet is edited.
+One row per viewport file where a viewport has its own (a view or component the server picks, or a route). Include whatever the stack adapter's "Registering new files" requires (for example project-file entries), any tests or stories the adapter calls for, and name which copy of a duplicated stylesheet is edited.
 
 ## Build order                  (full plan)
 Shared pieces first (tokens, component variants), then the data shape and sample data, then the page shell, then views or components, then the interaction code, then tests or stories.

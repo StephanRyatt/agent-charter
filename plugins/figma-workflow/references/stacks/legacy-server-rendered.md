@@ -34,6 +34,15 @@ For server-rendered templates with page-level scripts: ASP.NET MVC with Razor, a
 - Usually no component library: reuse means the CSS framework's classes plus the house classes in `design-system.md`, and existing partials.
 - Code Connect rarely applies; mapping lives in `design-system.md`.
 
+## Viewports (examples)
+
+Examples only. The repository's Viewports section in `design-system.md` is the rule; the skills follow it.
+
+- **ASP.NET MVC display modes:** a sibling view with a suffix (for example `Index.Mobile.cshtml` next to `Index.cshtml`), which MVC picks from the request's user agent. The per-screen check is the sibling view's file, plus its project-file entry where the project lists its files. Request it with a phone user-agent string; the window's width alone doesn't select it.
+- **Rails request variants:** templates such as `index.html+phone.erb`, chosen when the controller sets `request.variant`, usually from the user agent. Request it the way the app sets the variant.
+- **A separate mobile host or subdomain:** request that host.
+- **CSS breakpoints only:** one view serves every width; set the window to a width inside each range.
+
 ## Registering new files
 
 - **Old-style project files** that list their contents (for example a `.csproj` with explicit `<Content Include=...>` and `<Compile Include=...>` items): add every new view, partial, stylesheet, script, image, controller and view model. A missing content entry is silently left out of the published site; a missing compile entry breaks the build or leaves the class out. Match the existing item style (path separators, ordering).
@@ -97,4 +106,6 @@ Usually none. Don't invent test commands; say the page is untested beyond the ch
 
 ## Preview
 
-These stacks often build and run on one operating system only (for example Windows with Visual Studio). Don't try to install or build one. Say how to preview from `prototype.md`, and don't claim the page renders.
+These stacks often build and run on one operating system only (for example Windows with Visual Studio). Don't install a toolchain or build the stack yourself. When `prototype.md` names a preview that runs (for example a local virtual machine or a deployed test site) and a browser tool is available, open the page there and look at it, but only if that preview serves the files just changed: it builds from this working copy and has been rebuilt since the change, or this branch is deployed there. Where `prototype.md` gives the step that updates the preview (for example a command that rebuilds it from this working copy), `build` may run it; the audit never does. Confirm on the page that it is the new code (an element or text the change added). Otherwise say how to preview it from `prototype.md`, and that it wasn't rendered.
+
+- **Cached static files.** Stylesheets, scripts and images linked without a version string (a query such as `?v=` or a hashed file name) can be served from the browser's cache after a change, so the page shows old styles or assets. Compare after a hard refresh (or with the cache disabled), and suggest versioned asset URLs to the backend team.
