@@ -106,4 +106,6 @@ Usually none. Don't invent test commands; say the page is untested beyond the ch
 
 ## Preview
 
-These stacks often build and run on one operating system only (for example Windows with Visual Studio). Don't try to install or build one. Say how to preview from `prototype.md`, and don't claim the page renders.
+These stacks often build and run on one operating system only (for example Windows with Visual Studio). Don't install a toolchain or build the stack yourself. When `prototype.md` names a preview that runs (for example a local virtual machine or a deployed test site) and a browser tool is available, open the page there and look at it, but only if that preview serves the files just changed: it builds from this working copy and has been rebuilt since the change, or this branch is deployed there. Where `prototype.md` gives the step that updates the preview (for example a command that rebuilds it from this working copy), `build` may run it; the audit never does. Confirm on the page that it is the new code (an element or text the change added). Otherwise say how to preview it from `prototype.md`, and that it wasn't rendered.
+
+- **Cached static files.** Stylesheets, scripts and images linked without a version string (a query such as `?v=` or a hashed file name) can be served from the browser's cache after a change, so the page shows old styles or assets. Compare after a hard refresh (or with the cache disabled), and suggest versioned asset URLs to the backend team.

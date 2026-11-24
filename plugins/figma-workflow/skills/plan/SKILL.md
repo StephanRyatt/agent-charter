@@ -82,6 +82,7 @@ Before fetching anything, state in one line what you will compare: "Comparing Fi
 1. Open a Figma session as the Figma MCP server instructs (for example, a session call with the file key before any file tool), and reuse its session id.
 2. Load the Figma plugin's design-to-code skill before requesting design context, as that skill requires (when the plugin is installed it is usually named `figma:figma-design-to-code`; if only the MCP server is present, use the skill it serves as a resource). If neither exists, follow the server's instructions directly and note this in the plan.
 3. For each frame: design context with a screenshot, the metadata tree (save large output to a file and read it in parts), variables, and, when `design-system.md` says Code Connect is set up, its mappings (authoritative). When it says it isn't, don't call the Code Connect tools, and if the Figma server or its design-to-code skill asks whether to connect code components, decline on the user's behalf without asking them. Note where Figma itself uses raw values or detached components: those are design-side items for the designer, not code defects.
+   View each frame's screenshot yourself, in this conversation. A subagent may inventory frames for extra detail, but its summary never replaces your own look at each frame.
 4. Inventory every visible element (text, icons, images, logos, inputs, buttons, toggles, tabs, table columns, modals, states, sibling frames) and every control.
 
 ### 4. For an existing screen: decide what changed
