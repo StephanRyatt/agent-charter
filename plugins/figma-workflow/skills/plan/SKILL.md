@@ -59,7 +59,7 @@ Whatever follows `/figma-workflow:plan` is one of:
    2. Pick it from what you already know: a repository this chat already chose, the user's words, or a screen record or code match for the Figma frame. If more than one fits, or none does, ask with AskUserQuestion, describing each repository from its `docs/figma-workflow/README.md` where present (and saying which have no facts directory).
    3. No nested repositories: the target is the git repository the working directory is in (its top level, `git rev-parse --show-toplevel`). Not in any repository: stop and ask the user to open the app's folder or its workspace.
    4. From then on, use the chosen repository's absolute path for everything: its facts directory, code searches, and any git command (`git -C <path>`). State it once: "Working in <folder>."
-3. **Facts files.** Read every file in the facts directory. Check each one's `figma-workflow-schema:` line as described in the schema reference. Missing or outdated: stop with the exact file name and "the repository owner needs to add or update this file" (for schema 1, name the two lines to add, from the schema's "From schema 1 to 2"). Do not continue on guesses.
+3. **Facts files.** Read every file in the facts directory. Check each one's `figma-workflow-schema:` line as described in the schema reference. Missing or outdated: stop with the exact file name and "the repository owner needs to add or update this file" (for an older schema, name what to add, from the schema's "From schema 1 to 2" and "From schema 2 to 3"). Do not continue on guesses. Once the screen's area is known (step 2): `design-system.md` without a Viewports section, or with no entry for the screen's area: stop and say the repository owner has to add it (the schema's "From schema 2 to 3").
 4. **Stack adapter.** Read the `Stack adapter` line in `design-system.md` and load that file from the plugin's `references/stacks/` (`legacy-server-rendered.md` or `modern-component.md`). It says what a page shell, data shape, prototype marker and interaction code are on this stack, and which pitfalls are typical. Any other value: stop and say the facts name an adapter this plugin doesn't have.
 5. **Code Connect.** Read the `Code Connect` line in `design-system.md` and follow the plugin's [Code Connect reference](../../references/code-connect.md) for the rest of this planning.
 
@@ -70,6 +70,10 @@ Gather in as few AskUserQuestion calls as possible, skipping anything already in
 - **Figma link** to the frame (or the first frame of a flow). Before asking whether there are more frames, look at the frame's neighbours on its Figma page (a light metadata read of the page or section around it) and propose the related ones you find: "These frames sit next to it: A, B, C. Plan them together?"
 - **New or existing.** Search the screen records (`screens/*.md`) and the code (route names, page titles, distinctive text from the frame). Propose what you found: "This looks like the existing screen X (`path`)", "This looks new", or several candidates. The user's link wins over a record; if the record points to a different frame, ask whether the new link replaces it.
 - **For a new screen:** which area of the app it belongs to (from the README or design-system file), and **placement**: *isolated* (reachable only by its URL, no menu entry; the default) or *integrated* (a menu entry, hidden wherever prototypes are unreachable, per `prototype.md`). Integrated edits shared layout or menu files, so say it will need a review by the backend team.
+- **Viewports.** Take the viewports `design-system.md` declares for the screen's area. Classify each linked frame by its width against their ranges; a width outside every range or on a boundary between two: ask which viewport it is, never guess. Then, for each declared viewport:
+  - **Existing screen:** the screen record's Viewports line counts. A viewport it shows with a frame keeps that frame unless the user links another. One it shows as *skipped* is not raised again. A viewport with no entry there or marked *later*, or a record with no Viewports line: say so, and ask whether to add it in this plan or note it for later. Never add it silently.
+  - **No linked frame covers it** (a new screen, or a viewport the user chose to add): ask whether a design exists, for example "Is there a phone design for this screen? Link it." If the Viewports entry says where its frames usually live, look only there first (the top-level frames, a light metadata read) and offer what you find as candidates. Include a candidate only when the user confirms it. Never search the whole Figma file.
+  - A viewport still without a frame is settled in step 7.
 
 Before fetching anything, state in one line what you will compare: "Comparing Figma frame '<name>' against <new screen | existing screen at path>."
 
@@ -82,10 +86,10 @@ Before fetching anything, state in one line what you will compare: "Comparing Fi
 
 ### 4. For an existing screen: decide what changed
 
-Compare the design as it is now with the code as it is now (not with the record).
+Compare the design as it is now with the code as it is now (not with the record). Compare each viewport's frame with that viewport's code: for a version the server picks, its own view or component, as the Viewports entry says. A viewport that follows a reference screen has no frame of its own, but its content comes from the screen's frames: compare that viewport's content (copy, fields, controls, assets) with the screen's frames, and list each difference for that viewport.
 
 - **Integrated or prototype.** Look for the prototype marker from `prototype.md` on the screen's page shell (where the adapter says it sits). No marker means the backend team has integrated it: plan **presentation-only** changes (markup, classes, styles, static text and assets) and never touch data wiring, handlers that call the server, or data-shape fields they use.
-- **Nothing differs:** say "The frame '<name>' and the screen at <path> match; nothing to change." List anything you could not compare. Stop.
+- **Nothing differs**, in any viewport: say "The frame '<name>' and the screen at <path> match; nothing to change." List anything you could not compare. Stop.
 - **Almost everything differs:** say this looks like a new design rather than an edit, and plan it as a re-implementation (ask the user to confirm).
 - Otherwise list each difference with the Figma node, what the code has now (`path:line`), and what it should become. Code that differs from the design for a reason recorded in the screen record or visible in the code (real data, a backend handler) is not a difference to undo: list it under "kept on purpose".
 
@@ -100,11 +104,13 @@ Match by role, not only by value. *Exact*: use it. *Nearest within about one ste
 
 ### 6. Write the plan
 
-Use the plan template in the mapping reference, in the stack adapter's terms (name the actual page shell, data shape and files for this stack). Scale it to the work: a small change is the difference list, the mapping table and the file list; a new screen or multi-frame flow adds the frame inventory, the interaction table (every control: what it does in the clickable prototype, or why it is inert), the sample-data table (source entities from the data model named in `prototype.md`, their field types, lengths and nullability, and the edge cases), build order and the "needs backend" list. Include the pitfalls from `pitfalls.md` that apply, and the adapter's file registration and tests or stories where they apply.
+Use the plan template in the mapping reference, in the stack adapter's terms (name the actual page shell, data shape and files for this stack). Every plan, short or full, has the Viewports line, with one entry per declared viewport, and lists each viewport's files. Scale it to the work: a small change is the difference list, the mapping table and the file list; a new screen or multi-frame flow adds the frame inventory, the interaction table (every control: what it does in the clickable prototype, or why it is inert), the sample-data table (source entities from the data model named in `prototype.md`, their field types, lengths and nullability, and the edge cases), build order and the "needs backend" list. Include the pitfalls from `pitfalls.md` that apply, and the adapter's file registration and tests or stories where they apply.
 
 ### 7. Hand over
 
 First settle every open decision the build depends on (for example a missing prototype guard, or a design question that changes the files): ask each with AskUserQuestion and write the answer into the plan. Don't leave a decision in the plan text for the approval to settle.
+
+This includes every declared viewport that still has no frame and isn't *skipped* or noted for *later*. Ask with AskUserQuestion, with the Viewports entry's "No frame" rule as the recommended option: follow the named reference screen; skip it when the rule says not supported; when the rule is to ask the designer, the question is the ask. Offer the others too (link a frame, follow a reference screen, skip, later). Write the answer into the plan's Viewports line.
 
 Show the plan and end your message, with no question open, with this hand-over line: "To approve, type **`/figma-workflow:build`** (or pick it from the `/` menu). To change something, type **`/figma-workflow:plan`** followed by your change. To ask about the plan, just write here."
 

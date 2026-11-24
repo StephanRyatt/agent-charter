@@ -34,6 +34,15 @@ For server-rendered templates with page-level scripts: ASP.NET MVC with Razor, a
 - Usually no component library: reuse means the CSS framework's classes plus the house classes in `design-system.md`, and existing partials.
 - Code Connect rarely applies; mapping lives in `design-system.md`.
 
+## Viewports (examples)
+
+Examples only. The repository's Viewports section in `design-system.md` is the rule; the skills follow it.
+
+- **ASP.NET MVC display modes:** a sibling view with a suffix (for example `Index.Mobile.cshtml` next to `Index.cshtml`), which MVC picks from the request's user agent. The per-screen check is the sibling view's file, plus its project-file entry where the project lists its files. Request it with a phone user-agent string; the window's width alone doesn't select it.
+- **Rails request variants:** templates such as `index.html+phone.erb`, chosen when the controller sets `request.variant`, usually from the user agent. Request it the way the app sets the variant.
+- **A separate mobile host or subdomain:** request that host.
+- **CSS breakpoints only:** one view serves every width; set the window to a width inside each range.
+
 ## Registering new files
 
 - **Old-style project files** that list their contents (for example a `.csproj` with explicit `<Content Include=...>` and `<Compile Include=...>` items): add every new view, partial, stylesheet, script, image, controller and view model. A missing content entry is silently left out of the published site; a missing compile entry breaks the build or leaves the class out. Match the existing item style (path separators, ordering).

@@ -45,6 +45,7 @@ Figma's MCP server, its design-to-code skill and Code Connect turn a frame into 
 - **Screens kept in sync over time.** Each built screen gets a record in the repo. When the frame changes, `plan` plans only the differences, keeps what differs on purpose, and says so when nothing changed.
 - **A prototype boundary.** Designer-built pages are clickable prototypes with no backend: sample data generated from the app's data model, in-memory interaction, and a prototype marker that keeps them out of production until the backend team promotes them.
 - **An independent audit.** `verify` checks coverage, fidelity, behaviour and design-system reuse in a fresh context that never saw the build.
+- **Every viewport covered.** The repo's facts declare its viewports and how each is served. `plan` gets a design or a rule for each one, `build` builds each, and `verify` requests each version the way the app serves it, so a phone view the server picks is never checked by resizing the desktop page.
 - **Opus for every step.** `plan`, `build` and `verify` each run on Opus at high effort, and the audit runs on Opus in its own subagent, unless an admin setting overrides the model or effort. A skill can set the model only for the turn it starts in. That turn lasts until the step finishes: questions, answers and anything you type meanwhile stay in it. A message sent after a step ends runs on the session's model and effort. So changes to a plan go through the command, `/figma-workflow:plan` followed by the change, and are planned on Opus too; plain questions about a plan are answered on the session's model. A session set higher (xhigh, max or Fable) runs these steps at Opus high.
 
 Code Connect is optional. When a repo has it, its mappings win; when it doesn't, the skills match components from the repo's facts files and don't push you into setting it up. The plugin's `references/code-connect.md` says how to adopt it.
@@ -107,7 +108,13 @@ Plugin agents run in Claude Code (local and cloud sessions), Cowork and claude.a
 
 ## Upgrading from earlier versions
 
-This release renames the `council` plugin and several skills. In Claude Code, installs from this marketplace move to the new plugin name on their own; two things need one command each. A committed `.claude/settings.json` that enables `council` is rewritten too, so commit that change.
+### figma-workflow 0.6.0: facts schema 3
+
+figma-workflow 0.6.0 reads only facts schema 3. Before you use it, update each repository's `docs/figma-workflow/`: add the Viewports section to `design-system.md`, and change `figma-workflow-schema: 2` to `3` in every facts file and screen record. The plugin's `references/facts-schema.md` says how, under "From schema 2 to 3". Version 0.6.0 stops on schema 2. Earlier versions' `plan` and `build` stop on schema 3, but their `verify` audits without the facts and so misses the viewports. Every session that works on an updated repository needs 0.6.0.
+
+### Renamed plugins and skills
+
+An earlier release renamed the `council` plugin and several skills. In Claude Code, installs from this marketplace move to the new plugin name on their own; two things need one command each. A committed `.claude/settings.json` that enables `council` is rewritten too, so commit that change.
 
 - **`council` is now `decision`.** After the marketplace updates, run `/plugin install decision@agent-charter` once. Until you do, Claude Code reports the plugin as not cached.
 - **`/council:decision-council` is now `/decision:council`.**

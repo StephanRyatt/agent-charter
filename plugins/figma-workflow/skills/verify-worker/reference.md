@@ -72,12 +72,13 @@ For a reuse metric, tally (counts only, not a gate):
 ```markdown
 # Figma implementation audit: <screen/component>
 
-**Figma**: <url> (node <id>)  **Scope**: <files / PR / diff>  **Depth**: scoped | full  **Rendered & compared**: yes/no (<why not>)
+**Figma**: <url> (node <id>)  **Scope**: <files / PR / diff>  **Depth**: scoped | full
+**Rendered & compared**, per viewport: <viewport>: yes (<how requested>) | no (<why not>); ...
 
 ## For the designer        (designer audience: put this first)
 - **Overall**: <one or two plain sentences: does it look and behave like the design?>
 - **Top issues to fix in code** (at most five, plain language, each with where it shows on screen)
-- **To fix in Figma** (design-side to-do): <off-system colours or sizes, detached components, missing states, controls whose behaviour is unclear>
+- **To fix in Figma** (design-side to-do): <off-system colours or sizes, detached components, missing states, "design the [viewport] version" for each viewport with no frame, controls whose behaviour is unclear>
 - **Couldn't check**: <for example "not rendered: the page needs a login">
 
 ## Verdict
@@ -89,11 +90,12 @@ Reuse: components <x reused / y hand-rolled>, values <x tokenized / y hardcoded>
 | Figma element (node id) | Type | Status (implemented / placeholder / missing) | Implementation (path:line) | Asset source |
 |---|---|---|---|---|
 Frames/states not reachable in the implementation: <list or "none">
+Viewports: <viewport>: <frame (node id)> | no design: follows [rule] | skipped | later | pre-existing, not checked; ...
 
 ## Fidelity (geometry / visual)
-Method: rendered & compared | source-derived only (not rendered)
-| Pattern | Figma value | Implementation-derived value | Match? | Cause (path:line) |
-|---|---|---|---|---|
+Method, per viewport: rendered & compared | source-derived only (not rendered)
+| Viewport | Pattern | Figma value | Implementation-derived value | Match? | Cause (path:line) |
+|---|---|---|---|---|---|
 
 ## Behavior and wiring
 Prototype links in Figma: <real links | hover-only | none; behavior inferred>
@@ -126,7 +128,7 @@ Prototype links in Figma: <real links | hover-only | none; behavior inferred>
 Order: missing/placeholder elements and assets → component swaps → token substitutions → duplicate/parallel-style removal → layout and spacing fixes → wiring of stubs/unwired controls → additive system additions → design-side follow-ups.
 
 ## Not verified
-<unrunnable app, missing states/breakpoints in Figma, assumptions. Always state explicitly: whether visual rendering happened, whether geometry was checked, and which controls have unknown intent.>
+<unrunnable app, missing states in Figma, assumptions. Always state explicitly: per viewport, whether visual rendering happened and how it was requested; viewports not requested or not rendered; viewports left for later; whether geometry was checked; and which controls have unknown intent.>
 
 ```
 

@@ -1,4 +1,4 @@
-# Facts files: schema 2
+# Facts files: schema 3
 
 The skills are generic. Everything specific to one repository lives in that repository, in the **facts directory**:
 
@@ -11,12 +11,14 @@ This path is the only place the skills look. If your team moves the files, chang
 Every facts file starts with a title line and then this line, exactly (blank lines between them are fine). The `screens/` folder may be missing until the first screen is built; that is not an error:
 
 ```
-figma-workflow-schema: 2
+figma-workflow-schema: 3
 ```
 
 A skill that finds a file missing, without that line, or on a lower number stops and says which file is missing or outdated and that the repository owner has to add or update it. It never guesses the facts or writes them itself. A higher number than the skill knows: stop and say the plugin needs updating.
 
 **From schema 1 to 2:** add the **Stack adapter** and **Code Connect** lines to `design-system.md` (below), and change the number in every file, screen records included. Nothing else is required to change.
+
+**From schema 2 to 3:** add the **Viewports** section to `design-system.md` (below), and change the number in every file, screen records included. Existing screen records need no Viewports line: `verify` reports a viewport missing from such a screen as pre-existing, not as a finding, and the next `plan` for that screen asks about it. Plugin 0.6.0 and later read only schema 3. Earlier versions' `plan` and `build` stop on it, but their `verify` audits without the facts and misses the viewports, so update the files and every user's plugin together.
 
 ## Terms
 
@@ -51,6 +53,27 @@ Then:
 - **Stylesheets**: which files are canonical, and every stylesheet that exists as several copies (path of each copy, which one the pages actually load).
 - **Reference screens**: one or two existing pages that show the house style.
 - **Figma mapping**: Figma library components or variables that map to repository components or tokens.
+- **Viewports** (required): see below.
+
+#### Viewports
+
+Every viewport the repository supports, so `plan`, `build` and `verify` cover each one. A desktop-only repository declares one viewport. One entry per viewport, with:
+
+- **Name and width**: a name and a width or width range, for example "phone, up to 767px".
+- **Served by**: CSS breakpoints in the same page | a separate view or component the server picks | a separate route or host.
+- **Requested by** (for anything but CSS breakpoints): how to get that version, for example a user-agent string, a cookie, a query switch, or the host or route.
+- **Tells apart**: a visible sign or source marker that shows which version is on screen, for example a layout class on the page's root element.
+- **Per screen** (for a version the server picks): the file or registration that must exist for each screen, so it can be checked in the source without rendering, for example a sibling view named by a suffix.
+- **Figma frames**: where its frames usually live (a page, or a naming convention), or "no convention".
+- **No frame**: the rule when Figma has no frame for it: follow reference screen `<path>` | ask the designer per screen | not supported (without a frame, the screen doesn't get that version).
+- **Areas** (optional): the areas the entry applies to. Default: the whole repository. Use it so that, for example, a desktop-only admin area raises no phone questions.
+
+```markdown
+## Viewports
+
+- **desktop**, 768px and up. Served by: CSS breakpoints in the same page. Tells apart: no `layout-phone` class. Figma frames: page "Desktop". No frame: ask the designer per screen.
+- **phone**, up to 767px. Served by: a separate view the server picks. Requested by: a phone user-agent string. Tells apart: `layout-phone` class on `<body>`. Per screen: a `<Name>.Phone` view next to the desktop view. Figma frames: page "Mobile", frames named like the desktop ones. No frame: follow reference screen `Views/Home/Index.Phone`. Areas: all except admin.
+```
 
 ### 2. `prototype.md` (required)
 
@@ -71,7 +94,7 @@ Repository traps that break builds or fidelity silently. Examples of the kind of
 - Project files that must list every new file, or the file is left out of the published site.
 - Stylesheets copied into several folders, where only one copy is loaded.
 - Global CSS rules (icon pseudo-elements, base margins) that change spacing on new markup.
-- Separate mobile views, or components that render differently on the server.
+- Components that render differently on the server. (Separate phone or tablet versions are not a pitfall entry: they belong in the Viewports section of `design-system.md`.)
 - Shared layouts and menus that every screen touches.
 - Things the frontend workflow must never touch (secret config files, data access, payment, auth configuration, database scripts, API routes).
 
@@ -80,10 +103,11 @@ Repository traps that break builds or fidelity silently. Examples of the kind of
 ```markdown
 # <Screen name>
 
-figma-workflow-schema: 2
+figma-workflow-schema: 3
 
 - **Figma**: <frame URL>  (frame name: "<name>")
 - **Other frames in this flow**: <URL — name>, ... (or "none")
+- **Viewports**: <viewport>: <frame URL> | follows <reference screen> (no frame) | skipped (user's choice, <YYYY-MM-DD>) | later (noted <YYYY-MM-DD>); ... (one entry per declared viewport)
 - **Repository / area**: <repo folder> / <area, e.g. corporate dashboard>
 - **Placement**: isolated | integrated (menu entry: <where>)
 - **Route(s)**: <URL path(s)>
@@ -93,6 +117,8 @@ figma-workflow-schema: 2
 - **Inferred, not shown in the design**: <behaviour — basis>, ... (or "none")
 - **Notes**: <anything the next plan must know>
 ```
+
+In the Viewports line, *skipped* means the user decided this screen doesn't get that version, and `plan` doesn't raise it again; *later* means it is still wanted, and the next `plan` for the screen asks about it again.
 
 Status (prototype or integrated) is **not** stored here. It is read from the code: a page that still carries the prototype marker is a prototype; one without it has been integrated by the backend team. The record is a hint for finding the screen, not proof: the Figma link the designer gives always wins, and a mismatch is surfaced, never silently resolved.
 

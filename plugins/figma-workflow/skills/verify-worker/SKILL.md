@@ -21,7 +21,7 @@ You run in a fresh context on purpose: you have not seen how the work was built,
 
 **Target repository:** exactly the absolute path in the inputs' "Repository:" line, never the working directory (which may be a workspace holding several repositories). Read files and run git commands there (`git -C <path>`). If the line is missing or the path is not a git repository, stop and report it.
 
-**Facts directory:** `docs/figma-workflow/` in the target repository. Read every file there first and check each `figma-workflow-schema:` line is `2`; if missing or different, say so in the report and audit without them, marking reuse verdicts as lower confidence.
+**Facts directory:** `docs/figma-workflow/` in the target repository. Read every file there first and check each `figma-workflow-schema:` line is `3`; if missing or different, say so in the report and audit without them, marking reuse verdicts as lower confidence.
 
 **Stack adapter:** load the file the inputs' `Stack adapter` value names (or, failing that, `design-system.md`'s line) from the plugin's `references/stacks/`, which lives at `../../references/stacks/` relative to this skill's folder (`${CLAUDE_SKILL_DIR}/../../references/stacks/`). It says what the page shell, data shape, prototype marker and interaction code are on this stack, and holds the stack's audit scans. With no adapter, audit with the generic scans only and say so under "Not verified".
 
@@ -33,10 +33,10 @@ You run in a fresh context on purpose: you have not seen how the work was built,
 - [ ] 1. Scope: Figma node + implementation target
 - [ ] 2. Inventory the repo's design system
 - [ ] 3. Fetch the design (context, screenshot, variables, Code Connect, metadata tree)
-- [ ] 4. Figma-side inventory (every element in the frame -> implemented / placeholder / missing)
+- [ ] 4. Figma-side inventory (every element in each viewport's frame -> implemented / placeholder / missing)
 - [ ] 5. Extract what the implementation actually uses
 - [ ] 6. Audit each style/component decision (reuse)
-- [ ] 7. Fidelity check (render, or geometry + assets when you cannot)
+- [ ] 7. Fidelity check (render each viewport as it is served, or geometry + assets when you cannot)
 - [ ] 8. Behavior and wiring check (8b: prototype boundary and stack checks)
 - [ ] 9. Build the remediation plan and report
 ```
@@ -55,6 +55,7 @@ Take both from the inputs; if either is missing, stop and report it, never guess
 - **Figma**: `figma.com/design/:fileKey/...?node-id=1-2` → `fileKey`, `nodeId` = `1:2`. For `/branch/:branchKey/` use `branchKey` as `fileKey`.
 - **Implementation**: files, component, route, PR, or branch diff. Prefer `git diff <base>...HEAD` (or the PR diff) to isolate what was *added*; pre-existing code is out of scope unless the inputs say otherwise.
 - **Depth**: *scoped* (only the nodes and files named, after a build) or *full* (the whole screen, developer report). **Audience**: designer or developer.
+- **Viewports**: the inputs' Viewports line, checked against the Viewports section of `design-system.md` (the entries for the screen's area). Every declared viewport is in scope unless it is listed as *skipped* or *later*. If the inputs omit the line, build it from the facts and the screen record.
 
 If the Figma MCP server's tools are not available in this context, stop and report that; do not audit from the code alone and call it a design audit. Follow the server's own instructions on sessions (open a session with the file key before other file tools, and reuse its id).
 
@@ -85,6 +86,7 @@ Start from the design, not the code. Get the metadata tree for the node (save la
 - **Frames not rendered by the screen**: list every sibling frame (other states, modals, empty/error states) and whether it is reachable in the implementation.
 - Take a screenshot per region (filter bar, table rows, modal) to compare against the implementation.
 - **Copy**: every text string matches the design verbatim; flag leftovers from a page the screen was copied from (other names, places, sample text).
+- **Viewports**: do this inventory for each declared viewport's frame. A viewport with no frame is judged two ways instead: its elements and copy against the screen's frames, where its content comes from, and its layout against its rule and reference screen. Mark it "no design: follows [rule]", and put "design the [viewport] version" on the designer's to-do list. A viewport listed as *skipped* is not a finding; one listed as *later* goes under "Not verified" as not built yet. A viewport the screen record has no entry for (the record predates that viewport, or plugin 0.6.0) goes under "pre-existing, not checked", not under findings.
 
 ### 5. Extract what the implementation uses
 
@@ -122,7 +124,9 @@ Separate **findings** (backed by `path:line` evidence) from **hypotheses** (e.g.
 
 ### 7. Fidelity check
 
-Reuse must not cost fidelity. If the inputs give a preview URL, or the app can be run here, render it with whichever browser tool is available (Claude Desktop's built-in browser or Claude in Chrome) and compare against the Figma screenshot: layout, spacing, type, color, assets, states. Never sign in or enter credentials; if the page needs a login the browser doesn't already have, treat it as not rendered. Follow the adapter's "Preview" section; don't try to install or build a stack that doesn't run here. Record where an existing token's drift is visible.
+Reuse must not cost fidelity. Cover each declared viewport (step 1), comparing each against its own frame, or its reference screen when it has none. If the inputs give a preview URL, or the app can be run here, render it with whichever browser tool is available (Claude Desktop's built-in browser or Claude in Chrome) and compare against the Figma screenshot: layout, spacing, type, color, assets, states. Never sign in or enter credentials; if the page needs a login the browser doesn't already have, treat it as not rendered. Follow the adapter's "Preview" section; don't try to install or build a stack that doesn't run here. Record where an existing token's drift is visible.
+
+**Request each viewport the way it is served.** For CSS breakpoints, set the window to a width inside each range. A version the server picks (a separate view or component, route or host) is not selected by the window's width: request it as the Viewports entry says (user agent, cookie, query switch, route or host). Some browser tools also change the user agent at narrow widths, so for every viewport confirm with its "Tells apart" sign which version is on screen. If the browser tool can't request it that way, mark that viewport "not rendered" and fall back to the geometry check below for it. Never audit another version in its place.
 
 **If you cannot render it, "not rendered" is not the end of the step.** Compensate with a geometry comparison and say it is source-derived, not visual:
 1. From the metadata tree, compute for each repeated pattern: element sizes, gaps between siblings (next.x - (prev.x + prev.width)), icon-to-label offsets, paddings, row heights, column widths.
@@ -153,6 +157,7 @@ Run the missing-content scans in [reference.md](reference.md) and the adapter's 
 - **Sample data** (prototype pages): data-shape fields mirror the source entities' names and types for the fields shown; sample values respect their maximum lengths and nullability; the data includes the longest allowed values, empty optional fields, an empty list and a long list. Missing edge cases are **Med** findings (the design's empty and overflow states go untested). No real-looking personal data, no text copied from another page.
 - **Marker present** on every new page shell, in the form `prototype.md` names; access check present (its roles are for the backend team to confirm: list them).
 - **Integrated pages**: changes are presentation-only; flag any edit to data wiring, server handlers or data-shape fields.
+- **Viewport files** (needs no rendering): for each declared viewport the server picks, the file or registration the Viewports entry's "Per screen" names exists for this screen. A missing one is a finding, unless the viewport is listed as *skipped* or *later*, or the screen record has no entry for it (then "pre-existing, not checked").
 - **File registration**: every new file is registered as the adapter's "Registering new files" says (for example in an old-style project file; unlisted files can be silently left out of the published site).
 - **Duplicated stylesheets**: the edited copy is the one the page loads.
 - **Tests and stories**: where the adapter and the repository call for them, they exist and cover the sample-data states.
@@ -178,6 +183,7 @@ Use the template in [reference.md](reference.md). Plan rules:
 - Vague fixes ("use tokens") instead of naming the token/component.
 - Editing code during the audit.
 - Presenting hypotheses as findings, or claiming visual verification without rendering.
+- Resizing the window to check a version the server picks, or auditing one viewport's version in place of another.
 - Auditing only from the implementation outward (diffing your own CSS) and never walking the Figma tree.
 - Treating "app not rendered" as the end of fidelity checking instead of falling back to geometry and source tracing.
 - Missing absent values: scans find wrong values that exist, not margins, assets or handlers that don't.

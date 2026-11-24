@@ -37,6 +37,15 @@ For component frameworks: React (Next.js, Remix, Vite), Vue (Nuxt), Svelte (Svel
 - When Code Connect is set up, the mapped component at each mapped node is the answer.
 - Intentionally inert controls: render the normal component with no handler, and list them as inert; the audit's handler scan will show them as unhandled, which the list explains.
 
+## Viewports (examples)
+
+Examples only. The repository's Viewports section in `design-system.md` is the rule; the skills follow it.
+
+- **CSS breakpoints** (the usual case): media or container queries, or Tailwind's responsive prefixes (`sm:`, `md:`, `lg:`), in the same page. Set the window to a width inside each range.
+- **A user-agent check in middleware** that rewrites to a separate route (for example Next.js middleware, called proxy from Next.js 16, reading `userAgent(request)` and rewriting phones to `/m/...`): request it with that user agent; the window's width alone doesn't select it. The per-screen check is the route file the rewrite points to.
+- **Components that render a different tree on the server** from a device hint (a user-agent or client-hint value passed down as a prop): request it the way the hint is set; this counts as a version the server picks.
+- **A separate host** for phones: request that host.
+
 ## Registering new files
 
 - Usually nothing to register: the framework picks up routes from the folder structure. Check `design-system.md` for exceptions (a route list, a navigation config, barrel `index.ts` exports the repository relies on, a Storybook config that lists stories).

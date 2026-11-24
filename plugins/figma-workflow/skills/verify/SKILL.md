@@ -19,6 +19,8 @@ The audit needs a forked subagent with access to the Figma MCP server. If this s
 
 ## 2. Collect the inputs
 
+Before anything else in the target repository, read every file in its facts directory and check each one's `figma-workflow-schema:` line is `3`, as the plan skill does. Missing or lower: stop with the exact file name and "the repository owner needs to add or update this file". Higher: stop and say the plugin needs updating. `design-system.md` without a Viewports section, or with no entry for the screen's area: stop and say the repository owner has to add it (the schema's "From schema 2 to 3"). Never start the audit without the facts.
+
 Take what this chat already has (a plan, a build summary, the screen record), and ask only for what's missing, with the AskUserQuestion tool (never plain text; batch up to four questions):
 
 - **Target repository.** Use the one this chat's plan or build used. Otherwise list the git repositories nested directly under the working directory; if there are any, the target is one of them, even when the working directory is itself a git repository (a workspace), so never pick the workspace. Pick from the user's words or the Figma frame's screen record, or ask. No nested repositories: the repository the working directory is in. Pass its absolute path, and run git commands there (`git -C <path>`).
@@ -28,7 +30,7 @@ Take what this chat already has (a plan, a build summary, the screen record), an
 - **Audience**: *designer* (plain-language summary and a to-do list for Figma first; the default when the user is the designer) or *developer* (the full report).
 - **Preview URL**, if the facts file names one and the page is deployed there. Optional.
 
-Also collect, without asking: the `Stack adapter` and `Code Connect` lines from `design-system.md`, the screen record path, the facts files' paths, the Figma frame names and node ids, the list of changed files, and the intentionally inert controls from the record or build summary.
+Also collect, without asking: the `Stack adapter` and `Code Connect` lines and the Viewports section from `design-system.md`, the screen record path and its Viewports line, the facts files' paths, the Figma frame names and node ids, the list of changed files, and the intentionally inert controls from the record or build summary.
 
 ## 3. Run the audit
 
@@ -38,6 +40,7 @@ Invoke the `verify-worker` skill (the plugin may namespace it, for example `figm
 Repository: <absolute path>   Facts directory: <path>/docs/figma-workflow/
 Stack adapter: <legacy-server-rendered | modern-component>   Code Connect: <set up | not set up>
 Figma: <link(s) with node ids and frame names>
+Viewports: <per declared viewport: name, frame link | follows <reference screen> | skipped | later | no entry in the record (pre-existing); and how to request it: a width, or the user agent, cookie, query switch, route or host from the Viewports entry>
 Scope: <branch>..<base> (merge-base <sha>) | PR <ref> | files: <list>
 Changed files: <list>
 Depth: scoped | full   Audience: designer | developer
